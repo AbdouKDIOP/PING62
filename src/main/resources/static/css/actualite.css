@@ -1,0 +1,35 @@
+
+	 body {
+            background-color:#C9A888;
+			  margin: 0;
+    		  padding: 0;
+    		  width: 100%;
+    		  min-height: 100vh;
+		    display: flex;
+		    flex-direction: column;
+		    }
+
+        h2 {
+            color: #006680;
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            margin-left: 0;
+        }
+
+        p {
+            text-align: justify;
+            font-size: 30px; /* Ajustez la taille du texte selon vos besoins */
+            margin-top: 30px; /* Ajustez l'espacement du haut selon vos besoins */
+        color: white;
+        }
+
+.container {
+  flex: 1;
+  height: 100%;
+}
+footer{
+  margin-top: auto; /* Pousse le footer vers le bas */
+  text-align: center; /* Centre le contenu du footer horizontalement */
+  background-color: rgb(255, 193, 193);
+}

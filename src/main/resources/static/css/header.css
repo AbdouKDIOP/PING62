@@ -1,0 +1,131 @@
+header {
+    background-color: #006680;
+	margin: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+		
+.mini_box_1 {
+    display: flex;
+    justify-content: space-between;
+    width: 10%;
+}
+		
+		.menu-icon {
+		    padding: 10px;
+		    color: rgb(255, 255, 255);
+		    font-size: 24px;
+		    cursor: pointer;
+		}
+		
+		.menu-options {
+		    display: none;
+		    position: absolute;
+		    top: 1.5cm;
+		    left: 0;
+		    background-color: #006680;
+		    padding: 5px;
+		    border: 1px solid rgba(255, 255, 255, 0);
+		    flex-direction: column;
+		}
+		
+		.menu-options a {
+		    display: block;
+		    margin: 15px;
+		    text-decoration: none;
+		    color: rgb(255, 255, 255);
+		}
+		
+		.search-bar {
+		    margin-right: 0.5cm;
+		    width: 50%;
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.search-bar input[type="search"] {
+			background-color: rgb(255, 255, 255);
+		    width: 70%;
+		    padding: 7px;
+		    border-radius: 2.5px;
+		    border: none;
+		}
+		
+		select{
+			color: rgb(255, 255, 255);
+			border-radius: 15px;
+			background-color: #006680;
+		}
+		
+		.search-bar button {
+			width: 20%;
+		    padding: 2.5px 10px;
+		    margin-left: 2.5px;
+		    background-color: #006680;
+		    border: none;
+		    cursor: pointer;
+		    color: #fff;
+		}
+		
+		.dec {
+			width: 60%;
+		    display: flex;
+		    align-items: center;
+		}
+		
+		i {
+		    margin-right: 0.3cm;
+		}
+		
+		.user-info{
+			width: 15%;
+		}
+		
+		.language-select{
+			width: 15%;
+		}
+		
+		.user-icon {
+		    color: #fff;
+		}
+		
+		span {
+		    color: #fff;
+		    margin-right: 1cm;
+		}
+		.middle{
+			display: flex;
+			text-align: center;
+			width: 30%;
+		}
+		
+		.middle img{
+			margin-right: 10px;
+			max-width: 15%; /* S'assure que l'image ne dépasse pas la largeur de son conteneur */
+		    height: auto; /* Maintient l'aspect ratio de l'image */
+		}
+		
+		h3 {
+		    color: #fff;
+		    margin-top: 5px;
+		    margin-bottom: 5px;
+		}
+		
+		.btn{
+			width: 20%;
+			justify-content: end;
+		}
+		
+		.con{
+			width: 100%;
+		    border: 1px solid rgba(255, 255, 255, 0);
+		    border-radius: 15px;
+		    height: auto;
+		    background-color: rgb(255, 255, 255, 0.3);
+		    color: rgb(255, 255, 255);
+		    white-space: nowrap; /* Empêche le texte de se retourner à la ligne */
+    		overflow: hidden; /* Cache le texte qui dépasse */
+    		text-overflow: ellipsis;
+		}

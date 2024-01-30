@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>About Page</title>
+  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link th:href="@{/static/css/about.css}" rel="stylesheet">
+</head>
+
+<body>
+	
+	<!-- Header pour role 1 -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
+    <div th:replace="headerRuche.html"></div>
+</div>
+
+<!-- Header pour role 2 -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+    <div th:replace="headerConnect.html"></div>
+</div>
+
+<!-- Header pour session non connectée -->
+<div th:unless="${loggedInUser != null}">
+    <div th:replace="headerNonConnect.html"></div>
+</div>
+
+	
+	
+		  <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
+        style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
+<div class="annonce">
+	<h2 style="text-align: center; front-weight: bold; color: #006680;">A PROPOS</h2>
+</div>
+    <div class="container-fluid">
+	  <div class="paragraph">
+	    <div class="content1">
+	      <img src="/static/images/laRuche_GrandLogo.png">
+	      <p>
+	        Bien plus qu'une simple usine, c'est un centre vibrant où convergent les informations de marques, de filiales dispersées à travers le globe, et d'une multitude de métiers aux multiples facettes.
+	      </p>
+	    </div>
+	
+	    <div class="content2">
+	      <p>
+	        La Ruche FSP collecte inlassablement les précieuses données éparpillées dans une multitude d'applications. Ces données sont l'essence même de nos affaires, le carburant de notre compréhension du marché, des tendances et des besoins changeants.
+	      </p>
+	      <img src="/static/images/datas.png">
+	    </div>
+	  </div>
+</div>
+</body>
+</html>

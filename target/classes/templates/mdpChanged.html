@@ -6,7 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-          <title>Accueil</title>
+          <title th:text="#{pswdchange.titlepage}">Changement de mot de passe</title>
 <link th:href="@{/static/css/mdpChanger.css}" rel="stylesheet">
 </head>
 
@@ -32,18 +32,18 @@
 	  
 	  
 <div class="login-container">
-    <h2>Réinitialisation du mot de passe</h2>
-    <p>Votre mot de passe doit comporter au moins un chiffre, une majuscule, une minuscule et un caractere spécial</p>
+    <h2 th:text="#{pswdchange.title}">Réinitialisation du mot de passe</h2>
+    <p th:text="#{pswdchange.content}">Votre mot de passe doit comporter au moins un chiffre, une majuscule, une minuscule et un caractere spécial</p>
 <hr style="border: 1px solid #000;">
     <form action="/login" method="post">
 
-		<label for="newpassword">Nouveau mot de passe:</label>
+		<label for="newpassword" th:text="#{pswdchange.newpswd}">Nouveau mot de passe:</label>
         <input type="text" id="newpassword" name="newpassword" required><br>
         
-        <label for="confirmpassword">Confirmer le mot de passe:</label>
+        <label for="confirmpassword" th:text="#{pswdchange.confpswd}">Confirmer le mot de passe:</label>
         <input type="text" id="confirmpassword" name="confirmpassword" required><br>
         
-		<button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+		<button type="submit" class="btn btn-primary" th:text="#{pswdchange.register}">Enregistrer les modifications</button>
 		
     </form>
 

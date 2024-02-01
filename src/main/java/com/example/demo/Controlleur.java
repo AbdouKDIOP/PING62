@@ -3,6 +3,7 @@ package com.example.demo;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,17 +17,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.example.demo.model.Dataset;
 import com.example.demo.model.Produit;
-import com.example.demo.services.SignUpService;
 import com.example.demo.model.User;
 import com.example.demo.repositoryDAO.ProduitRepository;
 import com.example.demo.services.DatasetService;
 import com.example.demo.services.LoginService;
 import com.example.demo.services.LogoutService;
 import com.example.demo.services.ProduitService;
+import com.example.demo.services.SignUpService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -44,6 +50,29 @@ public class Controlleur {
 	        this.produitService = produitService;
 	        this.datasetService = datasetService;
 	    }
+	    
+	    @PostMapping("/change-lang")
+		public String changeLang(@RequestParam String langue, HttpServletRequest request, HttpServletResponse response) {
+			
+			//On change directement la locale.
+			//On recupere la locale déjà existante.
+			LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+			
+			//On met à jour avec celle que l'on souhaite.
+			//On vérifie bien qu'elle est de type cookie car on a définit le bean par défaut qui l'initialise
+			//dans le fichier de configuration (voire WebConfig.localeResolver();
+			if(localeResolver instanceof CookieLocaleResolver) {
+				CookieLocaleResolver clr = (CookieLocaleResolver) localeResolver;
+				
+				//On mets donc à jour la langue avec le parametre lang récupéré depuis le formulaire.
+				clr.setLocale(request, response, new Locale(langue));
+			}
+			
+			
+			//Et on redirige vers la page courante
+			return "redirect:"+request.getHeader("Referer");
+			
+		}
 
 		@GetMapping("/about")
 		public String about(Model model, HttpSession session) {
@@ -65,9 +94,30 @@ public class Controlleur {
 
 	      return "accueil";
 	   }
+	   @GetMapping("/home")
+	   public String home(Model model, HttpSession session) {
+	       // Récupérer les informations de l'utilisateur depuis la session
+	       User loggedInUser = (User) session.getAttribute("loggedInUser");
+	       
+	       // Ajouter les informations sur l'utilisateur dans le modèle
+	       model.addAttribute("loggedInUser", loggedInUser);
+
+	       return "accueil"; // Assurez-vous que le nom correspond au template en anglais
+	   }
+
 
 	   @GetMapping({"/actualite"})
 	   public String actualite(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    
+		    // Ajouter les informations sur l'utilisateur dans le modèle
+		    model.addAttribute("loggedInUser", loggedInUser);
+
+	      return "actualite";
+	   }
+	   @GetMapping({"/news"})
+	   public String news(Model model, HttpSession session) {
 		    // Récupérer les informations de l'utilisateur depuis la session
 		    User loggedInUser = (User) session.getAttribute("loggedInUser");
 		    
@@ -112,8 +162,8 @@ public class Controlleur {
 		      return "client";
 		   }
 
-		   @GetMapping({"/clientAdmin"})
-		   public String clientAdmin(Model model, HttpSession session) {
+		   @GetMapping({"/clientadmin"})
+		   public String clientadmin(Model model, HttpSession session) {
 			    // Récupérer les informations de l'utilisateur depuis la session
 			    User loggedInUser = (User) session.getAttribute("loggedInUser");
 			    
@@ -318,8 +368,8 @@ public class Controlleur {
 	   }
 
 
-	   @GetMapping({"/sourceAdmin"})
-	   public String sourceAdmin(Model model, HttpSession session) {
+	   @GetMapping({"/sourceadmin"})
+	   public String sourceadmin(Model model, HttpSession session) {
 		    // Récupérer les informations de l'utilisateur depuis la session
 		    User loggedInUser = (User) session.getAttribute("loggedInUser");
 		    
@@ -383,8 +433,8 @@ public class Controlleur {
 	      return "datasetRuche";
 	   }
 
-	   @GetMapping({"/produitAdmin"})
-	   public String produitAdmin(Model model, HttpSession session) {
+	   @GetMapping({"/produitadmin"})
+	   public String produitadmin(Model model, HttpSession session) {
 		    // Récupérer les informations de l'utilisateur depuis la session
 		    User loggedInUser = (User) session.getAttribute("loggedInUser");
 		    List<Produit> produits = produitService.getAllProduits();
@@ -406,6 +456,17 @@ public class Controlleur {
 
 	      return "produit";
 	   }
+	   @GetMapping("/product")
+	   public String product(Model model, HttpSession session) {
+	       // Récupérer les informations de l'utilisateur depuis la session
+	       User loggedInUser = (User) session.getAttribute("loggedInUser");
+	       
+	       // Ajouter les informations sur l'utilisateur dans le modèle
+	       model.addAttribute("loggedInUser", loggedInUser);
+
+	       return "produit"; // Assurez-vous que le nom correspond au template en anglais
+	   }
+
 	   
 	   @GetMapping({"/add_produit"})
 	   public String add_produit(Model model, HttpSession session) {

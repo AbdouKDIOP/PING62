@@ -13,42 +13,45 @@
 				  <i class="fas fa-bars"></i>
 			  </div>
 		  	<div class="menu-options" id="menuOptions">
-				  <a th:href="@{accueil}">ACCUEIL</a>
-					<a th:href="@{produitAdmin}">PRODUIT</a>
-					<a th:href="@{datasetAdmin}">DATASET</a>
-					<a th:href="@{sourceAdmin}">SOURCE</a>
-					<a th:href="@{clientAdmin}">CLIENT</a>
-					<a th:href="@{outil}">OUTIL</a>
-					<a th:href="@{about}">A PROPOS</a>
-					<a th:href="@{actualite}">ACTUALITE</a>
-					<a th:href="@{incidentAdmin}">INCIDENT</a>
-					<a th:href="@{contactezNous}">Contactez nous</a>
+				<a th:href="@{home}" th:text="#{menu.accueil}">ACCUEIL</a>
+    			<a th:href="@{product}" th:text="#{menu.produit}">PRODUIT</a>
+    			<a th:href="@{dataset}" th:text="#{menu.dataset}">DATASET</a>
+    			<a th:href="@{source}" th:text="#{menu.source}">SOURCE</a>
+    			<a th:href="@{client}" th:text="#{menu.client}">CLIENT</a>
+    			<a th:href="@{outil}" th:text="#{menu.outil}">OUTIL</a>
+    			<a th:href="@{about}" th:text="#{menu.aPropos}">A PROPOS</a>
+    			<a th:href="@{news}" th:text="#{menu.actualite}">ACTUALITE</a>
+    			<a th:href="@{incident}" th:text="#{menu.incident}">INCIDENT</a>
+    			<a th:href="@{contactezNous}" th:text="#{menu.contactezNous}">Contactez nous</a>
 		  	</div>
 		</div>
 		
 		<div class="middle">
 			<img src="/static/images/laRuche_PetitLogo_plein.png" alt="logoruche" class="logoruche" width="100" height="100">
-			<h3>LA RUCHE FSP</h3>
+			<h3 th:text="#{titleheader}">LA RUCHE FSP</h3>
 		</div>
 		
 		<div class="dec">
 			<div class="search-bar">
-			     <input type="search" placeholder="Recherche...">
+			     <input class="seach_imput" type="search" th:placeholder="#{search.placeholder}">
 			     <button type="submit"><i class="fas fa-search"></i></button>
 			</div>
 			<div class="user-info">
 				 <i class="fas fa-user user-icon"></i>
 				 <span th:text="${loggedInUser?.nom}"></span>
 			</div>
-			<div class="language-select">
-	            <select id="languageSelect" onchange="changeLanguage()">
-	                <option value="fr">FR</option>
-	                <option value="en">EN</option>
-	                <option value="en">ES</option>
-	            </select>
-	        </div>
+			<form th:action="@{change-lang}" method="post">
+			<select name="langue" th:onchange="submit()" >
+				<option value="fr"  th:selected="${#locale.language=='fr'}">FR</option>
+				<option value="en" th:selected="${#locale.language=='en'}">EN</option>
+				<option value="es" th:selected="${#locale.language=='es'}">ES</option>
+			</select>
+			</form>
 			<div class="btn">
-				<a th:href="@{logout}"><button class="con">Déconnexion</button></a>
+				<a th:href="@{logout}">
+   					 <button class="con" th:text="#{button.deconnexion}">Déconnexion</button>
+				</a>
+
 			</div>
 			
 		</div>

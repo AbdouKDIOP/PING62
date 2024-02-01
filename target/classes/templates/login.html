@@ -6,7 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-          <title>Accueil</title>
+          <title th:text="#{login.titlepage}">Login</title>
   <link th:href="@{/static/css/login.css}" rel="stylesheet">
 </head>
 
@@ -31,24 +31,24 @@
 	 
 	  
 <div class="login-container">
-    <h2>VOS SERVICES EN LIGNE</h2>
-    <p>Connectez-vous pour accéder à votre Espace Privé et à vos contenus personnalisés.</p>
+    <h2 th:text="#{login.title}">VOS SERVICES EN LIGNE</h2>
+    <p th:text="#{login.content}">Connectez-vous pour accéder à votre Espace Privé et à vos contenus personnalisés.</p>
 <hr style="border: 1px solid #000;">
     <form action="/connexion" method="post">
-        <label for="username">Adresse mail:</label>
+        <label for="username" th:text="#{login.mail}">Adresse mail:</label>
         <input type="text" id="username" name="username" required><br>
 
-        <label for="password">Mot de passe:</label>
+        <label for="password" th:text="#{login.password}">Mot de passe:</label>
         <input type="password" id="password" name="password" required><br>
 
-		<button type="submit" class="btn btn-primary">Se Connecter</button>
+		<button type="submit" class="btn btn-primary" th:text="#{login.loginbutton}">Se Connecter</button>
 		<div th:if="${error}" class="alert alert-danger" role="alert">
 		    <span th:text="${error}"></span>
 		</div>
     </form>
 
-    <p><a th:href="@{mdpOublier}">Mot de passe oublié?</a></p>
-    <p><a th:href="@{signup}">Créer votre compte</a></p>
+    <p><a th:href="@{mdpOublier}" th:text="#{login.pswdforgot}">Mot de passe oublié?</a></p>
+    <p><a th:href="@{signup}" th:text="#{login.createaccount}">Créer votre compte</a></p>
 
 </div>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEFINITION CONTACT</title>
+    <title th:text="#{contact.titlepage}">DEFINITION CONTACT</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
@@ -31,8 +31,8 @@
             
             <!-- Titre -->
             <div class="col">
-                <h1 class="mt-3 mb-4">SOURCE</h1>
-                <h2>Vous souhaitez mieux connaître le rôle des différents membres de la ruche ? Retournez les cartes pour chaque profil !</p>
+                <h1 class="mt-3 mb-4" th:text="#{contact.title}">CONTACT</h1>
+                <h2 th:text="#{contact.content}">Vous souhaitez mieux connaître le rôle des différents membres de la ruche ? Retournez les cartes pour chaque profil !</p>
             </div>
         </div>
 
@@ -45,14 +45,14 @@
                             <div class="flip-card-front">
                                 <div class="d-flex flex-column align-items-center justify-content-center">
                                     <i class="fas fa-user fa-3x mr-2"></i>
-                                    <h4>Data Engineer</h4>
+                                    <h4 th:text="#{contact.DataEngineer}">Data Engineer</h4>
                                 </div>
                             </div>
                             <!-- Face arrière de la carte -->
                             <div class="flip-card-back">
                                 <div class="card-text">
-                                    <h3>Definition</h3>
-                                    <p>Un ingénieur de données est responsable de la conception, du développement et de la maintenance des solutions de gestion des données.</p>
+                                    <h3 th:text="#{contact.def}">Definition</h3>
+                                    <p th:text="#{contact.DataEngineerdef}">Un ingénieur de données est responsable de la conception, du développement et de la maintenance des solutions de gestion des données.</p>
                                 </div>
                             </div>
                         </div>
@@ -63,14 +63,14 @@
                             <div class="flip-card-front">
                                 <div class="d-flex flex-column align-items-center justify-content-center">
                                     <i class="fas fa-user fa-3x mr-2"></i>
-                                    <h5>Data Analyst</h5>
+                                    <h5 th:text="#{contact.DataAnalyst}">Data Analyst</h5>
                                 </div>
                             </div>
                             <!-- Face arrière de la carte -->
                             <div class="flip-card-back">
                                 <div class="card-text">
-                                    <h3>Definition</h3>
-                                    <p>Un analyste de données analyse les données pour fournir des informations exploitables aux entreprises.</p>
+                                    <h3 th:text="#{contact.def}">Definition</h3>
+                                    <p th:text="#{contact.DataAnalystdef}">Un analyste de données analyse les données pour fournir des informations exploitables aux entreprises.</p>
                                 </div>
                             </div>
                         </div>
@@ -81,14 +81,14 @@
                             <div class="flip-card-front">
                                 <div class="d-flex flex-column align-items-center justify-content-center">
                                     <i class="fas fa-user fa-3x mr-2"></i>
-                                    <h6>Data Architect</h6>
+                                    <h6 th:text="#{contact.DataArchitect}">Data Architect</h6>
                                 </div>
                             </div>
                             <!-- Face arrière de la carte -->
                             <div class="flip-card-back">
                                 <div class="card-text">
-                                    <h3>Definition</h3>
-                                    <p>Un architecte de données conçoit et gère l'architecture des systèmes de gestion de données pour répondre aux besoins organisationnels.</p>
+                                    <h3 th:text="#{contact.def}">Definition</h3>
+                                    <p th:text="#{contact.DataArchitectdef}">Un architecte de données conçoit et gère l'architecture des systèmes de gestion de données pour répondre aux besoins organisationnels.</p>
                                 </div>
                             </div>
                         </div>
@@ -99,14 +99,14 @@
                             <div class="flip-card-front">
                                 <div class="d-flex flex-column align-items-center justify-content-center">
                                     <i class="fas fa-user fa-3x mr-2"></i>
-                                    <h6>Head of Data & AI</h6>
+                                    <h6 th:text="#{contact.HeadofDataAI}">Head of Data & AI</h6>
                                 </div>
                             </div>
                             <!-- Face arrière de la carte -->
                             <div class="flip-card-back">
                                 <div class="card-text">
-                                    <h3>Definition</h3>
-                                    <p>Ce rôle combine la responsabilité des données avec l'intelligence artificielle pour tirer des informations significatives des données.</p>
+                                    <h3 th:text="#{contact.def}">Definition</h3>
+                                    <p th:text="#{contact.HeadofDataAIdef}">Ce rôle combine la responsabilité des données avec l'intelligence artificielle pour tirer des informations significatives des données.</p>
                                 </div>
                             </div>
                         </div>
@@ -117,14 +117,14 @@
                             <div class="flip-card-front">
                                 <div class="d-flex flex-column align-items-center justify-content-center">
                                     <i class="fas fa-user fa-3x mr-2"></i>
-                                    <h6>Data Scientist</h6>
+                                    <h6 th:text="#{contact.DataScientist}">Data Scientist</h6>
                                 </div>
                             </div>
                             <!-- Face arrière de la carte -->
                             <div class="flip-card-back">
                                 <div class="card-text">
-                                    <h3>Definition</h3>
-                                    <p>Un scientifique de données utilise des techniques scientifiques pour analyser et interpréter des ensembles de données complexes.</p>
+                                    <h3 th:text="#{contact.def}">Definition</h3>
+                                    <p th:text="#{contact.DataScientistdef}">Un scientifique de données utilise des techniques scientifiques pour analyser et interpréter des ensembles de données complexes.</p>
                                 </div>
                             </div>
                         </div>
@@ -139,14 +139,14 @@
             <div class="flip-card-front">
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <i class="fas fa-user fa-3x mr-2"></i> 
-                    <h6>Product Owner</h6>
+                    <h6 th:text="#{contact.ProductOwner}">Product Owner</h6>
                         </div>
                     </div>
                     <!-- Face arrière de la carte -->
                     <div class="flip-card-back">
                         <div class="card-text">
-                            <h3>Definition</h3>
-                            <p>Ce rôle se concentre sur la gestion et le développement des produits basés sur les données.</p>
+                            <h3 th:text="#{contact.def}">Definition</h3>
+                            <p th:text="#{contact.ProductOwnerdef}">Ce rôle se concentre sur la gestion et le développement des produits basés sur les données.</p>
                         </div>
                     </div>
                 </div>
@@ -157,14 +157,14 @@
                     <div class="flip-card-front">
                         <div class="d-flex flex-column align-items-center justify-content-center">
                             <i class="fas fa-user fa-3x mr-2"></i>
-                            <h6>Responsable Master Data Referentiel</h6>
+                            <h6 th:text="#{contact.ResponsableMasterDataReferentiel}">Responsable Master Data Referentiel</h6>
                         </div>
                     </div>
                     <!-- Face arrière de la carte -->
                     <div class="flip-card-back">
                         <div class="card-text">
-                            <h3>Definition</h3>
-                            <p>Gère la centralisation et la normalisation des données maîtres dans une organisation.</p>
+                            <h3 th:text="#{contact.def}">Definition</h3>
+                            <p th:text="#{contact.ResponsableMasterDataReferentieldef}">Gère la centralisation et la normalisation des données maîtres dans une organisation.</p>
                         </div>
                     </div>
                 </div>
@@ -175,14 +175,14 @@
                     <div class="flip-card-front">
                         <div class="d-flex flex-column align-items-center justify-content-center">
                             <i class="fas fa-user fa-3x mr-2"></i>
-                            <h6>Data Domain Champion</h6>
+                            <h6 th:text="#{contact.DataDomainChampion}">Data Domain Champion</h6>
                         </div>
                     </div>
                     <!-- Face arrière de la carte -->
                     <div class="flip-card-back">
                         <div class="card-text">
-                            <h3>Definition</h3>
-                            <p>Un leader qui promeut l'utilisation efficace des données dans une organisation</p>
+                            <h3 th:text="#{contact.def}">Definition</h3>
+                            <p th:text="#{contact.DataDomainChampiondef}">Un leader qui promeut l'utilisation efficace des données dans une organisation</p>
                         </div>
                     </div>
                 </div>
@@ -193,14 +193,14 @@
                     <div class="flip-card-front">
                         <div class="d-flex flex-column align-items-center justify-content-center">
                             <i class="fas fa-user fa-3x mr-2"></i>
-                            <h6>Data Protection Officer</h6>
+                            <h6 th:text="#{contact.DataProtectionOfficer}">Data Protection Officer</h6>
                         </div>
                     </div>
                     <!-- Face arrière de la carte -->
                     <div class="flip-card-back">
                         <div class="card-text">
-                            <h3>Definition</h3>
-                            <p>En charge de garantir que l'utilisation des données respecte les réglementations et les normes de confidentialité.</p>
+                            <h3 th:text="#{contact.def}">Definition</h3>
+                            <p th:text="#{contact.DataProtectionOfficerdef}">En charge de garantir que l'utilisation des données respecte les réglementations et les normes de confidentialité.</p>
                         </div>
                     </div>
                 </div>
@@ -211,14 +211,14 @@
                     <div class="flip-card-front">
                         <div class="d-flex flex-column align-items-center justify-content-center">
                             <i class="fas fa-user fa-3x mr-2"></i>
-                            <h6>Data Responsable</h6>
+                            <h6 th:text="#{contact.DataResponsable}">Data Responsable</h6>
                         </div>
                     </div>
                     <!-- Face arrière de la carte -->
                     <div class="flip-card-back">
                         <div class="card-text">
-                            <h3>Definition</h3>
-                            <p>En charge de la gestion et de l'organisation des données de référence dans une entreprise.</p>
+                            <h3 th:text="#{contact.def}">Definition</h3>
+                            <p th:text="#{contact.DataResponsabledef}">En charge de la gestion et de l'organisation des données de référence dans une entreprise.</p>
                         </div>
                     </div>
                 </div>

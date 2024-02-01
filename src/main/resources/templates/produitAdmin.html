@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 		<link th:href="@{/static/css/produitAR.css}" rel="stylesheet">
-		<title>Produit Admin</title>
+		<title th:text="#{produitadmin.titlepage}">Produit Admin</title>
 </head>
 
 <body>
@@ -29,13 +29,14 @@
 
 	  
 	  <div class="container">
-		  <p> Vous êtes sur la page des produits. Vous trouverez ci dessous tout les
+		  <p th:text="#{produitadmin.content}"> Vous êtes sur la page des produits. Vous trouverez ci dessous tout les
  			   produits par dataset, domaine et référents de la ruche FSP.
  		  </p>
  		  
  		  <div id="filter-bar">
-            <label for="filter">Filtrer par :</label>
-            <input type="text" id="filter" onkeyup="filterTable()" placeholder="Entrez votre filtre">
+            <label for="filter" th:text="#{label.filter}">Filtrer par :</label>
+			<input type="text" id="filter" onkeyup="filterTable()" placeholder="Entrez votre filtre" th:placeholder="#{placeholder.enterFilter}">
+
         </div>
         
 	<div class="bigBox">
@@ -43,14 +44,15 @@
             <table id="myTable" class="custom-table">
 		        <thead>
 		            <tr>
-		                <th>Nom du produit</th>
-		                <th>Dataset</th>
-		                <th>Data champion</th>
-		                <th>Workspace</th>
-		                <th>Resumé des fonctionnalités</th>
-		                <th>Lien</th>
-		                <th>Perimetre</th>
-		                <th>Détail des fonctionnalités</th>
+		                <th th:text="#{table.productName}">Nom du produit</th>
+						<th th:text="#{table.dataset}">Dataset</th>
+						<th th:text="#{table.dataChampion}">Data champion</th>
+						<th th:text="#{table.workspace}">Workspace</th>
+						<th th:text="#{table.summaryFeatures}">Resumé des fonctionnalités</th>
+						<th th:text="#{table.link}">Lien</th>
+						<th th:text="#{table.perimeter}">Perimetre</th>
+						<th th:text="#{table.featureDetails}">Détail des fonctionnalités</th>
+
 		                
 		            </tr>
 		        </thead>
@@ -73,10 +75,10 @@
     
     
     <div class="bouttonOption">
-	    <a th:href="@{add_produit}"><button type="button" class="action-button" onclick="ajouter()">Ajouter</button></a>
-	    <button class="save-btn" onclick="saveModifications()" style="display: none;">Valider les modifications</button>
-	    <button type="button" class="action" onclick="modifier()">Modifier</button>
-	    <button type="button" class="action-button2" onclick="supprimer()">Supprimer</button>
+	    <a th:href="@{add_produit}"><button type="button" class="action-button" onclick="ajouter()" th:text="#{produitadmin.add}">Ajouter</button></a>
+	    <button class="save-btn" onclick="saveModifications()" style="display: none;" th:text="#{produitadmin.valid}">Valider les modifications</button>
+	    <button type="button" class="action" onclick="modifier()" th:text="#{produitadmin.update}">Modifier</button>
+	    <button type="button" class="action-button2" onclick="supprimer()" th:text="#{produitadmin.desactive}">Supprimer</button>
 	</div>
 
 	

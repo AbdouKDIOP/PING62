@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 		<link th:href="@{/static/css/add_produitAR.css}" rel="stylesheet">
-		<title>Ajouter produit</title>
+		<title th:text="#{add_product.titlepage}"> >Ajouter produit</title>
 </head>
 
 <body>
@@ -29,7 +29,7 @@
 
 	  
 	  <div class="container">
-		  <p> Entrez les informations du nouveau produit a ajouter.
+		  <p th:text="#{add_product.content}">> Entrez les informations du nouveau produit a ajouter.
  		  </p>
  		  
     <form th:action="@{/add_produit}" method="post">    
@@ -38,15 +38,15 @@
             <table id="myTable" class="custom-table">
 		        <thead>
 		            <tr>
-		                <th>Nom du produit</th>
-		                <th>Dataset</th>
-		                <th>Data champion</th>
-		                <th>Workspace</th>
-		                <th>Resumé des fonctionnalités</th>
-		                <th>Lien</th>
-		                <th>Perimetre</th>
-		                <th>Détail des fonctionnalités</th>
-		                
+		                <th th:text="#{table.productName}">Nom du produit</th>
+						<th th:text="#{table.dataset}">Dataset</th>
+						<th th:text="#{table.dataChampion}">Data Champion</th>
+						<th th:text="#{table.workspace}">Workspace</th>
+						<th th:text="#{table.featureSummary}">Résumé des fonctionnalités</th>
+						<th th:text="#{table.link}">Lien</th>
+						<th th:text="#{table.scope}">Périmètre</th>
+						<th th:text="#{table.featureDetails}">Détail des fonctionnalités</th> 
+
 		            </tr>
 		        </thead>
 		        
@@ -68,8 +68,8 @@
         </div>
         
         <div class="bouttonOption">
-             <button type="submit" class="action-button">Ajouter Produit</button>
-             <a th:href="@{produitAdmin}"><button type="button" class="action-button">Annuler</button></a>
+             <button type="submit" class="action-button" th:text="#{add_product.addproduct}">>Ajouter Produit</button>
+             <a th:href="@{produitAdmin}"><button type="button" class="action-button" th:text="#{add_product.cancel}">>Annuler</button></a>
 	    
         </div>
     </div>

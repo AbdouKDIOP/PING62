@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <title>Dataset</title>
+    <title th:text="#{datasetRuche.titlepage}">Dataset</title>
   <link th:href="@{/static/css/datasetAdmin.css}" rel="stylesheet">
 </head>
 
@@ -24,7 +24,7 @@
 </div>
 		  <div class="container">
 	<div class="header-container">
-	    <h2>DATASET</h2>
+	    <h2 th:text="#{datasetRuche.title}">DATASET</h2>
 	</div>
  
 	<!-- Layout container -->
@@ -32,11 +32,11 @@
 	<div class="table-container">
 		  <table>
 		  <tr>
-		    <th>DATA CHAMPION</th>
-		    <th>DATASET</th>
-		    <th>UNIVERS</th>
-		    <th>OUTIL</th>
-		    <th>RESUME</th>
+		    <th th:text="#{datasetRuche.datachampion}">DATA CHAMPION</th>
+		    <th th:text="#{datasetRuche.dataset}">DATASET</th>
+		    <th th:text="#{datasetRuche.universe}">UNIVERS</th>
+		    <th th:text="#{datasetRuche.tool}">OUTIL</th>
+		    <th th:text="#{datasetRuche.summary}">RESUME</th>
 		  </tr>
 		  <tr>
 		    <td>Simon TO</td>
@@ -92,8 +92,9 @@
 		  </table>
 	</div>
 	<div class="buttons-container">
-	    <button type="button" class="action-button" onclick="ajouter()">Ajouter</button>
-	    <button type="button" class="action-button" onclick="modifier()">Modifier</button>
+	    <button type="button" class="action-button" onclick="ajouter()" th:text="#{datasetRuche.add}">Ajouter</button>
+	    <button type="button" class="action-button" onclick="modifier()" th:text="#{datasetRuche.update}">Modifier</button>	    
+	    <button type="button" class="action-button" onclick="supprimer()" th:text="#{datasetRuche.deactive}">Supprimer</button>
 	</div>
 	</div>
 		  </div>

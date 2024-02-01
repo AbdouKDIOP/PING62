@@ -15,14 +15,27 @@
 		    display: flex;
 		    flex-direction: column;
 		    }
-	th {
-        background-color: #006680 !important;
-        color: white !important;
-    }
-    td {
-        color: #006680 !important;
-        background-color: white !important;
-    }
+			.table-container {
+			  height: 50%;
+			  overflow-x: auto; /* Permet le défilement horizontal si le tableau est trop large */
+		  }
+		
+		  table {
+		
+		    width: 100%;
+		    border-collapse: collapse; /* Élimine les espaces entre les bordures des cellules */
+		  }
+		
+		  th, td {
+		    text-align: left;
+		    padding: 8px; /* Espacement à l'intérieur des cellules */
+		    border-bottom: 1px solid #ddd; /* Ligne de séparation des rangées */
+		  }
+		
+		  th {
+		    background-color: #006680; /* Couleur d'arrière-plan pour les en-têtes */
+		    color: white;
+		  }
     .container {
   flex: 1;
   height: 100%;

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link th:href="@{/static/css/produitAR.css}" rel="stylesheet">
+		<title>Produit Admin</title>
+</head>
+
+<body>
+		  <!-- Header pour role 1 -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
+    <div th:replace="headerRuche.html"></div>
+</div>
+
+<!-- Header pour role 2 -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+    <div th:replace="headerConnect.html"></div>
+</div>
+
+<!-- Header pour session non connectée -->
+<div th:unless="${loggedInUser != null}">
+    <div th:replace="headerNonConnect.html"></div>
+</div>
+
+		  <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
+        style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
+
+	  
+	  <div class="container">
+		  <p> Vous êtes sur la page des produits. Vous trouverez ci dessous tout les
+ 			   produits par dataset, domaine et référents de la ruche FSP.
+ 		  </p>
+ 		  
+ 		  <div id="filter-bar">
+            <label for="filter">Filtrer par :</label>
+            <input type="text" id="filter" onkeyup="filterTable()" placeholder="Entrez votre filtre">
+        </div>
+        
+	<div class="bigBox">
+        <div class="table-container">
+            <table id="myTable" class="custom-table">
+		        <thead>
+		            <tr>
+		                <th>Nom du produit</th>
+		                <th>Dataset</th>
+		                <th>Data champion</th>
+		                <th>Workspace</th>
+		                <th>Resumé des fonctionnalités</th>
+		                <th>Lien</th>
+		                <th>Perimetre</th>
+		                <th>Détail des fonctionnalités</th>
+		                
+		            </tr>
+		        </thead>
+		        
+		        <tbody>
+				<tr th:each="produit : ${produits}" onclick="selectRow(this)" class="editable-row">
+			        <td th:text="${produit.nameProduct}"></td>
+			        <td th:text="${produit.idDataset}"></td>
+			        <td th:text="${produit.dataChampion}"></td>
+			        <td th:text="${produit.idWorkspace}"></td>
+			        <td th:text="${produit.summary}"></td>
+			        <td th:text="${produit.link}"></td>
+			        <td th:text="${produit.perimeter}"></td>
+			        <td th:text="${produit.featureDetails}"></td>
+			    	
+			    </tr>
+        </tbody>
+    </table>
+    </div>
+    
+    
+    <div class="bouttonOption">
+	    <a th:href="@{add_produit}"><button type="button" class="action-button" onclick="ajouter()">Ajouter</button></a>
+	    <button class="save-btn" onclick="saveModifications()" style="display: none;">Valider les modifications</button>
+	    <button type="button" class="action" onclick="modifier()">Modifier</button>
+	    <button type="button" class="action-button2" onclick="supprimer()">Supprimer</button>
+	</div>
+
+	
+	</div>
+    </div>
+
+    <script th:inline="javascript">
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("filter");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0]; // Changez l'index selon la colonne que vous souhaitez filtrer
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function selectRow(row) {
+            // Retirer la classe de surbrillance de toutes les autres lignes
+            var table = document.getElementById("myTable");
+            var rows = table.getElementsByTagName("tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].classList.remove("selected-row");
+            }
+
+            // Ajouter la classe de surbrillance à la ligne sélectionnée
+            row.classList.toggle("selected-row");
+        }
+
+        function modifier() {
+		    var selectedRow = document.querySelector('.selected-row');
+		
+		    if (selectedRow) {
+		        var confirmation = confirm("Voulez-vous modifier la ligne sélectionnée?");
+		        if (confirmation) {
+		            editRow(selectedRow);
+		        }
+		    } else {
+		        alert("Veuillez sélectionner une ligne à modifier.");
+		    }
+		}
+
+		function editRow(row) {
+		    var cells = row.querySelectorAll('td');
+		    
+		    cells.forEach(function(cell) {
+		        var input = document.createElement('input');
+		        input.value = cell.innerText.trim();
+		        cell.innerHTML = '';
+		        cell.appendChild(input);
+		    });
+		
+		    var cancelBtn = document.createElement('button');
+		    cancelBtn.innerText = 'Annuler';
+		    cancelBtn.onclick = function() {
+		        cancelEditRow(row);
+		    };
+		
+		    row.appendChild(cancelBtn);
+		
+		    hideEditButton(); 
+		    showSaveButton(); // Affiche le bouton "Valider les modifications"
+		}
+
+		function cancelEditRow(row) {
+		    var cells = row.querySelectorAll('td');
+		
+		    cells.forEach(function(cell) {
+		        cell.innerHTML = cell.querySelector('input').value;
+		    });
+		
+		    row.removeChild(row.lastChild); // Supprime le bouton "Annuler"
+		
+		    hideSaveButton(); // Cache le bouton "Valider les modifications"
+		    showEditButton(); // Affiche à nouveau le bouton "Modifier"
+		}
+
+		function showEditButton() {
+		    var editBtn = document.querySelector('.action');
+		    editBtn.style.display = 'inline-block';
+		}
+
+		function showSaveButton() {
+		    var saveBtn = document.querySelector('.save-btn');
+		    saveBtn.style.display = 'inline-block';
+		}
+
+		function hideSaveButton() {
+		    var saveBtn = document.querySelector('.save-btn');
+		    saveBtn.style.display = 'none';
+		}
+		function hideEditButton() {
+		    var editBtn = document.querySelector('.action');
+		    editBtn.style.display = 'none';
+		}
+
+		function deselectRow() {
+		    var selectedRow = document.querySelector('.selected-row');
+		    selectedRow.classList.remove('selected-row');
+		}
+		
+		function saveModifications() {
+		    var selectedRow = document.querySelector('.selected-row');
+		
+		    if (selectedRow) {
+		        var cells = selectedRow.querySelectorAll('td');
+		        var updatedProduct = {};
+		
+		        cells.forEach(function(cell, index) {
+		            var input = cell.querySelector('input');
+		            if (input) {
+		                updatedProduct[index] = input.value.trim();
+		            } else {
+		                updatedProduct[index] = cell.innerText.trim();
+		            }
+		        });
+		
+		        // Utilisez une requête AJAX pour envoyer les données au backend
+		        fetch('/update_product', {
+		            method: 'POST',
+		            headers: {
+		                'Content-Type': 'application/json',
+		            },
+		            body: JSON.stringify(updatedProduct),
+		        })
+		        .then(response => {
+		            if (!response.ok) {
+		                throw new Error('Erreur lors de la mise à jour des données');
+		            }
+		            return response.json();
+		        })
+		        .then(data => {
+		            // Gérez la réponse du serveur si nécessaire
+		            console.log('Données mises à jour avec succès', data);
+		            hideSaveButton();
+		            showEditButton();
+		        })
+		        .catch(error => {
+		            console.error('Erreur:', error.message);
+		            // Gérez les erreurs en conséquence
+		        });
+		    } else {
+		        alert("Veuillez sélectionner une ligne à modifier.");
+		    }
+		}
+
+</script>
+
+	  
+	</body>
+</html>

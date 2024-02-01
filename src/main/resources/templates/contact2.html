@@ -8,29 +8,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link th:href="@{/static/css/contact2.css}" rel="stylesheet">
 </head>
-
+ 
 <body>
 		  <!-- Header pour role 1 -->
 <div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
     <div th:replace="headerRuche.html"></div>
 </div>
-
+ 
 <!-- Header pour role 2 -->
 <div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
     <div th:replace="headerConnect.html"></div>
 </div>
-
+ 
 <!-- Header pour session non connectée -->
 <div th:unless="${loggedInUser != null}">
     <div th:replace="headerNonConnect.html"></div>
 </div>
 		  <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
         style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
-
+ 
     <div class="container">
         <div class="row align-items-center"> <!-- Utilisation de la classe 'row' de Bootstrap -->
            
-
+ 
             <!-- Titre -->
             <div class="col"> <!-- Utilisation de la classe 'col' pour occuper l'espace restant -->
                 <h1 class="mt-3 mb-4">CONTACT</h1>
@@ -76,18 +76,15 @@
     </div>
     <!-- ... -->
 </form>
-<div class="container">
-    <!-- ... -->
-    <div class="row">
+		<div th:each="user : ${usersWithRoleId}" class="col-md-4 mb-4">
             <div class="bg-primary text-white p-3 rounded text-center">
-				<i class="fas fa-user mb-3 d-block text-center fs-1"></i>
-                <p class="m-0">John DOE</p>
-                <p class="m-0">Role</p>
-                <p class="m-0">email@gmail.com</p>
+                <i class="fas fa-user mb-3 d-block text-center fs-1"></i>
+                <p class="m-0" th:text="${user.nom}"></p>
+                <p class="m-0" th:text="${user.id_role}"></p>
+                <p class="m-0" th:text="${user.email}"></p>
             </div>
-    </div>
-</div>
-
+        </div>
+ 
     <!-- ... -->
 </div>
     <script>
@@ -102,13 +99,13 @@
                 loadHeaderScripts();
             })
             .catch(error => console.error(error));
-
+ 
         function loadHeaderScripts() {
             // Charger les scripts JavaScript nécessaires après avoir inséré l'en-tête
             const script1 = document.createElement('script');
             script1.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
             document.body.appendChild(script1);
-
+ 
             const script2 = document.createElement('script');
             script2.textContent = `
                 function toggleMenu() {

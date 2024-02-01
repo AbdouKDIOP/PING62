@@ -41,17 +41,18 @@
         </div>
 
         <!-- Tableau de colonnes : Logo, Nom et Description -->
-        <table class="table">
+        <table class="table-container">
             <thead>
                 <tr>
                     <th scope="col">Source</th>
                     <th scope="col">Logo</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Ici, vous ajouterez les données dynamiquement à partir de votre base de données -->
-                <!-- Pour l'instant, je laisse le corps du tableau vide -->
-                <!-- Vous pouvez ajouter des lignes avec des données client dans cette partie -->
+ 			<tbody>
+                <tr th:each="source : ${sources}">
+        			<td th:text="${source.nomSource}">Nom de la source</td>
+        			<td><img th:src="@{/static/images/{logo}(logo=${source.logo})}" alt="Logo" class="img-thumbnail"></td>
+   				</tr>
             </tbody>
         </table>
         <!-- Fin du tableau de colonnes -->

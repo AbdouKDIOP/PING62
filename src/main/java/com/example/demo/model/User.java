@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,8 +23,10 @@ public class User {
     @Column(name = "nom")
     private String nom;
     
-	@Column(name = "id_poste")
-    private int id_poste;
+    @ManyToOne
+    @JoinColumn(name = "idPoste")
+    private Poste poste;
+
 
     @Column(name = "id_role")
     private int id_role;
@@ -54,12 +58,12 @@ public class User {
 		this.id_user = id_user;
 	}
 
-	public int getId_poste() {
-		return id_poste;
+	public Poste getPoste() {
+	    return poste;
 	}
 
-	public void setId_poste(int id_poste) {
-		this.id_poste = id_poste;
+	public void setPoste(Poste poste) {
+	    this.poste = poste;
 	}
 
 	public int getId_role() {
@@ -98,19 +102,18 @@ public class User {
         // constructeur par défaut
     }
     
-	public User(Long idUser, String email, String nom, int idPoste, int idRole, String password, String prenom,
-			int service, int statusUser) {
-		super();
-		this.id_user = idUser;
-		this.email = email;
-		this.nom = nom;
-		this.id_poste = idPoste;
-		this.id_role = idRole;
-		this.password = password;
-		this.prenom = prenom;
-		this.id_domaine = service;
-		this.status_user = statusUser;
-	}
+    public User(Long idUser, String email, String nom, Poste poste, int idRole, String password, String prenom, int idDomaine, int statusUser) {
+        super();
+        this.id_user = idUser;
+        this.email = email;
+        this.nom = nom;
+        this.poste = poste; // Utilisation de l'objet Poste
+        this.id_role = idRole;
+        this.password = password;
+        this.prenom = prenom;
+        this.id_domaine = idDomaine;
+        this.status_user = statusUser;
+    }
 
 	public void setPassword(String password) {
         this.password = password;
@@ -142,13 +145,7 @@ public class User {
         this.status_user = statusUser;
     }
 
-	public int getIdPoste() {
-		return id_poste;
-	}
 
-	public void setIdPoste(int idPoste) {
-		this.id_poste = idPoste;
-	}
 
 	public int getIdRole() {
 		return id_role;

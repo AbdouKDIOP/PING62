@@ -60,7 +60,7 @@
                                 <input type="file" class="form-control" id="logoInput" accept=".png">
                             </div>
                             <div class="mb-3">
-                                <label for="SourceInput" class="form-label">Source</label>
+                                <label for="SourceInput" class="form-label">Nom</label>
                                 <input type="text" class="form-control" id="SourceInput">
                             </div>
                             <button type="submit" class="btn btn-primary">Ajouter</button>
@@ -70,7 +70,7 @@
             </div>
         </div>
         <!-- Tableau de colonnes : Logo, Nom et Description -->
-        <table class="table">
+        <table class="table-container">
             <thead>
                 <tr>
                     <th scope="col">Source</th>
@@ -78,23 +78,94 @@
                     <th scope="col">Status</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Ici, vous ajouterez les données dynamiquement à partir de votre base de données -->
-                <!-- Pour l'instant, je laisse le corps du tableau vide -->
-                <!-- Vous pouvez ajouter des lignes avec des données client dans cette partie -->
-                <tr>
-            		<td><!-- Source--></td>
-            		<td><!-- Logo --></t>
-            		<td>
-                		<button type="button" class="btn btn-primary" style="background-color: rgb(0, 128, 255); border-color: rgb(0, 128, 255); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Modifier</button>
-                		<button type="button" class="btn btn-primary" style="background-color: red; border-color: red; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Desactiver</button>
-            		</td> <!-- Cellule avec le bouton "Modifier" -->
-        		</tr>
-            </tbody>
+           <tbody>
+    <tr th:each="source : ${sources}">
+        <td th:text="${source.nomSource}">Nom de la source</td>
+        <td><img th:src="@{/static/images/{logo}(logo=${source.logo})}" alt="Logo" class="img-thumbnail"></td>
+        <td th:data-source-id="${source.idSource}">
+            <button type="button" class="btn btn-primary btn-modify" th:id="'modify-' + ${source.idSource}">Modifier</button>
+            <button type="button" class="btn btn-primary btn-toggle-activation" th:id="'toggle-activation-' + ${source.idSource}" th:data-activated="${source.isActivated}">Activer</button>
+        </td>
+    </tr>
+</tbody>
         </table>
         <!-- Fin du tableau de colonnes -->
     </div>
     <script>
+		document.addEventListener("DOMContentLoaded", function() {
+    // Gestion du clic sur le bouton "Modifier"
+    document.querySelectorAll('.btn-modify').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var sourceId = this.id.split('-')[1];
+            // Appeler une fonction pour modifier la source
+            modifySource(sourceId);
+        });
+    });
+
+    // Gestion du clic sur le bouton "Activer/Désactiver"
+    document.querySelectorAll('.btn-toggle-activation').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var sourceId = this.id.split('-')[1];
+            var isActivated = this.getAttribute('data-activated') === 'true';
+            // Inverser l'état d'activation
+            toggleSourceActivation(sourceId, !isActivated);
+            // Mettre à jour le texte du bouton et l'attribut 'data-activated'
+            this.textContent = isActivated ? 'Activer' : 'Desactiver';
+            this.setAttribute('data-activated', !isActivated);
+        });
+    });
+});
+
+function modifySource(sourceId) {
+    // Ouvrir une fenêtre modale pour saisir le nouveau nom (ceci est un exemple simple)
+    var newName = prompt("Entrez le nouveau nom pour la source:");
+
+    if (newName) {
+        // Envoyer une requête AJAX pour modifier le nom de la source
+        fetch('/modifySource', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `sourceId=${sourceId}&newName=${encodeURIComponent(newName)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Traiter la réponse
+            console.log(data);
+            // Vous pouvez ici rafraîchir la partie du DOM concernée ou afficher un message
+        })
+        .catch(error => {
+            console.error('Erreur lors de la modification de la source:', error);
+        });
+    }
+}
+
+function toggleSourceActivation(sourceId, isActivated) {
+    // Convertir l'état booléen en 1 ou 0
+    let newValue = isActivated ? 0 : 1;
+
+    fetch('/toggleSourceActivation', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `sourceId=${sourceId}&activate=${newValue}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Mise à jour de l'interface utilisateur
+        let button = document.getElementById('toggle-activation-' + sourceId);
+        button.textContent = newValue === 1 ? 'Désactiver' : 'Activer';
+        button.setAttribute('data-activated', newValue === 1);
+    })
+    .catch(error => {
+        console.error('Erreur lors de l\'activation/désactivation de la source:', error);
+    });
+}
+
+
+
         // Utilisation de fetch pour charger le contenu de l'en-tête depuis headeruserFSP.html
         fetch('headerAdmin')
             

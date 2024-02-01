@@ -35,20 +35,22 @@
             </div>
         </div>
 
-        <!-- Tableau de colonnes : Logo, Nom et Description -->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Photo</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Ici, vous ajouterez les données dynamiquement à partir de votre base de données -->
-                <!-- Pour l'instant, je laisse le corps du tableau vide -->
-                <!-- Vous pouvez ajouter des lignes avec des données client dans cette partie -->
-            </tbody>
+<!-- Tableau de colonnes : Logo, Nom et Description -->
+	        <table class="table-container">
+	            <thead>
+	                <tr>
+	                    <th scope="col">Photos</th>
+	                    <th scope="col">Noms</th>
+	                    <th scope="col">Description</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	    <tr th:each="client : ${clients}"> <!-- Itération sur chaque client -->
+	        <td><img th:src="@{/static/images/{logo}(logo=${client.logo_client})}" alt="Logo" class="img-thumbnail"></td> <!-- Afficher le logo -->
+	        <td th:text="${client.name_client}">Nom des clients</td> <!-- Afficher le nom -->
+	        <td th:text="${client.description_client}">Description</td> <!-- Afficher la description -->
+	    </tr>
+	</tbody>
         </table>
         <!-- Fin du tableau de colonnes -->
     </div>

@@ -15,4 +15,8 @@ public class DatasetService {
     public List<Dataset> findAll() {
         return datasetRepository.findAll();
     }
+    
+    public Dataset save(Dataset dataset) {
+        return datasetRepository.save(dataset);
+    }
 }

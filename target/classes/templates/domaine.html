@@ -9,6 +9,23 @@
 </head>
 
 <body>
-		  <div th:replace="headerNonConnect.html"></div>
+		  	
+<!-- Header pour role Ruche -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+    <div th:replace="headerRuche.html"></div>
+</div>
+
+<!-- Header pour role Admin -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
+    <div th:replace="headerConnect.html"></div>
+</div>
+
+<!-- Header pour session non connectée -->
+<div th:unless="${loggedInUser != null}">
+    <div th:replace="headerNonConnect.html"></div>
+</div>
+
+	
+
 	</body>
 </html>

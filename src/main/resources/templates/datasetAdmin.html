@@ -9,13 +9,14 @@
 </head>
 
 <body>
-		  <!-- Header pour role 1 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
+	
+<!-- Header pour role Ruche -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
     <div th:replace="headerRuche.html"></div>
 </div>
 
-<!-- Header pour role 2 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+<!-- Header pour role Admin -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
     <div th:replace="headerConnect.html"></div>
 </div>
 
@@ -23,6 +24,9 @@
 <div th:unless="${loggedInUser != null}">
     <div th:replace="headerNonConnect.html"></div>
 </div>
+
+	
+
 		  <div class="container">
 	<div class="header-container">
 	    <h2>DATASET</h2>
@@ -32,68 +36,27 @@
 	<div class="layout-container">
 	<div class="table-container">
 		  <table>
-		  <tr>
-		    <th>DATA CHAMPION</th>
-		    <th>DATASET</th>
-		    <th>UNIVERS</th>
-		    <th>OUTIL</th>
-		    <th>RESUME</th>
-		  </tr>
-		  <tr>
-		    <td>Simon TO</td>
-		    <td>BU_FRANCE</td>
-		    <td>BU_FRANCE</td>
-		    <td>PowerBI</td>
-		    <td>Analyse des ventes</td>
-		  </tr>
-		  <tr>
-		    <td>George BREA</td>
-		    <td>D_FSP Sales</td>
-		    <td>D_FSP Sales</td>
-		    <td>BO</td>
-		    <td>Données de Ventes</td>
-		  </tr>
-		  <!-- Ajoutez cinq nouvelles lignes ci-dessous -->
-		  <tr>
-		    <td>Alex RIO</td>
-		    <td>BU_EUROPE</td>
-		    <td>BU_EUROPE</td>
-		    <td>Excel</td>
-		    <td>Rapports financiers</td>
-		  </tr>
-		  <tr>
-		    <td>Maria GOMEZ</td>
-		    <td>Global_Marketing</td>
-		    <td>Marketing</td>
-		    <td>Salesforce</td>
-		    <td>Analyses de marché</td>
-		  </tr>
-		  <tr>
-		    <td>Liu WEN</td>
-		    <td>APAC_Operations</td>
-		    <td>Opérations</td>
-		    <td>Tableau</td>
-		    <td>Logistique</td>
-		  </tr>
-		  <tr>
-		    <td>Emma DUBOIS</td>
-		    <td>EU_Regulations</td>
-		    <td>Compliance</td>
-		    <td>SharePoint</td>
-		    <td>Conformité réglementaire</td>
-		  </tr>
-		  <tr>
-		    <td>Omar ALI</td>
-		    <td>ME_OilData</td>
-		    <td>Pétrole et Gaz</td>
-		    <td>QlikView</td>
-		    <td>Exploration de données</td>
-		  </tr>
-		    <!-- Ajoutez d'autres lignes ici si nécessaire -->
-		  </table>
+            <tr>
+                <th>DATASET</th>
+                <th>DATA CHAMPION</th>
+                <th>DOMAINE</th>
+                <th>OUTIL</th>
+                <th>RESUME</th>
+                <th>SOURCE</th>
+            </tr>
+            <tr th:each="dataset : ${datasets}">
+				<td th:text="${dataset.name_dataset}">Dataset Name</td>
+                <td th:text="${dataset.data_champion}">Data Champion</td>
+                <td th:text="${dataset.domain != null ? dataset.domain.name_domain : 'N/A'}">Domain Name</td>
+                <td th:text="${dataset.tool != null ? dataset.tool.name_tool : 'N/A'}">Tool Name</td>
+                <td th:text="${dataset.feature_details}">Feature Details</td>
+                <td th:text="${dataset.source.nom_source}">Name Source </td>
+            </tr>
+        </table>
 	</div>
 	<div class="buttons-container">
-	    <button type="button" class="action-button" onclick="ajouter()">Ajouter</button>
+	    <a th:href="@{add_dataset}"><button type="button" class="action-button" onclick="ajouter()">Ajouter</button></a>
+	    
 	    <button type="button" class="action-button" onclick="modifier()">Modifier</button>
 	    <button type="button" class="action-button" onclick="supprimer()">Supprimer</button>
 	</div>

@@ -1,11 +1,15 @@
 package com.example.demo.model;
+import java.sql.Timestamp;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.persistence.*;
-
-import java.sql.Timestamp;
 
 @Entity
 @Table(name = "Tool")
@@ -16,13 +20,21 @@ import java.sql.Timestamp;
 public class Tool {
     @Override
 	public String toString() {
-		return "Tool [id_tool=" + id_tool + ", name_tool=" + name_tool + ", logo_tool=" + logo_tool + ", is_activated="
+		return "Tool [id_tool=" + idTool + ", name_tool=" + name_tool + ", logo_tool=" + logo_tool + ", is_activated="
 				+ is_activated + ", created_at=" + created_at + "]";
+	}
+
+	public Long getId_tool() {
+		return idTool;
+	}
+
+	public void setId_tool(Long id_tool) {
+		this.idTool = id_tool;
 	}
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_tool;
+    private Long idTool;
 
     private String name_tool;
     private String logo_tool;
@@ -60,6 +72,4 @@ public class Tool {
 	public void setCreated_at(Timestamp created_at) {
 		this.created_at = created_at;
 	}
-
-    
 }

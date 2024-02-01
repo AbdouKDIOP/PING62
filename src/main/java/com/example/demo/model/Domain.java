@@ -18,18 +18,25 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Domain {
-    @Override
-	public String toString() {
-		return "Domain [id_domain=" + id_domain + ", name_domain=" + name_domain + ", is_activated=" + is_activated
-				+ ", created_at=" + created_at + "]";
-	}
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_domain;
-
+	@Column(name = "id_domain")
+	private Long idDomain;
 	public String name_domain;
     private int is_activated;
     private Timestamp created_at;
+    
+    public Long getId_domain() {
+		return idDomain;
+	}
+	public void setId_domain(Long id_domain) {
+		this.idDomain = id_domain;
+	}
+	@Override
+	public String toString() {
+		return "Domain [id_domain=" + idDomain + ", name_domain=" + name_domain + ", is_activated=" + is_activated
+				+ ", created_at=" + created_at + "]";
+	}
 	public String getName_domain() {
 		return name_domain;
 	}

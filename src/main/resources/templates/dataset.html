@@ -9,7 +9,21 @@
 </head>
 
 <body>
-		  <div th:replace="~{headerNonConnect.html}"></div>
+		
+<!-- Header pour role Ruche -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+    <div th:replace="headerRuche.html"></div>
+</div>
+
+<!-- Header pour role Admin -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
+    <div th:replace="headerConnect.html"></div>
+</div>
+
+<!-- Header pour session non connectée -->
+<div th:unless="${loggedInUser != null}">
+    <div th:replace="headerNonConnect.html"></div>
+</div>
 
 	<div class="header-container">
 	    <h2>DATASET</h2>
@@ -24,6 +38,7 @@
                 <th>DOMAINE</th>
                 <th>OUTIL</th>
                 <th>RESUME</th>
+                <th>SOURCE</th>
             </tr>
             <tr th:each="dataset : ${datasets}">
 				<td th:text="${dataset.name_dataset}">Dataset Name</td>
@@ -31,6 +46,9 @@
                 <td th:text="${dataset.domain != null ? dataset.domain.name_domain : 'N/A'}">Domain Name</td>
                 <td th:text="${dataset.tool != null ? dataset.tool.name_tool : 'N/A'}">Tool Name</td>
                 <td th:text="${dataset.feature_details}">Feature Details</td>
+                <td th:text="${dataset.source.nom_source}">Name Source </td>
+            </tr>
+        </table>
             </tr>
         </table>
     </div>

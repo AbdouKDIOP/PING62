@@ -11,13 +11,14 @@
 </head>
 
 <body>
-    <!-- Header pour role 1 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
+	
+<!-- Header pour role Ruche -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
     <div th:replace="headerRuche.html"></div>
 </div>
 
-<!-- Header pour role 2 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+<!-- Header pour role Admin -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
     <div th:replace="headerConnect.html"></div>
 </div>
 
@@ -25,6 +26,9 @@
 <div th:unless="${loggedInUser != null}">
     <div th:replace="headerNonConnect.html"></div>
 </div>
+
+	
+
 
     <div class="container">
         <p>Bienvenue dans la section des outils de La Ruche FSP. Vous pouvez avoir accès à ces outils en cliquant sur chaque logo ci-dessous.</p>

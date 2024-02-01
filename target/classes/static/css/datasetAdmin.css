@@ -24,20 +24,14 @@ body{
     		gap: 10px; /* Adjust the space between buttons */
 		}
 		
-		/* Style each button */
-		.action-button {
-			font-family: "time new roman", Times, serif;
-		    margin-bottom: 10px; /* Space between the buttons */
-		    padding: 10px 45px; /* Padding inside the button */
-		    font-size: 1.15em; /* This is the typical size for h3 */
-		    background-color: #006680; /* Bootstrap primary blue color */
-		    border: none;
-		    border-radius: 0.5rem; /* Bootstrap default border radius */
-		    color: white;
-		    cursor: pointer;
-		    width: auto; /* Adjust width as needed */
-		    height:40px ;
-		    text-align: center;
+		
+		
+		button{
+			width: 100%;
+			margin: 15px;
+			color: #fff;
+			border-radius: 15px;
+			background-color: #006680;
 		}
 		
 		/* Container for both the table and the buttons */
@@ -59,13 +53,21 @@ body{
 			margin-top: 20px; /* Ajoutez une marge au-dessus, si nécessaire */
 			margin-bottom: 20px; /* Ajoutez une marge en-dessous, si nécessaire */
 		}
-		  .table-container {
+		  /*.table-container {
 			float: left;
 		    max-width: 1000px;
 		    margin: 20px auto;
-		    overflow-x: auto; /* Permet le défilement horizontal si le tableau est trop large */
+		    overflow-x: auto; 
 		    padding: 20px;
-		  }
+		  }*/
+		  
+		  .table-container {
+			  height: 60vh; /* Ajustez la hauteur selon vos besoins */
+		    width: 100%;
+		    overflow-x: auto;
+		    overflow-y: auto; /* Ajoutez une barre de défilement vertical si nécessaire */
+		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
 		
 		  table {
 		

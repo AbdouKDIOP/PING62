@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 public class Source {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_source;
+    private Long idSource;
 
     private String nom_source;
     private String logo;
@@ -27,9 +27,25 @@ public class Source {
     private int is_activated;
     @Override
 	public String toString() {
-		return "Source [id_source=" + id_source + ", nom_source=" + nom_source + ", logo=" + logo + ", link_source="
+		return "Source [id_source=" + idSource + ", nom_source=" + nom_source + ", logo=" + logo + ", link_source="
 				+ link_source + ", is_activated=" + is_activated + ", created_at=" + created_at + ", user=" + user
 				+ "]";
+	}
+
+	public Long getIdSource() {
+		return idSource;
+	}
+
+	public void setIdSource(Long idSource) {
+		this.idSource = idSource;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	private Timestamp created_at;

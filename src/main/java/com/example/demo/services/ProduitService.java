@@ -22,4 +22,8 @@ public class ProduitService {
  public List<Produit> getAllProduits() {
      return produitRepository.findAll();
  }
+ 
+ public List<Produit> getProduitsByIdUser(Long userId) {
+	    return produitRepository.findByIdUser(userId);
+	}
 }

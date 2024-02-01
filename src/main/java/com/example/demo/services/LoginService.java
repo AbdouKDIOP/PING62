@@ -30,12 +30,12 @@ public class LoginService {
             session.setAttribute("loggedInUser", user);
             return true;
         } else {
-            if (user == null) {
+        	if (user == null) {
                 System.out.println("Login failed. User not found for username: " + username);
             } else if (user.getStatusUser() != 1) {
-                System.out.println("Login failed. User is inactive for user: " + user.getEmail());
+                System.out.println("Login failed. User is inactive");
             } else {
-                System.out.println("Login failed. Incorrect password for user: " + user.getEmail());
+                System.out.println("Login failed.");
             }
             return false;
         }

@@ -11,21 +11,29 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.Dataset;
+import com.example.demo.model.Domain;
 import com.example.demo.model.Produit;
-import com.example.demo.services.SignUpService;
+import com.example.demo.model.Source;
+import com.example.demo.model.Tool;
 import com.example.demo.model.User;
 import com.example.demo.repositoryDAO.ProduitRepository;
 import com.example.demo.services.DatasetService;
+import com.example.demo.services.DomainService;
 import com.example.demo.services.LoginService;
 import com.example.demo.services.LogoutService;
 import com.example.demo.services.ProduitService;
+import com.example.demo.services.SignUpService;
+import com.example.demo.services.SourceService;
+import com.example.demo.services.ToolService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -37,12 +45,18 @@ public class Controlleur {
 		private SignUpService signUpService ;
 		private ProduitService produitService ;
 	    private DatasetService datasetService;
-		
+	    private DomainService domainService;
+	    private ToolService toolService; // Inject your service
+	    private SourceService sourceService;
+
 	    @Autowired
-	    public Controlleur(SignUpService registrationService, ProduitService produitService, DatasetService datasetService) {
+	    public Controlleur(SignUpService registrationService, ProduitService produitService, DatasetService datasetService,DomainService domainService,ToolService toolService,SourceService sourceService) {
 	        this.signUpService = registrationService;
 	        this.produitService = produitService;
 	        this.datasetService = datasetService;
+	        this.domainService = domainService;
+	        this.toolService = toolService;
+	        this.sourceService = sourceService;
 	    }
 
 		@GetMapping("/about")
@@ -77,104 +91,185 @@ public class Controlleur {
 	      return "actualite";
 	   }
 
-		@GetMapping({"/add_incident"})
-		public String add_incident(Model model, HttpSession session) {
-			    // Récupérer les informations de l'utilisateur depuis la session
-			    User loggedInUser = (User) session.getAttribute("loggedInUser");
-			    
+	   @GetMapping({"/add_incident"})
+	   public String add_incident(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    
+		    if (loggedInUser != null) {
+		    // Ajouter les informations sur l'utilisateur dans le modèle
+		    model.addAttribute("loggedInUser", loggedInUser);
+
+	      return "add_incidence";
+		    } else {
+	            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+	            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+	        }
+	   }
+
+
+	   @GetMapping({"/datasetAdmin"})
+	   public String datasetAdmin(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    if (loggedInUser != null) {
 			    // Ajouter les informations sur l'utilisateur dans le modèle
 			    model.addAttribute("loggedInUser", loggedInUser);
-
-		      return "add_incidence";
-		}
-
-
-		@GetMapping({"/datasetAdmin"})
-		public String datasetAdmin(Model model, HttpSession session) {
-			    // Récupérer les informations de l'utilisateur depuis la session
-			    User loggedInUser = (User) session.getAttribute("loggedInUser");
-			    
-			    // Ajouter les informations sur l'utilisateur dans le modèle
+			    List<Dataset> datasets = datasetService.findAll();
+		        model.addAttribute("datasets", datasets);
+			    return "datasetAdmin";
+			    } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+		        }
+	   }
+	   
+	   @GetMapping({"/dataset"})
+	   public String dataset(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    	model.addAttribute("loggedInUser", loggedInUser);
+		    	List<Dataset> datasets = datasetService.findAll();
+		        model.addAttribute("datasets", datasets);
+		        return "dataset";
+	   }
+	   
+	   
+	   @GetMapping({"/add_dataset"})
+	   public String add_dataset(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    if (loggedInUser != null) {
+		    	List<Domain> domains = domainService.getAllDomains();
+		        model.addAttribute("domains", domains);
+		        List<Tool> tool = toolService.getAllTool();
+		        model.addAttribute("tool", tool);
+		        List<Source> source = sourceService.getAllSource();
+		        model.addAttribute("source", source);
 			    model.addAttribute("loggedInUser", loggedInUser);
+			    return "add_dataset";
+			    } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+		        }
+	   }
+	   
+	   @PostMapping("/add_dataset")
+	    public String ajouterDataset(HttpSession session,
+	    		@RequestParam("nameDataset") String nameDataset,
+			    Model model,
+			    @RequestParam("dataChampion") String dataChampion,
+			    @RequestParam("domainId") Long domainId,
+                @RequestParam("toolId") Long toolId,
+			    @RequestParam("featureDetails") String featureDetails) {
+	        	Dataset dataset = new Dataset();
 
-		      return "datasetAdmin";
-		 }
+	     // Récupérer les informations de l'utilisateur depuis la session
+	        User loggedInUser = (User) session.getAttribute("loggedInUser");
+
+	     // Vérifier si l'utilisateur est connecté
+	        if (loggedInUser != null) {
+	            // Utiliser les informations de l'utilisateur
+	            Long userId = loggedInUser.getId_user();
+	            int userRole = loggedInUser.getIdRole();
+
+	            Domain domain = domainService.getDomainByIdDomain(domainId); // Assurez-vous d'avoir cette méthode dans votre service
+	            Tool tool = toolService.getToolById(toolId); // Assurez-vous d'avoir cette méthode dans votre service
+
+	            dataset.setName_dataset(nameDataset);
+	            dataset.setData_champion(dataChampion);
+	            dataset.setDomain(domain);
+	            dataset.setTool(tool);
+	            dataset.setFeature_details(featureDetails);
+
+	            // Sauvegarder le dataset dans la base de données
+	            datasetService.save(dataset); // Assurez-vous d'avoir cette méthode dans votre service
+
+	            
+	            if (userRole == 2) {
+	                // Si le rôle est 2(Membre de la ruche), redirigez vers produitAdmin
+	                return "redirect:/datasetRuche";
+	            } else if (userRole == 3) {
+	                // Si le rôle est 3(Admin), redirigez vers produitRuche
+	                return "redirect:/datasetAdmin";
+	            } else {
+	                // Gérer d'autres rôles si nécessaire
+	                return "redirect:/login"; // Remplacez par la page par défaut
+	            }
+	        } else {
+	            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+	            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+	        }
+	    }
 
 
-		   @GetMapping({"/client"})
-		   public String client(Model model, HttpSession session) {
-			    // Récupérer les informations de l'utilisateur depuis la session
-			    User loggedInUser = (User) session.getAttribute("loggedInUser");
-			    
-			    // Ajouter les informations sur l'utilisateur dans le modèle
-			    model.addAttribute("loggedInUser", loggedInUser);
+	   @GetMapping({"/client"})
+	   public String client(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    
+		    // Ajouter les informations sur l'utilisateur dans le modèle
+		    model.addAttribute("loggedInUser", loggedInUser);
 
 		      return "client";
-		   }
+	   }
 
-		   @GetMapping({"/clientAdmin"})
-		   public String clientAdmin(Model model, HttpSession session) {
-			    // Récupérer les informations de l'utilisateur depuis la session
-			    User loggedInUser = (User) session.getAttribute("loggedInUser");
-			    
+	   @GetMapping({"/clientAdmin"})
+	   public String clientAdmin(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    if (loggedInUser != null) {
 			    // Ajouter les informations sur l'utilisateur dans le modèle
 			    model.addAttribute("loggedInUser", loggedInUser);
 
 		      return "clientAdmin";
-		   }
+			    } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+		        }
+	   }
 
-		   @GetMapping({"/clientRuche"})
-		   public String clientRuche(Model model, HttpSession session) {
-			    // Récupérer les informations de l'utilisateur depuis la session
-			    User loggedInUser = (User) session.getAttribute("loggedInUser");
-			    
+	   @GetMapping({"/clientRuche"})
+	   public String clientRuche(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    if (loggedInUser != null) {
 			    // Ajouter les informations sur l'utilisateur dans le modèle
 			    model.addAttribute("loggedInUser", loggedInUser);
 
 		      return "clientRuche";
-		   }
+			    } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+		        }
+	   }
 
-		   @GetMapping({"/contact2"})
-		   public String contact2(Model model, HttpSession session) {
-			    // Récupérer les informations de l'utilisateur depuis la session
-			    User loggedInUser = (User) session.getAttribute("loggedInUser");
-			    
-			    // Ajouter les informations sur l'utilisateur dans le modèle
-			    model.addAttribute("loggedInUser", loggedInUser);
+	   @GetMapping({"/contact2"})
+	   public String contact2(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    model.addAttribute("loggedInUser", loggedInUser);
+		    return "contact2";
+	   }
 
-		      return "contact2";
-		   }
-
-		   @GetMapping({"/contactezNous"})
-		   public String contactezNous(Model model, HttpSession session) {
-			    // Récupérer les informations de l'utilisateur depuis la session
-			    User loggedInUser = (User) session.getAttribute("loggedInUser");
-			    
-			    // Ajouter les informations sur l'utilisateur dans le modèle
-			    model.addAttribute("loggedInUser", loggedInUser);
+	   @GetMapping({"/contactezNous"})
+	   public String contactezNous(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    model.addAttribute("loggedInUser", loggedInUser);
 
 		      return "contactezNous";
-		   }
-		   @GetMapping({"/dataset"})
-		    public String dataset(Model model, HttpSession session) {
-		        User loggedInUser = (User) session.getAttribute("loggedInUser");
-		        model.addAttribute("loggedInUser", loggedInUser);
-
-		        List<Dataset> datasets = datasetService.findAll();
-		        model.addAttribute("datasets", datasets);
-
-		        return "dataset";
-		    }
-		   @GetMapping({"/domaine"})
-		   public String domaine(Model model, HttpSession session) {
-			    // Récupérer les informations de l'utilisateur depuis la session
-			    User loggedInUser = (User) session.getAttribute("loggedInUser");
-			    
-			    // Ajouter les informations sur l'utilisateur dans le modèle
-			    model.addAttribute("loggedInUser", loggedInUser);
-
-		      return "domaine";
-		   }
+	   }
+	   
+	   
+	   
+	   @GetMapping({"/domaine"})
+	   public String domaine(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    model.addAttribute("loggedInUser", loggedInUser);
+		    return "domaine";
+	   }
 
 
 
@@ -199,21 +294,23 @@ public class Controlleur {
 			    // Récupérer les informations de l'utilisateur depuis la session
 			    User loggedInUser = (User) session.getAttribute("loggedInUser");
 			    
-			    // Ajouter les informations sur l'utilisateur dans le modèle
-			    model.addAttribute("loggedInUser", loggedInUser);
+			    if (loggedInUser != null) {
+				    // Ajouter les informations sur l'utilisateur dans le modèle
+				    model.addAttribute("loggedInUser", loggedInUser);
 
-		      return "incidentAdmin";
+			      return "incidentAdmin";
+				    } else {
+			            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+			            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+			        }
 		   }
 
 		   @GetMapping({"/outil"})
 		   public String outil(Model model, HttpSession session) {
 			    // Récupérer les informations de l'utilisateur depuis la session
 			    User loggedInUser = (User) session.getAttribute("loggedInUser");
-			    
-			    // Ajouter les informations sur l'utilisateur dans le modèle
 			    model.addAttribute("loggedInUser", loggedInUser);
-
-		      return "outil";
+			    return "outil";
 		   }
 
 		   @GetMapping("/login")
@@ -237,6 +334,7 @@ public class Controlleur {
 
 	      return "signup";
 	   }
+	   
 	   //Mapping pour l'inscription de l'utilisateur
 	   @PostMapping("/registration")
 	   public String processRegistration(
@@ -310,34 +408,38 @@ public class Controlleur {
 	   public String source(Model model, HttpSession session) {
 		    // Récupérer les informations de l'utilisateur depuis la session
 		    User loggedInUser = (User) session.getAttribute("loggedInUser");
-		    
-		    // Ajouter les informations sur l'utilisateur dans le modèle
 		    model.addAttribute("loggedInUser", loggedInUser);
-
-	      return "source";
+		    return "source";
 	   }
-
 
 	   @GetMapping({"/sourceAdmin"})
 	   public String sourceAdmin(Model model, HttpSession session) {
 		    // Récupérer les informations de l'utilisateur depuis la session
 		    User loggedInUser = (User) session.getAttribute("loggedInUser");
-		    
-		    // Ajouter les informations sur l'utilisateur dans le modèle
-		    model.addAttribute("loggedInUser", loggedInUser);
+		    if (loggedInUser != null) {
+			    // Ajouter les informations sur l'utilisateur dans le modèle
+			    model.addAttribute("loggedInUser", loggedInUser);
 
-	      return "sourceAdmin";
+		      return "sourceAdmin";
+			    } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+		        }
 	   }
 
 	   @GetMapping({"/sourceRuche"})
 	   public String sourceRuche(Model model, HttpSession session) {
 		    // Récupérer les informations de l'utilisateur depuis la session
 		    User loggedInUser = (User) session.getAttribute("loggedInUser");
-		    
-		    // Ajouter les informations sur l'utilisateur dans le modèle
-		    model.addAttribute("loggedInUser", loggedInUser);
+		    if (loggedInUser != null) {
+			    // Ajouter les informations sur l'utilisateur dans le modèle
+			    model.addAttribute("loggedInUser", loggedInUser);
 
-	      return "sourceRuche";
+		      return "sourceRuche";
+			    } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+		        }
 	   }
 
 	   @GetMapping({"/headerc"})
@@ -365,11 +467,15 @@ public class Controlleur {
 	   public String mdpChanger(Model model, HttpSession session) {
 		    // Récupérer les informations de l'utilisateur depuis la session
 		    User loggedInUser = (User) session.getAttribute("loggedInUser");
-		    
-		    // Ajouter les informations sur l'utilisateur dans le modèle
-		    model.addAttribute("loggedInUser", loggedInUser);
+		    if (loggedInUser != null) {
+			    // Ajouter les informations sur l'utilisateur dans le modèle
+			    model.addAttribute("loggedInUser", loggedInUser);
 
-	      return "mdpChanged";
+		      return "mdpChanged";
+			    } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+		        }
 	   }
 
 	   @GetMapping({"/datasetRuche"})
@@ -377,22 +483,29 @@ public class Controlleur {
 		    // Récupérer les informations de l'utilisateur depuis la session
 		    User loggedInUser = (User) session.getAttribute("loggedInUser");
 		    
-		    // Ajouter les informations sur l'utilisateur dans le modèle
-		    model.addAttribute("loggedInUser", loggedInUser);
+		    if (loggedInUser != null) {
+			    // Ajouter les informations sur l'utilisateur dans le modèle
+			    model.addAttribute("loggedInUser", loggedInUser);
 
-	      return "datasetRuche";
+		      return "datasetRuche";
+			    } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+		        }
 	   }
 
-	   @GetMapping({"/produitAdmin"})
+	   @GetMapping("/produitAdmin")
 	   public String produitAdmin(Model model, HttpSession session) {
-		    // Récupérer les informations de l'utilisateur depuis la session
-		    User loggedInUser = (User) session.getAttribute("loggedInUser");
-		    List<Produit> produits = produitService.getAllProduits();
-	        model.addAttribute("produits", produits);
-		    // Ajouter les informations sur l'utilisateur dans le modèle
-		    model.addAttribute("loggedInUser", loggedInUser);
-
-	      return "produitAdmin";
+		   User loggedInUser = (User) session.getAttribute("loggedInUser");
+		   if (loggedInUser != null) {
+		   List<Produit> produits = produitService.getAllProduits();
+		   model.addAttribute("loggedInUser", loggedInUser);
+		   model.addAttribute("produits", produits);
+	       return "produitAdmin";
+		   } else {
+	            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+	            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+	        }
 	   }
 	   
 	   @GetMapping({"/produit"})
@@ -403,19 +516,22 @@ public class Controlleur {
 	        model.addAttribute("produits", produits);
 		    // Ajouter les informations sur l'utilisateur dans le modèle
 		    model.addAttribute("loggedInUser", loggedInUser);
-
-	      return "produit";
+		    return "produit";
 	   }
 	   
 	   @GetMapping({"/add_produit"})
 	   public String add_produit(Model model, HttpSession session) {
 		    // Récupérer les informations de l'utilisateur depuis la session
 		    User loggedInUser = (User) session.getAttribute("loggedInUser");
-		    
-		    // Ajouter les informations sur l'utilisateur dans le modèle
-		    model.addAttribute("loggedInUser", loggedInUser);
-
-	      return "add_produit";
+		    if (loggedInUser != null) {
+			    // Ajouter les informations sur l'utilisateur dans le modèle
+			    model.addAttribute("loggedInUser", loggedInUser);
+			    return "add_produit";
+			    } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+		        }
+	      
 	   }
 	   
 	   @Autowired
@@ -447,6 +563,7 @@ public class Controlleur {
 	        if (loggedInUser != null) {
 	            // Utiliser les informations de l'utilisateur
 	            Long userId = loggedInUser.getId_user();
+	            int userRole = loggedInUser.getIdRole();
 
 	            product.setNameProduct(nameProduct);
 	            product.setIdDataset(datasetId);
@@ -462,82 +579,118 @@ public class Controlleur {
 	            product.setIdUser(userId);
 	            productRepository.save(product);
 
-	            // Redirigez vers la page des produits ou une autre page après l'insertion
-	            return "redirect:/produitAdmin";
+	            if (userRole == 2) {
+	                // Si le rôle est 2(Membre de la ruche), redirigez vers produitAdmin
+	                return "redirect:/produitRuche";
+	            } else if (userRole == 3) {
+	                // Si le rôle est 3(Admin), redirigez vers produitRuche
+	                return "redirect:/produitAdmin";
+	            } else {
+	                // Gérer d'autres rôles si nécessaire
+	                return "redirect:/login"; // Remplacez par la page par défaut
+	            }
 	        } else {
 	            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
 	            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
 	        }
 	    }
 	    
-		   @GetMapping({"/produitRuche"})
+	    @GetMapping("/produitRuche")
 		   public String produitRuche(Model model, HttpSession session) {
-			    // Récupérer les informations de l'utilisateur depuis la session
-			    User loggedInUser = (User) session.getAttribute("loggedInUser");
+			   User loggedInUser = (User) session.getAttribute("loggedInUser");
+			   if (loggedInUser != null) {
+			   List<Produit> produits = produitService.getProduitsByIdUser(loggedInUser.getId_user());
 			    
-			    // Ajouter les informations sur l'utilisateur dans le modèle
-			    model.addAttribute("loggedInUser", loggedInUser);
-
-		      return "produitRuche";
+			   model.addAttribute("loggedInUser", loggedInUser);
+			   model.addAttribute("produits", produits);
+		       return "produitRuche";
+			   } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+		        }
 		   }
 		   
-		   @PostMapping("/update_product")
-		    public ResponseEntity<String> updateProduct(@RequestBody Map<String, String> updatedProduct) {
-		        Long productId = Long.parseLong(updatedProduct.get("0")); // L'indice 0 représente l'ID du produit
+	    @PostMapping("/update_product")
+		   public ResponseEntity<String> updateProduct(@RequestBody Map<String, String> updatedProduct, Model model) {
+			// Utiliser la clé "id" pour obtenir l'ID du produit
+			    Long productId = Long.parseLong(updatedProduct.get("id"));
 
-		        Optional<Produit> optionalProduct = productRepository.findById(productId);
-		        System.out.println("Données reçues du frontend : " + updatedProduct);
+			    Optional<Produit> optionalProduct = productRepository.findById(productId);
+			    System.out.println("ID du produit à mettre à jour : " + productId);
 
-		        if (optionalProduct.isPresent()) {
-		            Produit product = optionalProduct.get();
-		            // Mettez à jour les propriétés du produit avec les nouvelles valeurs de la carte updatedProduct
-		            product.setNameProduct(updatedProduct.get("1"));
-		            product.setIdDataset(Long.parseLong(updatedProduct.get("2")));
-		            product.setDataChampion(updatedProduct.get("3"));
-		            product.setIdWorkspace(Long.parseLong(updatedProduct.get("4")));
-		            product.setSummary(updatedProduct.get("5"));
-		            product.setLink(updatedProduct.get("6"));
-		            System.out.println("Données reçues du frontend : " + updatedProduct);
-		            product.setPerimeter(updatedProduct.get("7"));
-		            System.out.println("Données reçues du frontend : " + updatedProduct);
-		            product.setFeatureDetails(updatedProduct.get("8"));
-		            System.out.println("Données reçues du frontend : " + updatedProduct);
+			    if (optionalProduct.isPresent()) {
+			        Produit product = optionalProduct.get();
 
-		            productRepository.save(product);
+		           // Mettez à jour les propriétés du produit avec les nouvelles valeurs de la carte updatedProduct
+		           product.setNameProduct(updatedProduct.get("0"));
+		           product.setIdDataset(Long.parseLong(updatedProduct.get("1")));
+		           product.setDataChampion(updatedProduct.get("2"));
+		           product.setIdWorkspace(Long.parseLong(updatedProduct.get("3")));
+		           product.setSummary(updatedProduct.get("4"));
+		           product.setLink(updatedProduct.get("5"));
+		           product.setPerimeter(updatedProduct.get("6"));
+		           product.setFeatureDetails(updatedProduct.get("7"));
 
-		            return ResponseEntity.ok("Données mises à jour avec succès");
-		        } else {
-		            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produit non trouvé");
+		           // Affichez les données avant la mise à jour
+		           System.out.println("Données du produit avant mise à jour : " + product);
+
+		           // Enregistrez les modifications dans la base de données
+		           productRepository.save(product);
+
+		           // Affichez les données après la mise à jour
+		           System.out.println("Données du produit après mise à jour : " + product);
+
+		           return ResponseEntity.ok("Données mises à jour avec succès");
+		       } else {
+		           // Affichez un message si le produit n'est pas trouvé
+		           System.out.println("Produit non trouvé avec l'ID : " + productId);
+		           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produit non trouvé");
+		       }
+		   }
+
+	    
+	    @DeleteMapping("/delete_product/{productId}")
+		   public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
+		       Optional<Produit> optionalProduct = productRepository.findById(productId);
+
+		       if (optionalProduct.isPresent()) {
+		           Produit product = optionalProduct.get();
+		           // Effectuez toute opération préalable à la suppression si nécessaire
+		           productRepository.delete(product);
+		           return ResponseEntity.ok("Produit supprimé avec succès");
+		       } else {
+		           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produit non trouvé");
+		       }
+		   }
+	    
+
+	    @GetMapping({"/incidentRuche"})
+		   public String incidentRuche(Model model, HttpSession session) {
+			    // Récupérer les informations de l'utilisateur depuis la session
+			    User loggedInUser = (User) session.getAttribute("loggedInUser");
+			    if (loggedInUser != null) {
+			    // Ajouter les informations sur l'utilisateur dans le modèle
+			    model.addAttribute("loggedInUser", loggedInUser);
+			    return "incidentRuche";
+			    } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
 		        }
+		   }
+
+		   @GetMapping({"/footer"})
+		   public String footer() {
+		      return "footer";
+		   }
+		   
+		   
+		   @Autowired
+		    private LogoutService logoutService;
+
+		   @GetMapping("/logout")
+		    public String logout(HttpSession session) {
+			   logoutService.logout();
+		        // Rediriger vers la page de connexion ou une page d'accueil
+		       return "redirect:/login";
 		    }
-
-
-	   @GetMapping({"/incidentRuche"})
-	   public String incidentRuche(Model model, HttpSession session) {
-		    // Récupérer les informations de l'utilisateur depuis la session
-		    User loggedInUser = (User) session.getAttribute("loggedInUser");
-		    
-		    // Ajouter les informations sur l'utilisateur dans le modèle
-		    model.addAttribute("loggedInUser", loggedInUser);
-
-	      return "incidentRuche";
-	   }
-
-
-	   @GetMapping({"/footer"})
-	   public String footer() {
-	      return "footer";
-	   }
-	   
-
-	   
-	   @Autowired
-	    private LogoutService logoutService;
-
-	   @GetMapping("/logout")
-	    public String logout(HttpSession session) {
-		   logoutService.logout();
-	        // Rediriger vers la page de connexion ou une page d'accueil
-	       return "redirect:/login";
-	    }
-	}
+		}

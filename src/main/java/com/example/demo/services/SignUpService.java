@@ -22,7 +22,7 @@ public class SignUpService {
         user.setPassword(motDePasseCrypte);
         user.setStatusUser(0);
 
-        // Ajouter les lignes suivantes pour enregistrer les valeurs de service et de poste
+        // Ajouter les lignes suivantes pour enregistrer les valeurs de domaine et de poste
         user.setId_domaine(user.getId_domaine());
         user.setIdPoste(user.getIdPoste());
 

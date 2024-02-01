@@ -9,13 +9,13 @@
 </head>
 
 <body>
-		  <!-- Header pour role 1 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
+		  <!-- Header pour role Ruche -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
     <div th:replace="headerRuche.html"></div>
 </div>
 
-<!-- Header pour role 2 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+<!-- Header pour role Admin -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
     <div th:replace="headerConnect.html"></div>
 </div>
 
@@ -23,6 +23,8 @@
 <div th:unless="${loggedInUser != null}">
     <div th:replace="headerNonConnect.html"></div>
 </div>
+
+
 
 		  <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
         style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
@@ -56,7 +58,7 @@
 		        </thead>
 		        
 		        <tbody>
-				<tr th:each="produit : ${produits}" onclick="selectRow(this)" class="editable-row">
+				<tr th:each="produit : ${produits}" th:data-product-id="${produit.id}" onclick="selectRow(this)" class="editable-row">
 			        <td th:text="${produit.nameProduct}"></td>
 			        <td th:text="${produit.idDataset}"></td>
 			        <td th:text="${produit.dataChampion}"></td>
@@ -64,8 +66,7 @@
 			        <td th:text="${produit.summary}"></td>
 			        <td th:text="${produit.link}"></td>
 			        <td th:text="${produit.perimeter}"></td>
-			        <td th:text="${produit.featureDetails}"></td>
-			    	
+			        <td th:text="${produit.featureDetails}"></td>	
 			    </tr>
         </tbody>
     </table>
@@ -76,7 +77,7 @@
 	    <a th:href="@{add_produit}"><button type="button" class="action-button" onclick="ajouter()">Ajouter</button></a>
 	    <button class="save-btn" onclick="saveModifications()" style="display: none;">Valider les modifications</button>
 	    <button type="button" class="action" onclick="modifier()">Modifier</button>
-	    <button type="button" class="action-button2" onclick="supprimer()">Supprimer</button>
+	    <button onclick="confirmDelete()">Supprimer</button>
 	</div>
 
 	
@@ -104,7 +105,7 @@
             }
         }
 
-        function selectRow(row) {
+        function selectRow(row, id) {
             // Retirer la classe de surbrillance de toutes les autres lignes
             var table = document.getElementById("myTable");
             var rows = table.getElementsByTagName("tr");
@@ -115,7 +116,9 @@
 
             // Ajouter la classe de surbrillance à la ligne sélectionnée
             row.classList.toggle("selected-row");
-        }
+        	var productId = row.getAttribute('data-product-id');
+    		console.log('ID du produit sélectionné : ' + productId);
+}
 
         function modifier() {
 		    var selectedRow = document.querySelector('.selected-row');
@@ -189,50 +192,112 @@
 		    selectedRow.classList.remove('selected-row');
 		}
 		
-		function saveModifications() {
-		    var selectedRow = document.querySelector('.selected-row');
+function saveModifications() {
+    var selectedRow = document.querySelector('.selected-row');
+
+    if (selectedRow) {
+        var cells = selectedRow.querySelectorAll('td');
+        var updatedProduct = {};
+
+        // Récupérer l'ID du produit (supposons que l'ID est dans la première colonne)
+        // Récupérer l'ID du produit (supposons que l'ID est dans la première colonne)
+        var productId = selectedRow.getAttribute('data-product-id');
+        updatedProduct["id"] = productId; // Ajoutez l'ID au Map
+		console.log('ID du produit sélectionné : ' + productId);
 		
-		    if (selectedRow) {
-		        var cells = selectedRow.querySelectorAll('td');
-		        var updatedProduct = {};
-		
-		        cells.forEach(function(cell, index) {
-		            var input = cell.querySelector('input');
-		            if (input) {
-		                updatedProduct[index] = input.value.trim();
-		            } else {
-		                updatedProduct[index] = cell.innerText.trim();
-		            }
-		        });
-		
-		        // Utilisez une requête AJAX pour envoyer les données au backend
-		        fetch('/update_product', {
-		            method: 'POST',
-		            headers: {
-		                'Content-Type': 'application/json',
-		            },
-		            body: JSON.stringify(updatedProduct),
-		        })
-		        .then(response => {
-		            if (!response.ok) {
-		                throw new Error('Erreur lors de la mise à jour des données');
-		            }
-		            return response.json();
-		        })
-		        .then(data => {
-		            // Gérez la réponse du serveur si nécessaire
-		            console.log('Données mises à jour avec succès', data);
-		            hideSaveButton();
-		            showEditButton();
-		        })
-		        .catch(error => {
-		            console.error('Erreur:', error.message);
-		            // Gérez les erreurs en conséquence
-		        });
-		    } else {
-		        alert("Veuillez sélectionner une ligne à modifier.");
-		    }
-		}
+        cells.forEach(function(cell, index) {
+            var input = cell.querySelector('input');
+            if (input) {
+                updatedProduct[index.toString()] = input.value.trim();
+            } else {
+                updatedProduct[index.toString()] = cell.innerText.trim();
+            }
+        });
+
+        // Utilisez une requête AJAX pour envoyer les données au backend
+        fetch('/update_product', {
+			    method: 'POST',
+			    headers: {
+			        'Content-Type': 'application/json',
+			    },
+			    body: JSON.stringify(updatedProduct),
+			})
+			.then(response => {
+			    if (!response.ok) {
+			        throw new Error('Erreur lors de la mise à jour des données');
+			    }
+			    return response.text(); // Utilisez response.text() au lieu de response.json()
+			})
+			.then(data => {
+			    console.log('Réponse du serveur :', data);
+			    // Vous pouvez gérer la réponse du serveur ici si nécessaire
+			    // Rediriger vers la page "produitAdmin" après la sauvegarde
+            window.location.href = '/produitAdmin';
+			})
+			.catch(error => {
+			    console.error('Erreur :', error.message);
+			    // Gérez les erreurs en conséquence
+			});
+    } else {
+        alert("Veuillez sélectionner une ligne à modifier.");
+    }
+}
+
+
+    function showProductId(row) {
+	    // Vérifiez si produitMap est défini
+	    if (typeof produitMap !== 'undefined') {
+	        // Utilisez produitMap ici
+	        var selectedRowId = produitMap.get(row);
+	        console.log("ID du produit sélectionné : " + selectedRowId);
+	    } else {
+	        console.error("Erreur : produitMap n'est pas défini.");
+	    }
+	}
+
+
+	function confirmDelete() {
+	    var selectedRow = document.querySelector('.selected-row');
+	
+	    if (selectedRow) {
+	        var confirmation = confirm("Voulez-vous supprimer la ligne sélectionnée?");
+	        if (confirmation) {
+	            deleteRow(selectedRow);
+	        }
+	    } else {
+	        alert("Veuillez sélectionner une ligne à supprimer.");
+	    }
+	}
+	
+	function deleteRow(row) {
+	    var productId = row.getAttribute('data-product-id');
+	
+	    // Utilisez une requête AJAX pour envoyer l'ID au backend pour la suppression
+	    fetch('/delete_product/' + productId, {
+	        method: 'DELETE',
+	        headers: {
+	            'Content-Type': 'application/json',
+	        },
+	    })
+	    .then(response => {
+	        if (!response.ok) {
+	            throw new Error('Erreur lors de la suppression des données');
+	        }
+	        return response.text(); // Utilisez text() pour récupérer le texte brut
+	    })
+	    .then(data => {
+	        // Gérez la réponse du serveur si nécessaire
+	        console.log('Données supprimées avec succès', data);
+	        // Ajoutez d'autres actions si nécessaire
+	        window.location.href = '/produitAdmin';
+	    })
+	    .catch(error => {
+	        console.error('Erreur:', error.message);
+	        // Gérez les erreurs en conséquence
+	    });
+	}
+
+
 
 </script>
 

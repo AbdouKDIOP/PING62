@@ -23,9 +23,12 @@ body{
 			text-align: center;
 		}
 		  .table-container {
-			  height: 50%;
-			  overflow-x: auto; /* Permet le défilement horizontal si le tableau est trop large */
-		  }
+			  height: 60vh; /* Ajustez la hauteur selon vos besoins */
+		    width: 100%;
+		    overflow-x: auto;
+		    overflow-y: auto; /* Ajoutez une barre de défilement vertical si nécessaire */
+		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
 		
 		  table {
 		

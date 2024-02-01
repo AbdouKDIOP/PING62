@@ -10,13 +10,14 @@
 </head>
 
 <body>
-		  <!-- Header pour role 1 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
+	
+<!-- Header pour role Ruche -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
     <div th:replace="headerRuche.html"></div>
 </div>
 
-<!-- Header pour role 2 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+<!-- Header pour role Admin -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
     <div th:replace="headerConnect.html"></div>
 </div>
 
@@ -24,6 +25,9 @@
 <div th:unless="${loggedInUser != null}">
     <div th:replace="headerNonConnect.html"></div>
 </div>
+
+	
+
 
 		  <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
         style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">

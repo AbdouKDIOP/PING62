@@ -10,13 +10,14 @@
 </head>
 
 <body>
-		  <!-- Header pour role 1 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
+	
+<!-- Header pour role Ruche -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
     <div th:replace="headerRuche.html"></div>
 </div>
 
-<!-- Header pour role 2 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+<!-- Header pour role Admin -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
     <div th:replace="headerConnect.html"></div>
 </div>
 
@@ -24,6 +25,9 @@
 <div th:unless="${loggedInUser != null}">
     <div th:replace="headerNonConnect.html"></div>
 </div>
+
+	
+
     <div class="container mt-3">
         <a th:href="@{login}" class="text-white d-block mb-3">Retour</a>
         <h2 class="text-center fw-bold text-custom mt-3">INSCRIVEZ VOUS</h2>
@@ -110,8 +114,8 @@
 			        <label for="role" class="form-label">Role:</label>
 			        <select class="form-select" id="role" name="idRole" required>
 			            <option value="" disabled selected>Choisissez un service</option>
-			            <option value="1">RUCHE</option>
-			            <option value="2">IT</option>
+			            <option value="2">RUCHE</option>
+			            <option value="3">IT</option>
 			        </select>
 			        <div class="invalid-feedback">Veuillez choisir un service.</div>
 			    </div>

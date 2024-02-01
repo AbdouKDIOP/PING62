@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 @Table(name = "product")
 public class Produit {
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idProduct")
     private Long id;
@@ -103,8 +103,8 @@ public class Produit {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp timestamp) {
-        this.createdAt = timestamp;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getSummary() {

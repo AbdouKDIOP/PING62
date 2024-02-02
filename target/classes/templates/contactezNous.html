@@ -11,20 +11,7 @@
 </head>
 
 <body>
-    <!-- Header pour role 1 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
-    <div th:replace="headerRuche.html"></div>
-</div>
-
-<!-- Header pour role 2 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
-    <div th:replace="headerConnect.html"></div>
-</div>
-
-<!-- Header pour session non connectée -->
-<div th:unless="${loggedInUser != null}">
     <div th:replace="headerNonConnect.html"></div>
-</div>
     
     <div class="container">
         <div class="row align-items-center">
@@ -36,195 +23,29 @@
             </div>
         </div>
 
-        <div class="row justify-content-center mt-4">
-            <div class="col-12">
-                <div class="row">
-                    <div class="flip-card mr-3 col">
-                        <div class="flip-card-inner">
-                            <!-- Face avant de la carte -->
-                            <div class="flip-card-front">
-                                <div class="d-flex flex-column align-items-center justify-content-center">
-                                    <i class="fas fa-user fa-3x mr-2"></i>
-                                    <h4>Data Engineer</h4>
-                                </div>
-                            </div>
-                            <!-- Face arrière de la carte -->
-                            <div class="flip-card-back">
-                                <div class="card-text">
-                                    <h3>Definition</h3>
-                                    <p>Un ingénieur de données est responsable de la conception, du développement et de la maintenance des solutions de gestion des données.</p>
-                                </div>
-                            </div>
+   <div class="row justify-content-center mt-4">
+    <div class="col-12">
+        <div class="row">
+            <div th:each="poste : ${postes}" class="flip-card mr-3 col">
+                <div class="flip-card-inner">
+                    <!-- Face avant de la carte -->
+                    <div class="flip-card-front">
+                        <div class="d-flex flex-column align-items-center justify-content-center">
+                            <i class="fas fa-user fa-3x mr-2"></i>
+                            <h4 th:text="${poste.name_poste}">Nom du Poste</h4>
                         </div>
                     </div>
-                    <div class="flip-card mr-3 col">
-                        <div class="flip-card-inner">
-                            <!-- Face avant de la carte -->
-                            <div class="flip-card-front">
-                                <div class="d-flex flex-column align-items-center justify-content-center">
-                                    <i class="fas fa-user fa-3x mr-2"></i>
-                                    <h5>Data Analyst</h5>
-                                </div>
-                            </div>
-                            <!-- Face arrière de la carte -->
-                            <div class="flip-card-back">
-                                <div class="card-text">
-                                    <h3>Definition</h3>
-                                    <p>Un analyste de données analyse les données pour fournir des informations exploitables aux entreprises.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flip-card mr-3 col">
-                        <div class="flip-card-inner">
-                            <!-- Face avant de la carte -->
-                            <div class="flip-card-front">
-                                <div class="d-flex flex-column align-items-center justify-content-center">
-                                    <i class="fas fa-user fa-3x mr-2"></i>
-                                    <h6>Data Architect</h6>
-                                </div>
-                            </div>
-                            <!-- Face arrière de la carte -->
-                            <div class="flip-card-back">
-                                <div class="card-text">
-                                    <h3>Definition</h3>
-                                    <p>Un architecte de données conçoit et gère l'architecture des systèmes de gestion de données pour répondre aux besoins organisationnels.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flip-card mr-3 col">
-                        <div class="flip-card-inner">
-                            <!-- Face avant de la carte -->
-                            <div class="flip-card-front">
-                                <div class="d-flex flex-column align-items-center justify-content-center">
-                                    <i class="fas fa-user fa-3x mr-2"></i>
-                                    <h6>Head of Data & AI</h6>
-                                </div>
-                            </div>
-                            <!-- Face arrière de la carte -->
-                            <div class="flip-card-back">
-                                <div class="card-text">
-                                    <h3>Definition</h3>
-                                    <p>Ce rôle combine la responsabilité des données avec l'intelligence artificielle pour tirer des informations significatives des données.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flip-card mr-3 col">
-                        <div class="flip-card-inner">
-                            <!-- Face avant de la carte -->
-                            <div class="flip-card-front">
-                                <div class="d-flex flex-column align-items-center justify-content-center">
-                                    <i class="fas fa-user fa-3x mr-2"></i>
-                                    <h6>Data Scientist</h6>
-                                </div>
-                            </div>
-                            <!-- Face arrière de la carte -->
-                            <div class="flip-card-back">
-                                <div class="card-text">
-                                    <h3>Definition</h3>
-                                    <p>Un scientifique de données utilise des techniques scientifiques pour analyser et interpréter des ensembles de données complexes.</p>
-                                </div>
-                            </div>
+                    <!-- Face arrière de la carte -->
+                    <div class="flip-card-back">
+                        <div class="card-text">
+                            <h3>Definition</h3>
+                            <p th:text="${poste.description}">Description</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-<div class="row mt-4">
-     <div class="flip-card mr-3 col">
-        <div class="flip-card-inner">
-            <!-- Face avant de la carte -->
-            <div class="flip-card-front">
-                <div class="d-flex flex-column align-items-center justify-content-center">
-                    <i class="fas fa-user fa-3x mr-2"></i> 
-                    <h6>Product Owner</h6>
-                        </div>
-                    </div>
-                    <!-- Face arrière de la carte -->
-                    <div class="flip-card-back">
-                        <div class="card-text">
-                            <h3>Definition</h3>
-                            <p>Ce rôle se concentre sur la gestion et le développement des produits basés sur les données.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flip-card mr-3 col">
-                <div class="flip-card-inner">
-                    <!-- Face avant de la carte -->
-                    <div class="flip-card-front">
-                        <div class="d-flex flex-column align-items-center justify-content-center">
-                            <i class="fas fa-user fa-3x mr-2"></i>
-                            <h6>Responsable Master Data Referentiel</h6>
-                        </div>
-                    </div>
-                    <!-- Face arrière de la carte -->
-                    <div class="flip-card-back">
-                        <div class="card-text">
-                            <h3>Definition</h3>
-                            <p>Gère la centralisation et la normalisation des données maîtres dans une organisation.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flip-card mr-3 col">
-                <div class="flip-card-inner">
-                    <!-- Face avant de la carte -->
-                    <div class="flip-card-front">
-                        <div class="d-flex flex-column align-items-center justify-content-center">
-                            <i class="fas fa-user fa-3x mr-2"></i>
-                            <h6>Data Domain Champion</h6>
-                        </div>
-                    </div>
-                    <!-- Face arrière de la carte -->
-                    <div class="flip-card-back">
-                        <div class="card-text">
-                            <h3>Definition</h3>
-                            <p>Un leader qui promeut l'utilisation efficace des données dans une organisation</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flip-card mr-3 col">
-                <div class="flip-card-inner">
-                    <!-- Face avant de la carte -->
-                    <div class="flip-card-front">
-                        <div class="d-flex flex-column align-items-center justify-content-center">
-                            <i class="fas fa-user fa-3x mr-2"></i>
-                            <h6>Data Protection Officer</h6>
-                        </div>
-                    </div>
-                    <!-- Face arrière de la carte -->
-                    <div class="flip-card-back">
-                        <div class="card-text">
-                            <h3>Definition</h3>
-                            <p>En charge de garantir que l'utilisation des données respecte les réglementations et les normes de confidentialité.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flip-card mr-3 col">
-                <div class="flip-card-inner">
-                    <!-- Face avant de la carte -->
-                    <div class="flip-card-front">
-                        <div class="d-flex flex-column align-items-center justify-content-center">
-                            <i class="fas fa-user fa-3x mr-2"></i>
-                            <h6>Data Responsable</h6>
-                        </div>
-                    </div>
-                    <!-- Face arrière de la carte -->
-                    <div class="flip-card-back">
-                        <div class="card-text">
-                            <h3>Definition</h3>
-                            <p>En charge de la gestion et de l'organisation des données de référence dans une entreprise.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> <!-- Ajout de la balise div manquante -->
+    </div>
 </div>
 <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
         style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">

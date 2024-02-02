@@ -10,20 +10,7 @@
 </head>
 
 <body>
-		  <!-- Header pour role 1 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
-    <div th:replace="headerRuche.html"></div>
-</div>
-
-<!-- Header pour role 2 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
-    <div th:replace="headerConnect.html"></div>
-</div>
-
-<!-- Header pour session non connectée -->
-<div th:unless="${loggedInUser != null}">
-    <div th:replace="headerNonConnect.html"></div>
-</div>
+		  <div th:replace="headerConnect.html"></div>
 		  <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
         style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
 

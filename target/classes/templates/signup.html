@@ -10,22 +10,11 @@
 </head>
 
 <body>
-		  <!-- Header pour role 1 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
-    <div th:replace="headerRuche.html"></div>
-</div>
-
-<!-- Header pour role 2 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
-    <div th:replace="headerConnect.html"></div>
-</div>
-
-<!-- Header pour session non connectée -->
-<div th:unless="${loggedInUser != null}">
-    <div th:replace="headerNonConnect.html"></div>
-</div>
+		  <div th:replace="headerNonConnect.html"></div>
+		  
     <div class="container mt-3">
-        <a th:href="@{login}" class="text-white d-block mb-3">Retour</a>
+        <a href="#" class="text-white d-block mb-3">Retour</a>
+        <img src="/static/images/laRuche_PetitLogo_plein.png" alt="logoruche" class="position-fixed bottom-0 start-0 m-4" width="100" height="100">
         <h2 class="text-center fw-bold text-custom mt-3">INSCRIVEZ VOUS</h2>
         <p class="text-center">Seuls les employés des utilisateurs de la ruche (ingénieur de données, analyste de données...) peuvent s'inscrire.</p>
         <form action="/registration" method="post" class="mx-auto needs-validation" style="max-width: 600px;" novalidate>
@@ -63,63 +52,8 @@
                     <label for="confirmMotDePasse" class="form-label">Confirmation du mot de passe:</label>
                     <input type="password" class="form-control" id="confirmMotDePasse" name="confirmMotDePasse" required>
                     <div class="invalid-feedback">Les mots de passe ne correspondent pas.</div>
-	                <p th:if="${error}" class="text-danger" th:text="${error}"></p>
-	        	</div>
+                </div>
             </div>
-            <!-- Ajoutez ces lignes à l'intérieur de votre formulaire -->
-			<div class="row mb-3">
-			    <div class="col">
-			        <label for="service" class="form-label">Domaine:</label>
-			        <select class="form-select" id="domaine" name="idDomaine" required>
-			            <option value="" disabled selected>Choisissez un domaine</option>
-			            <option value="1">Achat</option>
-			            <option value="2">RH</option>
-			            <option value="3">Commerce</option>
-			            <option value="4">e-commerce</option>
-			            <option value="5">finance</option>
-			            <option value="6">industrie</option>
-			            <option value="7">marketting</option>
-			            <option value="8">masterData</option>
-			            <option value="9">production</option>
-			            <option value="10">Ressource numeriques</option>
-			            <option value="11">supply</option>
-			        </select>
-			        <div class="invalid-feedback">Veuillez choisir un domaine.</div>
-			    </div>
-			    <div class="col">
-				    <label for="poste" class="form-label">Poste:</label>
-				    <select class="form-select" id="poste" name="idPoste" required>
-			            <option value="" disabled selected>Choisissez un poste</option>
-			            <option value="1">Data Engineer</option>
-			            <option value="2">Data Analyst</option>
-			            <option value="3">Data Architect</option>
-			            <option value="4">Head of data & AI</option>
-			            <option value="5">Data scientist</option>
-			            <option value="6">Product owner</option>
-			            <option value="7">Responsable master data referentiel</option>
-			            <option value="8">DataDomaine champion</option>
-			            <option value="9">Data protection officier</option>
-			            <option value="10">Data responsable</option>
-			        </select>
-			        <div class="invalid-feedback">Veuillez choisir un poste.</div>
-			    </div>
-			</div>
-			
-			<div class="row mb-3">
-			    <div class="col">
-			        <label for="role" class="form-label">Role:</label>
-			        <select class="form-select" id="role" name="idRole" required>
-			            <option value="" disabled selected>Choisissez un service</option>
-			            <option value="1">RUCHE</option>
-			            <option value="2">IT</option>
-			        </select>
-			        <div class="invalid-feedback">Veuillez choisir un service.</div>
-			    </div>
-			    <!-- Ajoutez ces lignes à l'intérieur de votre formulaire -->
-				<input type="hidden" name="statusUser" value="0" >
-			</div>
-			
-			
             <button type="submit" class="btn btn-custom w-100">S'INSCRIRE</button>
         </form>
         <p class="text-center mt-3">Vous avez déjà un compte? <a th:href="@{login}" class="text-custom">Connectez vous!</a></p>

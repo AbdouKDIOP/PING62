@@ -8,69 +8,57 @@
 		<title>Ajouter incident</title>
 	</head>
 
-<body>
-		  <!-- Header pour role 1 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
-    <div th:replace="headerRuche.html"></div>
-</div>
-
-<!-- Header pour role 2 -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
-    <div th:replace="headerConnect.html"></div>
-</div>
-
-<!-- Header pour session non connectée -->
-<div th:unless="${loggedInUser != null}">
-    <div th:replace="headerNonConnect.html"></div>
-</div>
-	  <div class="principal">
-		  <div class="annonce">
-			  <h1>AJOUT INCIDENT/ NOUVEAUTE</h1>
-		  </div>
-			  <div class="mix">
-				  <div class="left">
-						  <div class="b1">
-							  <div class="b11">
-								  <h4>Date</h4>
-							  </div>
-							  <div class="item b12">
-								  <input required="required">
-							  </div>
-						  </div>
-						  <div class="b2">
-							  <div class="b21">
-								  <h4>Titre</h4>
-							  </div>
-							  <div class="item b22">
-								  <input required="required">
-							  </div>
-						  </div>
-						  <div class="b3">
-							  <div class="b31">
-								  <h4>Description</h4>
-							  </div>
-							  <div class="item b32">
-								  <input required="required">
-							  </div>
-						  </div>
-						  <div class="b4">
-							  <div class="b41">
-								  <h4>Status</h4>
-							  </div>
-							  <div class="b42">
-								  <select class="spinner">
-						            <option value="actif">Actif</option>
-						            <option value="en_cours">En cours</option>
-						            <option value="termine">Terminé</option>
-						        </select>
-							  </div>
-						  </div>
-				  </div>
-				  <div class="right">
-						  <button type="button_add">Valider</button>
-						  <a th:href="@{incident}"><button type="button_mod">Retour</button></a>
-				  </div>
-			 </div>
-	  </div>
+	<body>
+		<div th:replace="headerNonConnect.html"></div>
+		<div class="principal">
+			<div class="annonce">
+				<h1>AJOUT INCIDENT/ NOUVEAUTE</h1>
+			</div>
+			<div class="mix">
+				<form th:action="@{/ajouter-incident}" method="post">
+					<div class="left">
+						<div class="b1">
+							<div class="b11">
+								<h4>Date</h4>
+							</div>
+							<div class="item b12">
+								<input type="date" name="date_incident" required="required">
+							</div>
+						</div>
+						<div class="b2">
+							<div class="b21">
+								<h4>Titre</h4>
+							</div>
+							<div class="item b22">
+								<input type="text" name="title_incident" required="required">
+							</div>
+						</div>
+						<div class="b3">
+							<div class="b31">
+								<h4>Description</h4>
+							</div>
+							<div class="item b32">
+								<input type="text" name="description_incident" required="required">
+							</div>
+						</div>
+						<div class="b4">
+							<div class="b41">
+								<h4>Status</h4>
+							</div>
+							<div class="b42">
+								<select class="spinner" name="status" required="required">
+									<option value="actif">Actif</option>
+									<option value="en_cours">Inactif</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="right">
+						<button type="submit" class="button_add">Valider</button>
+						<a th:href="@{/incident}"><button type="button" class="button_mod">Retour</button></a>
+					</div>
+				</form>
+			</div>
+		</div>
 	</body>
 </html>

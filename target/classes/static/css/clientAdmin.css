@@ -1,0 +1,35 @@
+.logo{
+		width: 100px;
+		height: auto;
+	}
+	h1{
+		text-align: center;
+		color: #006680 !important;
+	}
+	body {
+		background-color:#C9A888;
+			  margin: 0;
+    		  padding: 0;
+    		  width: 100%;
+    		  min-height: 100vh;
+		    display: flex;
+		    flex-direction: column;
+	}
+	th {
+        background-color: #006680;
+        color: white;
+    }
+    td {
+        color: #006680 ;
+        background-color: white ;
+    }
+    .btn-transparent {
+        background-color: transparent;
+        border: none ;
+        color: #006680 ; /* Couleur du texte */
+    }
+
+    /* Style au survol du bouton pour indiquer l'interaction */
+    .btn-transparent:hover {
+        color: #0056b3;/* Changement de couleur du texte au survol */
+    }

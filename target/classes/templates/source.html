@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Source Page</title>
+  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link th:href="@{/static/css/source.css}" rel="stylesheet">
+</head>
+
+<body>
+		  <!-- Header pour role 1 -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
+    <div th:replace="headerRuche.html"></div>
+</div>
+
+<!-- Header pour role 2 -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+    <div th:replace="headerConnect.html"></div>
+</div>
+
+<!-- Header pour session non connectée -->
+<div th:unless="${loggedInUser != null}">
+    <div th:replace="headerNonConnect.html"></div>
+</div>
+		  <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
+        style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
+    
+    <div class="container">
+        <div class="row align-items-center"> <!-- Utilisation de la classe 'row' de Bootstrap -->
+            <!-- Logo -->
+            <div class="col-auto"> <!-- Utilisation de la classe 'col-auto' pour ajuster automatiquement la largeur -->
+                <img src="/static/images/LaRuche_PetitLogo_plein.png" alt="LogoLaRuche" class="logo">
+            </div>
+
+            <!-- Titre -->
+            <div class="col"> <!-- Utilisation de la classe 'col' pour occuper l'espace restant -->
+                <h1 class="mt-3 mb-4">SOURCE</h1>
+            </div>
+        </div>
+
+        <!-- Tableau de colonnes : Logo, Nom et Description -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Source</th>
+                    <th scope="col">Logo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Ici, vous ajouterez les données dynamiquement à partir de votre base de données -->
+                <!-- Pour l'instant, je laisse le corps du tableau vide -->
+                <!-- Vous pouvez ajouter des lignes avec des données client dans cette partie -->
+            </tbody>
+        </table>
+        <!-- Fin du tableau de colonnes -->
+    </div>
+
+    <script>
+        // Utilisation de fetch pour charger le contenu de l'en-tête depuis headeruserFSP.html
+        fetch('headeruserFSP')
+            
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('headerContainer').innerHTML = data;
+                // Charger les scripts JavaScript après avoir inséré le contenu de l'en-tête
+                loadHeaderScripts();
+            })
+            .catch(error => console.error(error));
+
+        function loadHeaderScripts() {
+            // Charger les scripts JavaScript nécessaires après avoir inséré l'en-tête
+            const script1 = document.createElement('script');
+            script1.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+            document.body.appendChild(script1);
+
+            const script2 = document.createElement('script');
+            script2.textContent = `
+                function toggleMenu() {
+                    var menu = document.getElementById("menuOptions");
+                    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+                }
+            `;
+            document.body.appendChild(script2);
+        }
+    </script>
+</body>
+</html>

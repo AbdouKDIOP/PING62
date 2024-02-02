@@ -24,11 +24,7 @@
 <div th:unless="${loggedInUser != null}">
     <div th:replace="headerNonConnect.html"></div>
 </div>
-
-	
-
-
-		  <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
+	<img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
         style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
 
 	  
@@ -47,6 +43,8 @@
 		                <th>DOMAINE</th>
 		                <th>OUTIL</th>
 		                <th>RESUME</th>
+		                <th>SOURCE</th>
+		                <th>WORKSPACE</th>
 		            </tr>
 		        </thead>
 		        
@@ -65,6 +63,16 @@
 							</select>
 				        </td>
                         <td><input type="text" name="featureDetails" /></td>
+                        <td>
+				            <select name="sourceId">
+							    <option th:each="source : ${source}" th:value="${source.idSource}" th:text="${source.nom_source}"></option>
+							</select>
+				        </td>
+				        <td>
+				            <select name="workspaceId">
+							    <option th:each="workspace : ${workspace}" th:value="${workspace.idWorkspace}" th:text="${workspace.name_workspace}"></option>
+							</select>
+				        </td>
                     </tr>
                     <!-- Ajoutez d'autres lignes si nécessaire -->
                 </tbody>
@@ -100,7 +108,9 @@
 		                }
 		            }
 		        }
-		    </script>
+		        
+		 
+	</script>
 	 
 	  
 	</body>

@@ -30,9 +30,15 @@
 	  <div class="principal">
 		  <h1>INCIDENT/ NOUVEAUTE</h1>
 		  <div class="annonce">
-			  
 			  <p>Bienvenue sur la page des incidents. Vous avez la possiblité d'ajouter, supprimer et modifier des incidents.</p>
 		  </div>
+		  
+		  <div id="filter-bar">
+            <label for="filter">Filtrer par :</label>
+            <input type="text" id="filter" onkeyup="filterTable()" placeholder="Entrez votre filtre">
+        </div>
+		  
+		  
 			  <div class="mix">
 				  <div class="table-container">
             <table id="myTable" class="custom-table">
@@ -62,6 +68,36 @@
 				  </div>
 			 </div>
 	  </div>
-	  
+	      <script>
+    function filterTable() {
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("filter");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        var displayRow = false;
+        td = tr[i].getElementsByTagName("td");
+
+        // Exclude header rows from filtering
+        if (i === 0 || td.length === 0) {
+            tr[i].style.display = "";
+            continue;
+        }
+
+        for (j = 0; j < td.length; j++) {
+            txtValue = td[j].textContent || td[j].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                displayRow = true;
+                break; // No need to check other columns if a match is found in one column
+            }
+        }
+
+        tr[i].style.display = displayRow ? "" : "none";
+    }
+}
+
+</script>
   </body>
 </html>

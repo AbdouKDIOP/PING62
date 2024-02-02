@@ -64,7 +64,9 @@
 			        <td th:text="${produit.dataChampion}"></td>
 			        <td th:text="${produit.idWorkspace}"></td>
 			        <td th:text="${produit.summary}"></td>
-			        <td th:text="${produit.link}"></td>
+			        <td>
+			            <a th:text="${produit.link}" th:href="${produit.link}" target="_blank"></a>
+			        </td>
 			        <td th:text="${produit.perimeter}"></td>
 			        <td th:text="${produit.featureDetails}"></td>	
 			    </tr>

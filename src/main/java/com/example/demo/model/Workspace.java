@@ -1,14 +1,14 @@
 package com.example.demo.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name="Workspace")
@@ -17,9 +17,15 @@ import jakarta.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Workspace {
-    @Id
+    public Long getIdWorkspace() {
+		return idWorkspace;
+	}
+	public void setIdWorkspace(Long idWorkspace) {
+		this.idWorkspace = idWorkspace;
+	}
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_workspace;
+    private Long idWorkspace;
     private String name_workspace;
 	public String getName_workspace() {
 		return name_workspace;
@@ -29,6 +35,6 @@ public class Workspace {
 	}
 	@Override
 	public String toString() {
-		return "Workspace [id_workspace=" + id_workspace + ", name_workspace=" + name_workspace + "]";
+		return "Workspace [id_workspace=" + idWorkspace + ", name_workspace=" + name_workspace + "]";
 	}
 }

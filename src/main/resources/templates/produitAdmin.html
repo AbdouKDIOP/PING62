@@ -64,7 +64,9 @@
 			        <td th:text="${produit.dataChampion}"></td>
 			        <td th:text="${produit.idWorkspace}"></td>
 			        <td th:text="${produit.summary}"></td>
-			        <td th:text="${produit.link}"></td>
+			        <td>
+			            <a th:text="${produit.link}" th:href="${produit.link}" target="_blank"></a>
+			        </td>
 			        <td th:text="${produit.perimeter}"></td>
 			        <td th:text="${produit.featureDetails}"></td>	
 			    </tr>
@@ -86,24 +88,33 @@
 
     <script th:inline="javascript">
         function filterTable() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("filter");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("myTable");
-            tr = table.getElementsByTagName("tr");
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("filter");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
 
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0]; // Changez l'index selon la colonne que vous souhaitez filtrer
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
+    for (i = 0; i < tr.length; i++) {
+        var displayRow = false;
+        td = tr[i].getElementsByTagName("td");
+
+        // Exclude header rows from filtering
+        if (i === 0 || td.length === 0) {
+            tr[i].style.display = "";
+            continue;
+        }
+
+        for (j = 0; j < td.length; j++) {
+            txtValue = td[j].textContent || td[j].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                displayRow = true;
+                break; // No need to check other columns if a match is found in one column
             }
         }
+
+        tr[i].style.display = displayRow ? "" : "none";
+    }
+}
 
         function selectRow(row, id) {
             // Retirer la classe de surbrillance de toutes les autres lignes

@@ -86,7 +86,10 @@ body{
 		    color: white;
 		  }
 		
-		
+.selected-row {
+    background-color: rgb(64, 128, 128);
+}
+
 		
 		  tr:hover {
 		    background-color: #fff; /* Couleur d'arrière-plan au survol d'une rangée */

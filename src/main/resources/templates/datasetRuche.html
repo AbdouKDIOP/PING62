@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <title>Dataset</title>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Dataset</title>
   <link th:href="@{/static/css/datasetAdmin.css}" rel="stylesheet">
 </head>
 
@@ -31,75 +31,364 @@
 	    <h2>DATASET</h2>
 	</div>
  
+ 	<div id="filter-bar">
+        <label for="filter">Filtrer par :</label>
+        <input type="text" id="filter" onkeyup="filterTable()" placeholder="Entrez votre filtre">
+    </div>
+ 
 	<!-- Layout container -->
 	<div class="layout-container">
 	<div class="table-container">
-		  <table>
-		  <tr>
-		    <th>DATA CHAMPION</th>
-		    <th>DATASET</th>
-		    <th>UNIVERS</th>
-		    <th>OUTIL</th>
-		    <th>RESUME</th>
-		  </tr>
-		  <tr>
-		    <td>Simon TO</td>
-		    <td>BU_FRANCE</td>
-		    <td>BU_FRANCE</td>
-		    <td>PowerBI</td>
-		    <td>Analyse des ventes</td>
-		  </tr>
-		  <tr>
-		    <td>George BREA</td>
-		    <td>D_FSP Sales</td>
-		    <td>D_FSP Sales</td>
-		    <td>BO</td>
-		    <td>Données de Ventes</td>
-		  </tr>
-		  <!-- Ajoutez cinq nouvelles lignes ci-dessous -->
-		  <tr>
-		    <td>Alex RIO</td>
-		    <td>BU_EUROPE</td>
-		    <td>BU_EUROPE</td>
-		    <td>Excel</td>
-		    <td>Rapports financiers</td>
-		  </tr>
-		  <tr>
-		    <td>Maria GOMEZ</td>
-		    <td>Global_Marketing</td>
-		    <td>Marketing</td>
-		    <td>Salesforce</td>
-		    <td>Analyses de marché</td>
-		  </tr>
-		  <tr>
-		    <td>Liu WEN</td>
-		    <td>APAC_Operations</td>
-		    <td>Opérations</td>
-		    <td>Tableau</td>
-		    <td>Logistique</td>
-		  </tr>
-		  <tr>
-		    <td>Emma DUBOIS</td>
-		    <td>EU_Regulations</td>
-		    <td>Compliance</td>
-		    <td>SharePoint</td>
-		    <td>Conformité réglementaire</td>
-		  </tr>
-		  <tr>
-		    <td>Omar ALI</td>
-		    <td>ME_OilData</td>
-		    <td>Pétrole et Gaz</td>
-		    <td>QlikView</td>
-		    <td>Exploration de données</td>
-		  </tr>
-		    <!-- Ajoutez d'autres lignes ici si nécessaire -->
-		  </table>
+		  <table id="myTable">
+            <tr>
+                <th>DATASET</th>
+                <th>DATA CHAMPION</th>
+                <th>DOMAINE</th>
+                <th>OUTIL</th>
+                <th>RESUME</th>
+                <th>SOURCE</th>
+                <th>WORKSPACE</th>
+            </tr>
+            <tr th:each="dataset : ${datasets}" th:data-id="${dataset.id_dataset}" onclick="selectRow(this)" class="editable-row">
+				<td th:text="${dataset.name_dataset}">Dataset Name</td>
+                <td th:text="${dataset.data_champion}">Data Champion</td>
+                <td th:text="${dataset.domain != null ? dataset.domain.name_domain : 'N/A'}">Domain Name</td>
+                <td th:text="${dataset.tool != null ? dataset.tool.name_tool : 'N/A'}">Tool Name</td>
+                <td th:text="${dataset.feature_details}">Feature Details</td>
+                <td th:text="${dataset.source.nom_source}">Name Source </td>
+      			<td th:text="${dataset.workspace != null ? dataset.workspace.name_workspace : 'N/A'}">Name workspace </td>
+            </tr>
+        </table>
 	</div>
 	<div class="buttons-container">
-	    <button type="button" class="action-button" onclick="ajouter()">Ajouter</button>
-	    <button type="button" class="action-button" onclick="modifier()">Modifier</button>
+	    <a th:href="@{add_dataset}"><button type="button" class="action-button" onclick="ajouter()">Ajouter</button></a>
+	    <button class="save-btn" onclick="saveModifications()" style="display: none;">Valider les modifications</button>
+	    <button type="button" class="action" onclick="modifier()">Modifier</button>
+	    <button onclick="confirmDelete()">Supprimer</button>
 	</div>
 	</div>
 		  </div>
+		  
+<script th:inline="javascript">
+function filterTable() {
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("filter");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        var displayRow = false;
+        td = tr[i].getElementsByTagName("td");
+
+        // Exclude header rows from filtering
+        if (i === 0 || td.length === 0) {
+            tr[i].style.display = "";
+            continue;
+        }
+
+        for (j = 0; j < td.length; j++) {
+            txtValue = td[j].textContent || td[j].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                displayRow = true;
+                break; // No need to check other columns if a match is found in one column
+            }
+        }
+
+        tr[i].style.display = displayRow ? "" : "none";
+    }
+}
+
+
+var datasets = /*[[ ${datasets} ]]*/ [];
+    var domains = /*[[ ${domains} ]]*/ [];
+    var tools = /*[[ ${tool} ]]*/ [];
+    var sources = /*[[ ${source} ]]*/ [];
+    var workspaces = /*[[ ${workspace} ]]*/ [];
+
+
+        function selectRow(row, id) {
+            // Retirer la classe de surbrillance de toutes les autres lignes
+            var table = document.getElementById("myTable");
+            var rows = table.getElementsByTagName("tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].classList.remove("selected-row");
+            }
+
+            // Ajouter la classe de surbrillance à la ligne sélectionnée
+            row.classList.toggle("selected-row");
+        	var dataId = row.getAttribute('data-id');
+			console.log('ID du produit sélectionné : ' + dataId);
+		}
+
+        function modifier() {
+		    var selectedRow = document.querySelector('tr.selected-row');
+		
+		    if (selectedRow) {
+		        var confirmation = confirm("Voulez-vous modifier la ligne sélectionnée?");
+		        if (confirmation) {
+		            // Adapter pour modifier la ligne dans le nouveau fichier HTML
+		            editRow(selectedRow);
+		        }
+		    } else {
+		        alert("Veuillez sélectionner une ligne à modifier.");
+		    }
+		}
+		
+function createDomainDropdown(selectedValue) {
+    var dropdown = document.createElement('select');
+    dropdown.name = 'domainId';
+
+    domains.forEach(function (domain) {
+        var option = document.createElement('option');
+        option.value = domain.id_domain;
+        option.text = domain.name_domain;
+        if (domain.id_domain === selectedValue) {
+            option.selected = true;
+        }
+        dropdown.appendChild(option);
+    });
+
+    return dropdown;
+}
+
+function createToolDropdown(selectedValue) {
+    var dropdown = document.createElement('select');
+    dropdown.name = 'toolId';
+
+    tools.forEach(function (tool) {
+        var option = document.createElement('option');
+        option.value = tool.id_tool;
+        option.text = tool.name_tool;
+        if (tool.id_tool === selectedValue) {
+            option.selected = true;
+        }
+        dropdown.appendChild(option);
+    });
+
+    return dropdown;
+}
+
+function createSourceDropdown(selectedValue) {
+    var dropdown = document.createElement('select');
+    dropdown.name = 'sourceId';
+
+    sources.forEach(function (source) {
+        var option = document.createElement('option');
+        option.value = source.idSource;
+        option.text = source.nom_source;
+        if (source.idSource === selectedValue) {
+            option.selected = true;
+        }
+        dropdown.appendChild(option);
+    });
+
+    return dropdown;
+}
+
+function createWorkspaceDropdown(selectedValue) {
+    var dropdown = document.createElement('select');
+    dropdown.name = 'workspaceId';
+
+    workspaces.forEach(function (workspace) {
+        var option = document.createElement('option');
+        option.value = workspace.idWorkspace;
+        option.text = workspace.name_workspace;
+        if (workspace.idWorkspace === selectedValue) {
+            option.selected = true;
+        }
+        dropdown.appendChild(option);
+    });
+
+    return dropdown;
+}
+
+		function editRow(row) {
+		    var cells = row.querySelectorAll('td');
+		
+		    cells.forEach(function (cell, index) {
+		        var input = document.createElement('input');
+		        var currentValue = cell.innerText.trim();
+		        input.value = currentValue;
+		
+		        // Remplacez le contenu de la cellule par le menu déroulant approprié
+		        switch (index) {
+		            case 2: // Domaine
+		                var domainDropdown = createDomainDropdown(currentValue);
+		                replaceCellContent(cell, domainDropdown);
+		                break;
+		            case 3: // Outil
+		                var toolDropdown = createToolDropdown(currentValue);
+		                replaceCellContent(cell, toolDropdown);
+		                break;
+		            case 5: // Source
+		                var sourceDropdown = createSourceDropdown(currentValue);
+		                replaceCellContent(cell, sourceDropdown);
+		                break;
+		            case 6: // Workspace
+		                var workspaceDropdown = createWorkspaceDropdown(currentValue);
+		                replaceCellContent(cell, workspaceDropdown);
+		                break;
+		            default:
+		                cell.innerHTML = '';
+		                cell.appendChild(input);
+		        }
+		    });
+		
+		    var cancelBtn = document.createElement('button');
+		    cancelBtn.innerText = 'Annuler';
+		    cancelBtn.onclick = function () {
+		        cancelEditRow(row);
+		    };
+		
+		    row.appendChild(cancelBtn);
+		
+		    hideEditButton();
+		    showSaveButton(); // Affiche le bouton "Valider les modifications"
+		}
+		
+		
+		function replaceCellContent(cell, dropdown) {
+		    // Supprime le contenu actuel de la cellule
+		    cell.innerHTML = '';
+		
+		    // Ajoute le menu déroulant à la cellule
+		    cell.appendChild(dropdown);
+		}
+		
+		function hideEditButton() {
+    // Logique pour masquer le bouton d'édition
+    var editBtn = document.querySelector('.action');
+    editBtn.style.display = 'none';
+}
+
+function showSaveButton() {
+    // Logique pour afficher le bouton "Valider les modifications"
+    var saveBtn = document.querySelector('.save-btn');
+    saveBtn.style.display = 'inline-block';
+}
+
+
+
+
+
+
+
+
+const columnMapping = {
+    'DATASET': 'name_dataset',
+    'DATA CHAMPION': 'data_champion',
+    'DOMAINE': 'id_domain',
+    'OUTIL': 'id_tool',
+    'RESUME': 'feature_details',
+    'SOURCE': 'id_source',
+    'WORKSPACE': 'id_workspace',
+};
+
+
+
+function saveModifications() {
+    var selectedRow = document.querySelector('.selected-row');
+
+    if (selectedRow) {
+        var cells = selectedRow.querySelectorAll('td');
+        var updatedDataset = {};
+
+        // Récupérer l'ID du dataset (supposons que l'ID est dans la première colonne)
+        var datasetId = selectedRow.getAttribute('data-id');
+        updatedDataset["id_dataset"] = datasetId;
+
+        cells.forEach(function (cell, index) {
+            var input = cell.querySelector('input');
+            var select = cell.querySelector('select'); // Ajout de la récupération du spinner
+
+            var headerText = document.querySelector("#myTable th:nth-child(" + (index + 1) + ")").innerText.trim();
+		    var columnName = columnMapping[headerText];
+		
+		    if (input) {
+		        updatedDataset[columnName] = input.value.trim();
+		    } else if (select) {
+		        updatedDataset[columnName] = select.value.trim();
+		    }
+        });
+
+		// Afficher les données avant de les envoyer
+        console.log("Données avant envoi :", updatedDataset);
+
+        // Utilisez une requête AJAX pour envoyer les données au backend
+        fetch('/update_dataset', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedDataset),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la mise à jour des données');
+            }
+            return response.text(); // Utilisez response.text() au lieu de response.json()
+        })
+        .then(data => {
+            console.log('Réponse du serveur :', data);
+            // Actualiser la page après la sauvegarde des modifications
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Erreur :', error.message);
+            // Gérez les erreurs en conséquence
+        });
+    } else {
+        alert("Veuillez sélectionner une ligne à modifier.");
+    }
+}
+
+function deleteRow(row) {
+    var datasetId = row.getAttribute('data-id');
+
+    // Utilisez une requête AJAX pour envoyer l'ID au backend pour la suppression
+    fetch('/delete_dataset/' + datasetId, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur lors de la suppression des données');
+        }
+        return response.text(); // Utilisez text() pour récupérer le texte brut
+    })
+    .then(data => {
+        // Gérez la réponse du serveur si nécessaire
+        console.log('Données supprimées avec succès', data);
+        // Ajoutez d'autres actions si nécessaire
+        window.location.reload(); // Vous pouvez également rediriger vers une autre page si nécessaire
+    })
+    .catch(error => {
+        console.error('Erreur:', error.message);
+        // Gérez les erreurs en conséquence
+    });
+}
+
+
+function confirmDelete() {
+	    var selectedRow = document.querySelector('.selected-row');
+	
+	    if (selectedRow) {
+	        var confirmation = confirm("Voulez-vous supprimer la ligne sélectionnée?");
+	        if (confirmation) {
+	            deleteRow(selectedRow);
+	        }
+	    } else {
+	        alert("Veuillez sélectionner une ligne à supprimer.");
+	    }
+	}
+	
+	
+	
+</script>
+
 </body>
 </html>

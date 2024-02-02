@@ -10,15 +10,19 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "Dataset")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Dataset {
-    @Id
+    public Long getId_dataset() {
+		return idDataset;
+	}
+	public void setId_dataset(Long id_dataset) {
+		this.idDataset = id_dataset;
+	}
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_dataset")
-    private Long id_dataset;
+    private Long idDataset;
 
     @ManyToOne
     @JoinColumn(name = "id_domain")
@@ -39,7 +43,7 @@ public class Dataset {
     
     @Override
 	public String toString() {
-		return "Dataset [id_dataset=" + id_dataset + ", domain=" + domain + ", source=" + source + ", tool=" + tool
+		return "Dataset [id_dataset=" + idDataset + ", domain=" + domain + ", source=" + source + ", tool=" + tool
 				+ ", workspace=" + workspace + ", user=" + user + ", created_at=" + created_at + ", name_dataset="
 				+ name_dataset + ", data_champion=" + data_champion + ", feature_details=" + feature_details + "]";
 	}
@@ -82,6 +86,16 @@ public class Dataset {
 		public void setDomain(Domain domain) {
 			this.domain = domain;
 		}
+		
+		public User getUser() {
+			return user;
+		}
+		public void setUser(User user) {
+			this.user = user;
+		}
+		
+		
+		
 		public Source getSource() {
 			return source;
 		}

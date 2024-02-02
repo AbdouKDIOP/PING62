@@ -25,6 +25,8 @@ import com.example.demo.model.Produit;
 import com.example.demo.model.Source;
 import com.example.demo.model.Tool;
 import com.example.demo.model.User;
+import com.example.demo.model.Workspace;
+import com.example.demo.repositoryDAO.DatasetRepository;
 import com.example.demo.repositoryDAO.ProduitRepository;
 import com.example.demo.services.DatasetService;
 import com.example.demo.services.DomainService;
@@ -34,6 +36,8 @@ import com.example.demo.services.ProduitService;
 import com.example.demo.services.SignUpService;
 import com.example.demo.services.SourceService;
 import com.example.demo.services.ToolService;
+import com.example.demo.services.UserService;
+import com.example.demo.services.WorkspaceService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -48,15 +52,19 @@ public class Controlleur {
 	    private DomainService domainService;
 	    private ToolService toolService; // Inject your service
 	    private SourceService sourceService;
+	    private UserService userService;
+	    private WorkspaceService workspaceService;
 
 	    @Autowired
-	    public Controlleur(SignUpService registrationService, ProduitService produitService, DatasetService datasetService,DomainService domainService,ToolService toolService,SourceService sourceService) {
+	    public Controlleur(SignUpService registrationService, ProduitService produitService, DatasetService datasetService,DomainService domainService,ToolService toolService,SourceService sourceService,UserService userService,WorkspaceService workspaceService) {
 	        this.signUpService = registrationService;
 	        this.produitService = produitService;
 	        this.datasetService = datasetService;
 	        this.domainService = domainService;
 	        this.toolService = toolService;
 	        this.sourceService = sourceService;
+	        this.userService = userService;
+	        this.workspaceService = workspaceService;
 	    }
 
 		@GetMapping("/about")
@@ -117,6 +125,15 @@ public class Controlleur {
 			    model.addAttribute("loggedInUser", loggedInUser);
 			    List<Dataset> datasets = datasetService.findAll();
 		        model.addAttribute("datasets", datasets);
+		        List<Domain> domains = domainService.getAllDomains();
+		        model.addAttribute("domains", domains);
+		        List<Tool> tool = toolService.getAllTool();
+		        model.addAttribute("tool", tool);
+		        List<Source> source = sourceService.getAllSource();
+		        model.addAttribute("source", source);
+		        List<Workspace> workspace = workspaceService.getAllWorkspace();
+		        model.addAttribute("workspace", workspace);
+			    
 			    return "datasetAdmin";
 			    } else {
 		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
@@ -146,6 +163,8 @@ public class Controlleur {
 		        model.addAttribute("tool", tool);
 		        List<Source> source = sourceService.getAllSource();
 		        model.addAttribute("source", source);
+		        List<Workspace> workspace = workspaceService.getAllWorkspace();
+		        model.addAttribute("workspace", workspace);
 			    model.addAttribute("loggedInUser", loggedInUser);
 			    return "add_dataset";
 			    } else {
@@ -161,7 +180,9 @@ public class Controlleur {
 			    @RequestParam("dataChampion") String dataChampion,
 			    @RequestParam("domainId") Long domainId,
                 @RequestParam("toolId") Long toolId,
-			    @RequestParam("featureDetails") String featureDetails) {
+			    @RequestParam("featureDetails") String featureDetails,
+	    		@RequestParam("sourceId") Long sourceId,
+	    		@RequestParam("workspaceId") Long workspaceId){
 	        	Dataset dataset = new Dataset();
 
 	     // Récupérer les informations de l'utilisateur depuis la session
@@ -175,12 +196,18 @@ public class Controlleur {
 
 	            Domain domain = domainService.getDomainByIdDomain(domainId); // Assurez-vous d'avoir cette méthode dans votre service
 	            Tool tool = toolService.getToolById(toolId); // Assurez-vous d'avoir cette méthode dans votre service
+	            Source source = sourceService.getSourceById(sourceId); // Assurez-vous d'avoir cette méthode dans votre service
+	            User user = userService.getUserById(userId); // Assurez-vous d'avoir cette méthode dans votre service
+	            Workspace workspace = workspaceService.getWorkspaceById(workspaceId);
 
 	            dataset.setName_dataset(nameDataset);
 	            dataset.setData_champion(dataChampion);
 	            dataset.setDomain(domain);
 	            dataset.setTool(tool);
 	            dataset.setFeature_details(featureDetails);
+	            dataset.setSource(source);
+	            dataset.setUser(user);
+	            dataset.setWorkspace(workspace);
 
 	            // Sauvegarder le dataset dans la base de données
 	            datasetService.save(dataset); // Assurez-vous d'avoir cette méthode dans votre service
@@ -202,6 +229,163 @@ public class Controlleur {
 	        }
 	    }
 
+	   @Autowired
+	    private DatasetRepository datasetRepository;
+	   @PostMapping("/update_dataset")
+	   public ResponseEntity<String> updateDataset(@RequestBody Map<String, String> updatedDataset, Model model) {
+	       // Utiliser la clé "id_dataset" pour obtenir l'ID du produit
+	       Long datasetId = Long.parseLong(updatedDataset.get("id_dataset"));
+
+	       Optional<Dataset> optionalDataset = datasetRepository.findById(datasetId);
+	       System.out.println("ID du dataset à mettre à jour : " + datasetId);
+
+	       if (optionalDataset.isPresent()) {
+	           Dataset dataset = optionalDataset.get();
+
+	           // Mise à jour des propriétés de l'entité Dataset
+	           dataset.setName_dataset(updatedDataset.get("name_dataset"));
+	           dataset.setData_champion(updatedDataset.get("data_champion"));
+
+	           // Mise à jour des références aux objets Domain, Source, Tool, et Workspace
+	           if (updatedDataset.get("id_domain") != null) {
+	               Domain updatedDomain = domainService.getDomainByIdDomain(Long.parseLong(updatedDataset.get("id_domain")));
+	               dataset.setDomain(updatedDomain);
+	           }
+
+	           if (updatedDataset.get("id_tool") != null) {
+	               Tool updatedTool = toolService.getToolById(Long.parseLong(updatedDataset.get("id_tool")));
+	               dataset.setTool(updatedTool);
+	           }
+
+	           dataset.setFeature_details(updatedDataset.get("feature_details"));
+
+	           if (updatedDataset.get("id_source") != null) {
+	               Source updatedSource = sourceService.getSourceById(Long.parseLong(updatedDataset.get("id_source")));
+	               dataset.setSource(updatedSource);
+	           }
+
+	           if (updatedDataset.get("id_workspace") != null) {
+	               Workspace updatedWorkspace = workspaceService.getWorkspaceById(Long.parseLong(updatedDataset.get("id_workspace")));
+	               dataset.setWorkspace(updatedWorkspace);
+	           }
+
+	           // Affichez les données avant la mise à jour
+	           System.out.println("Données du dataset avant mise à jour : " + dataset);
+
+	           // Enregistrez les modifications dans la base de données
+	           datasetRepository.save(dataset);
+
+	           // Affichez les données après la mise à jour
+	           System.out.println("Données du dataset après mise à jour : " + dataset);
+
+	           return ResponseEntity.ok("Données mises à jour avec succès");
+	       } else {
+	           // Affichez un message si le dataset n'est pas trouvé
+	           System.out.println("Dataset non trouvé avec l'ID : " + datasetId);
+	           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dataset non trouvé");
+	       }
+	   }
+
+	   @DeleteMapping("/delete_dataset/{datasetId}")
+	   public ResponseEntity<String> deleteDataset(@PathVariable Long datasetId) {
+		   Optional<Dataset> optionalDataset = datasetRepository.findById(datasetId);
+
+	       if (optionalDataset.isPresent()) {
+	           Dataset dataset = optionalDataset.get();
+	           // Effectuez toute opération préalable à la suppression si nécessaire
+	           datasetRepository.delete(dataset);
+	           return ResponseEntity.ok("Produit supprimé avec succès");
+	       } else {
+	           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produit non trouvé");
+	       }
+	   }
+	   
+	   
+	   @GetMapping({"/datasetRuche"})
+	   public String datasetRuche(Model model, HttpSession session) {
+		    // Récupérer les informations de l'utilisateur depuis la session
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
+		    
+		    if (loggedInUser != null) {
+			    // Ajouter les informations sur l'utilisateur dans le modèle
+			    model.addAttribute("loggedInUser", loggedInUser);
+			    List<Dataset> datasets = datasetService.getDatasetByUser(loggedInUser);
+			    model.addAttribute("datasets", datasets);
+			    List<Domain> domains = domainService.getAllDomains();
+		        model.addAttribute("domains", domains);
+		        List<Tool> tool = toolService.getAllTool();
+		        model.addAttribute("tool", tool);
+		        List<Source> source = sourceService.getAllSource();
+		        model.addAttribute("source", source);
+		        List<Workspace> workspace = workspaceService.getAllWorkspace();
+		        model.addAttribute("workspace", workspace);
+			    
+			          
+		      return "datasetRuche";
+			    } else {
+		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
+		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
+		        }
+	   }
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
 
 	   @GetMapping({"/client"})
 	   public String client(Model model, HttpSession session) {
@@ -478,22 +662,7 @@ public class Controlleur {
 		        }
 	   }
 
-	   @GetMapping({"/datasetRuche"})
-	   public String datasetRuche(Model model, HttpSession session) {
-		    // Récupérer les informations de l'utilisateur depuis la session
-		    User loggedInUser = (User) session.getAttribute("loggedInUser");
-		    
-		    if (loggedInUser != null) {
-			    // Ajouter les informations sur l'utilisateur dans le modèle
-			    model.addAttribute("loggedInUser", loggedInUser);
-
-		      return "datasetRuche";
-			    } else {
-		            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
-		            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
-		        }
-	   }
-
+	   
 	   @GetMapping("/produitAdmin")
 	   public String produitAdmin(Model model, HttpSession session) {
 		   User loggedInUser = (User) session.getAttribute("loggedInUser");

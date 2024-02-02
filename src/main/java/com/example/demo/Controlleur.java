@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.model.Dataset;
 import com.example.demo.model.Produit;
 import com.example.demo.services.SignUpService;
+import com.example.demo.services.WorkspaceService;
 import com.example.demo.model.User;
+import com.example.demo.model.Workspace;
+import com.example.demo.repositoryDAO.DatasetRepository;
 import com.example.demo.repositoryDAO.ProduitRepository;
+import com.example.demo.repositoryDAO.WorkspaceRepository;
 import com.example.demo.services.DatasetService;
 import com.example.demo.services.LoginService;
 import com.example.demo.services.LogoutService;
@@ -37,12 +43,20 @@ public class Controlleur {
 		private SignUpService signUpService ;
 		private ProduitService produitService ;
 	    private DatasetService datasetService;
+	    private final WorkspaceService workspaceService;
+	    
+	    @Autowired
+	    private DatasetRepository datasetRepository;
+
+	    @Autowired
+	    private WorkspaceRepository workspaceRepository;
 		
 	    @Autowired
-	    public Controlleur(SignUpService registrationService, ProduitService produitService, DatasetService datasetService) {
+	    public Controlleur(SignUpService registrationService, ProduitService produitService, DatasetService datasetService,WorkspaceService workspaceService) {
 	        this.signUpService = registrationService;
 	        this.produitService = produitService;
 	        this.datasetService = datasetService;
+	        this.workspaceService = workspaceService;
 	    }
 
 		@GetMapping("/about")
@@ -391,6 +405,11 @@ public class Controlleur {
 	        model.addAttribute("produits", produits);
 		    // Ajouter les informations sur l'utilisateur dans le modèle
 		    model.addAttribute("loggedInUser", loggedInUser);
+		    List<Dataset> datasets = datasetRepository.findAll();
+		    List<Workspace> workspaces = workspaceRepository.findAll();
+		    model.addAttribute("datasets", datasets);
+		    model.addAttribute("workspaces", workspaces);
+
 
 	      return "produitAdmin";
 	   }
@@ -406,70 +425,60 @@ public class Controlleur {
 
 	      return "produit";
 	   }
-	   
 	   @GetMapping({"/add_produit"})
 	   public String add_produit(Model model, HttpSession session) {
-		    // Récupérer les informations de l'utilisateur depuis la session
-		    User loggedInUser = (User) session.getAttribute("loggedInUser");
-		    
-		    // Ajouter les informations sur l'utilisateur dans le modèle
-		    model.addAttribute("loggedInUser", loggedInUser);
+	       User loggedInUser = (User) session.getAttribute("loggedInUser");
+	       model.addAttribute("loggedInUser", loggedInUser);
 
-	      return "add_produit";
+	       // Ajouter les listes des datasets et des workspaces dans le modèle
+	       List<Dataset> datasets = datasetRepository.findAll();
+	       List<Workspace> workspaces = workspaceRepository.findAll();
+	       model.addAttribute("datasets", datasets);
+	       model.addAttribute("workspaces", workspaces);
+
+	       return "add_produit";
 	   }
-	   
+
 	   @Autowired
 	    private ProduitRepository productRepository;
 
-	    @PostMapping("/add_produit")
-	    public String ajouterProduit(HttpSession session,
-	    		@RequestParam("nameProduct") String nameProduct,
-			    @RequestParam("idDataset") String idDataset,
-			    Model model,
-			    @RequestParam("dataChampion") String dataChampion,
-			    @RequestParam("idWorkspace") String idWorkspace,
-			    @RequestParam("summary") String summary,
-			    @RequestParam("link") String link,
-			    @RequestParam("perimeter") String perimeter,
-			    @RequestParam("featureDetails") String featureDetails) {
-	        Produit product = new Produit();
+	   @PostMapping("/add_produit")
+	   public String ajouterProduit(HttpSession session,
+	                                @RequestParam("nameProduct") String nameProduct,
+	                                @RequestParam("idDataset") Long idDataset,
+	                                @RequestParam("dataChampion") String dataChampion,
+	                                @RequestParam("idWorkspace") Long idWorkspace,
+	                                @RequestParam("summary") String summary,
+	                                @RequestParam("link") String link,
+	                                @RequestParam("perimeter") String perimeter,
+	                                @RequestParam("featureDetails") String featureDetails) {
+	       User loggedInUser = (User) session.getAttribute("loggedInUser");
 
+	       if (loggedInUser != null) {
+	           Produit product = new Produit();
+	           product.setNameProduct(nameProduct);
+	           product.setDataChampion(dataChampion);
+	           product.setSummary(summary);
+	           product.setLink(link);
+	           product.setPerimeter(perimeter);
+	           product.setFeatureDetails(featureDetails);
 
-	     // Convertir les valeurs String en int
-	        Long datasetId = Long.parseLong(idDataset);
-	        Long workspaceId = Long.parseLong(idWorkspace);
-	        
-	        
-	     // Récupérer les informations de l'utilisateur depuis la session
-	        User loggedInUser = (User) session.getAttribute("loggedInUser");
+	           // Définir l'ID de l'utilisateur connecté
+	           product.setIdUser(loggedInUser.getId_user());
 
-	     // Vérifier si l'utilisateur est connecté
-	        if (loggedInUser != null) {
-	            // Utiliser les informations de l'utilisateur
-	            Long userId = loggedInUser.getId_user();
+	           // Récupérer et associer le Dataset et le Workspace
+	           Dataset dataset = datasetRepository.findById(idDataset).orElse(null);
+	           Workspace workspace = workspaceRepository.findById(idWorkspace).orElse(null);
+	           product.setDataset(dataset);
+	           product.setWorkspace(workspace);
 
-	            product.setNameProduct(nameProduct);
-	            product.setIdDataset(datasetId);
-	            product.setDataChampion(dataChampion);
-	            product.setIdWorkspace(workspaceId);
-	            product.setSummary(summary);
-	            product.setLink(link);
-	            product.setPerimeter(perimeter);
-	            product.setFeatureDetails(featureDetails);
-	            LocalDateTime localDateTime = LocalDateTime.now();
-	            Timestamp timestamp = Timestamp.valueOf(localDateTime);
-	            product.setCreatedAt(timestamp);
-	            product.setIdUser(userId);
-	            productRepository.save(product);
+	           productRepository.save(product);
+	           return "redirect:/produitAdmin";
+	       } else {
+	           return "redirect:/login";
+	       }
+	   }
 
-	            // Redirigez vers la page des produits ou une autre page après l'insertion
-	            return "redirect:/produitAdmin";
-	        } else {
-	            // L'utilisateur n'est pas connecté, gérer cette situation en conséquence
-	            return "redirect:/login"; // Ou une autre page d'erreur ou de connexion
-	        }
-	    }
-	    
 		   @GetMapping({"/produitRuche"})
 		   public String produitRuche(Model model, HttpSession session) {
 			    // Récupérer les informations de l'utilisateur depuis la session
@@ -482,34 +491,79 @@ public class Controlleur {
 		   }
 		   
 		   @PostMapping("/update_product")
-		    public ResponseEntity<String> updateProduct(@RequestBody Map<String, String> updatedProduct) {
-		        Long productId = Long.parseLong(updatedProduct.get("0")); // L'indice 0 représente l'ID du produit
+		   public String updateProduct(HttpSession session,@RequestBody Map<String, String> updatedProduct) {
+			   
+			   User loggedInUser = (User) session.getAttribute("loggedInUser");
+			   if (loggedInUser != null) {
+		       Long productId = Long.parseLong(updatedProduct.get("id")); // Utilisation de la clé "id" pour l'ID du produit
 
-		        Optional<Produit> optionalProduct = productRepository.findById(productId);
-		        System.out.println("Données reçues du frontend : " + updatedProduct);
+		       Optional<Produit> optionalProduct = productRepository.findById(productId);
+		       System.out.println("Données reçues du frontend : " + updatedProduct);
+		       
+		       if (optionalProduct.isPresent()) {
+		           Produit product = optionalProduct.get();
+		           
+		           // Affichez les données actuelles du produit dans la console
+		           System.out.println("Données actuelles du produit : ");
+		           System.out.println("ID : " + product.getId()); // Utilisez le getter correspondant à l'ID
+		           System.out.println("Nom du produit : " + product.getNameProduct()); // Utilisez le getter correspondant au nom du produit
 
-		        if (optionalProduct.isPresent()) {
-		            Produit product = optionalProduct.get();
-		            // Mettez à jour les propriétés du produit avec les nouvelles valeurs de la carte updatedProduct
-		            product.setNameProduct(updatedProduct.get("1"));
-		            product.setIdDataset(Long.parseLong(updatedProduct.get("2")));
-		            product.setDataChampion(updatedProduct.get("3"));
-		            product.setIdWorkspace(Long.parseLong(updatedProduct.get("4")));
-		            product.setSummary(updatedProduct.get("5"));
-		            product.setLink(updatedProduct.get("6"));
-		            System.out.println("Données reçues du frontend : " + updatedProduct);
-		            product.setPerimeter(updatedProduct.get("7"));
-		            System.out.println("Données reçues du frontend : " + updatedProduct);
-		            product.setFeatureDetails(updatedProduct.get("8"));
-		            System.out.println("Données reçues du frontend : " + updatedProduct);
+		           // Mettez à jour les propriétés du produit avec les nouvelles valeurs
+		           product.setNameProduct(updatedProduct.get("nameProduct")); // Nom du produit
+		           
+		           // Gérer la mise à jour du dataset
+		           String datasetIdStr = updatedProduct.get("id_dataset");
+		           if (datasetIdStr != null && !datasetIdStr.isEmpty()) {
+		               Long datasetId = Long.parseLong(datasetIdStr);
+		               Optional<Dataset> dataset = datasetRepository.findById(datasetId);
+		               dataset.ifPresent(product::setDataset);
+		           }
 
-		            productRepository.save(product);
+		           product.setDataChampion(updatedProduct.get("data_champion")); // Data Champion
 
-		            return ResponseEntity.ok("Données mises à jour avec succès");
-		        } else {
-		            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produit non trouvé");
-		        }
-		    }
+		           // Gérer la mise à jour du workspace
+		           String workspaceIdStr = updatedProduct.get("id_workspace");
+		           if (workspaceIdStr != null && !workspaceIdStr.isEmpty()) {
+		               Long workspaceId = Long.parseLong(workspaceIdStr);
+		               Optional<Workspace> workspace = workspaceRepository.findById(workspaceId);
+		               workspace.ifPresent(product::setWorkspace);
+		           }
+
+		           product.setSummary(updatedProduct.get("summary")); // Résumé des fonctionnalités
+		           product.setLink(updatedProduct.get("link")); // Lien
+		           product.setPerimeter(updatedProduct.get("perimeter")); // Périmètre
+		           product.setFeatureDetails(updatedProduct.get("featureDetails")); // Détail des fonctionnalités
+		           
+		           // Affichez les données actuelles du produit dans la console
+		           System.out.println("apres modification  : ");
+		           System.out.println("ID : " + product.getId()); // Utilisez le getter correspondant à l'ID
+		           System.out.println("Nom du produit : " + product.getNameProduct());
+
+		           productRepository.save(product);
+
+
+		       }
+	           return "redirect:/produitAdmin";
+	       } else {
+	           return "redirect:/login";
+	       }
+	   }
+
+
+		    @DeleteMapping("/delete_product/{productId}")
+			   public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
+			       Optional<Produit> optionalProduct = productRepository.findById(productId);
+
+			       if (optionalProduct.isPresent()) {
+			           Produit product = optionalProduct.get();
+			           // Effectuez toute opération préalable à la suppression si nécessaire
+			           productRepository.delete(product);
+			           return ResponseEntity.ok("Produit supprimé avec succès");
+			       } else {
+			           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produit non trouvé");
+			       }
+			   }
+
 
 
 	   @GetMapping({"/incidentRuche"})
@@ -522,6 +576,7 @@ public class Controlleur {
 
 	      return "incidentRuche";
 	   }
+	   
 
 
 	   @GetMapping({"/footer"})
@@ -540,4 +595,6 @@ public class Controlleur {
 	        // Rediriger vers la page de connexion ou une page d'accueil
 	       return "redirect:/login";
 	    }
+
+
 	}

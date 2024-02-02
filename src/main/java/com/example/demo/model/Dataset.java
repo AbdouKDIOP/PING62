@@ -28,7 +28,19 @@ public class Dataset {
     @JoinColumn(name = "id_source")
     private Source source;
 
-    @ManyToOne
+    public Long getId_dataset() {
+		return id_dataset;
+	}
+	public void setId_dataset(Long id_dataset) {
+		this.id_dataset = id_dataset;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	@ManyToOne
     @JoinColumn(name = "id_Tool")
     private Tool tool;
 
@@ -46,11 +58,11 @@ public class Dataset {
 	@ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
-    
     private Timestamp created_at;
     private String name_dataset;
     private String data_champion;
     private String feature_details;
+    
 	public Timestamp getCreated_at() {
 		return created_at;
 	}

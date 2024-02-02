@@ -50,19 +50,39 @@
 		            </tr>
 		        </thead>
 		        
-		        <tbody>
+		        		        <tbody>
                     <tr>
                         <td><input type="text" name="nameProduct" /></td>
-                        <td><input type="text" name="idDataset" /></td>
+
+                        <!-- Liste déroulante pour les datasets -->
+                        <td>
+                            <select name="idDataset" id="idDataset">
+                                <option th:each="dataset : ${datasets}" 
+                                        th:value="${dataset.id_dataset}" 
+                                        th:text="${dataset.name_dataset}">
+                                </option>
+                            </select>
+                        </td>
+
                         <td><input type="text" name="dataChampion" /></td>
-                        <td><input type="text" name="idWorkspace" /></td>
-                        <td><input type="text" name="summary" /></td>
+
+                        <!-- Liste déroulante pour les workspaces -->
+                        <td>
+                            <select name="idWorkspace" id="idWorkspace">
+                                <option th:each="workspace : ${workspaces}" 
+                                        th:value="${workspace.id_workspace}" 
+                                        th:text="${workspace.name_workspace}">
+                                </option>
+                            </select>
+                        </td>
+                                                <td><input type="text" name="summary" /></td>
                         <td><input type="text" name="link" /></td>
                         <td><input type="text" name="perimeter" /></td>
                         <td><input type="text" name="featureDetails" /></td>
-                        <!-- Ajoutez d'autres colonnes selon vos besoins -->
+
+                        <!-- ... autres champs du formulaire ... -->
                     </tr>
-                    <!-- Ajoutez d'autres lignes si nécessaire -->
+                    <!-- ... autres lignes si nécessaire ... -->
                 </tbody>
             </table>
         </div>

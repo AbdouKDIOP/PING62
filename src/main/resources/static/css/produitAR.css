@@ -62,3 +62,8 @@ tr{
 	flex:1;
 	padding: 20px; 	   
 }
+
+.selected-row {
+    background-color: #f0f0f0; /* Couleur de fond pour la ligne sélectionnée */
+    color: #000; /* Couleur du texte pour la ligne sélectionnée */
+}

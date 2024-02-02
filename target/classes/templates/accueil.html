@@ -28,9 +28,23 @@
     <div th:replace="headerNonConnect.html"></div>
 </div>
 
-    <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" 
-        style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
-    
+     <!-- Image de la Mascotte avec un ID -->
+	<img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" id="mascotte-chatbot" class="Mascotte">
+
+
+	<div id="chatbot-container" style="display:none;">
+	    <div id="close-chatbot">&times;</div>
+	
+	    <div id="chatbot-messages">
+	        <div class="chatbot-message">
+	            <p>Bonjour, je suis Mélié. Comment puis-je vous aider ?</p>
+	        </div>
+	    </div>
+	
+	    <input type="text" id="chatbot-input" placeholder="Écrivez votre message ici...">
+	    <button id="send-button" onclick="sendMessage()">Envoyer</button>
+	</div>
+	
     <div class="container">
         <div class="row1">
             <div class="col1">
@@ -56,6 +70,74 @@
         </div>
     </div>
     <div th:replace="footer.html"></div>
+    
+    <script>
+	    document.getElementById('mascotte-chatbot').onclick = function() {
+	        var chatbotContainer = document.getElementById('chatbot-container');
+	        chatbotContainer.style.display = chatbotContainer.style.display === 'none' ? 'block' : 'none';
+	    };
+		async function sendMessage() {
+		    var input = document.getElementById('chatbot-input');
+		    var messageContainer = document.getElementById('chatbot-messages');
+		    var userText = input.value; // Texte saisi par l'utilisateur
+		
+		    // Créer et afficher le message de l'utilisateur
+		    var userMessageDiv = document.createElement('div');
+		    userMessageDiv.classList.add('chatbot-message', 'user-message');
+		    userMessageDiv.innerHTML = `<p>${userText}</p>`;
+		    messageContainer.appendChild(userMessageDiv);
+		
+		    // Vider le champ de saisie
+		    input.value = '';
+		
+		    // Faites défiler vers le nouveau message
+		    messageContainer.scrollTop = messageContainer.scrollHeight;
+		
+		    // Créer une div pour la réponse du chatbot avec des points de suspension
+		    var botResponseDiv = document.createElement('div');
+		    botResponseDiv.classList.add('chatbot-message', 'bot-response');
+		    botResponseDiv.innerHTML = `<p>...</p>`;
+		    messageContainer.appendChild(botResponseDiv);
+		    messageContainer.scrollTop = messageContainer.scrollHeight;
+		    
+		    try {
+		        let response = await fetch('http://localhost:5005/chatbot', {
+		            method: 'POST',
+		            headers: {
+		                'Content-Type': 'application/json'
+		            },
+		            body: JSON.stringify({ question: userText })
+		        });
+		
+		        if (!response.ok) {
+		            throw new Error(`HTTP error! status: ${response.status}`);
+		        }
+		
+		        let data = await response.json();
+		
+		        // Vérifiez que la réponse contient la propriété 'answer'
+		        if(data && data.response) {
+		            botResponseDiv.innerHTML = `<p>${data.response}</p>`;
+		        } else {
+		            // Si la propriété 'answer' n'est pas présente, affichez un message d'erreur ou un message par défaut
+		            botResponseDiv.innerHTML = `<p>Je suis désolé, je ne peux pas répondre à cette question pour le moment.</p>`;
+		        }
+		    } catch (error) {
+		        console.error('There was a problem with the fetch operation:', error);
+		        botResponseDiv.innerHTML = `<p>Désolé, il y a eu une erreur.</p>`;
+		    }
+
+		
+		    // Faites défiler vers la réponse du chatbot
+		    messageContainer.scrollTop = messageContainer.scrollHeight;
+		}
+
+
+	    document.getElementById('close-chatbot').onclick = function() {
+		    document.getElementById('chatbot-container').style.display = 'none';
+		};
+
+	</script>
 </body>
 
 </html>

@@ -18,8 +18,8 @@ public class ProduitService {
      this.produitRepository = produitRepository;
  }
 
- // Méthode pour récupérer tous les produits depuis la BDD
- public List<Produit> getAllProduits() {
-     return produitRepository.findAll();
- }
+	 // Méthode pour récupérer tous les produits depuis la BDD
+	 public List<Produit> getAllProduits() {
+	     return produitRepository.findAll();
+	 }
 }

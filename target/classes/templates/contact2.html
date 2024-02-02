@@ -36,54 +36,16 @@
                 <h1 class="mt-3 mb-4">CONTACT</h1>
             </div>
         </div>
-    <div class="mb-3 row">
-        <label for="roleSelect" class="col-sm-2 col-form-label">ROLE :</label>
-        <div class="col-sm-4">
-            <select class="form-select" id="roleSelect" name="role">
-                <option selected disabled>Choisir un rôle...</option>
-                <option value="Ingénieur de données">Ingénieur de données</option>
-                <option value="Analyste de données">Analyste de données</option>
-                <option value="architecte">Architecte de données</option>
-				<option value="responsable">Responsable de données et de IA</option>
-				<option value="scientifique">Scientifique de données</option>
-				<option value="propriete">Propriété de produit</option>
-				<option value="respodata">Responsable de données</option>
-				<option value="referent">Referent de données</option>
-				<option value="resporefdatamaster">Responsable du referentiel des données maîtres</option>
-				<option value="champion">Champion du domaine des données</option>
-				<option value="protection">Responsable de protection de données</option>
-                <!-- Ajoute les autres options ici -->
-            </select>
-        </div>
-        <label for="domaineSelect" class="col-sm-2 col-form-label">DOMAINE :</label>
-        <div class="col-sm-4">
-            <select class="form-select" id="domaineSelect" name="domaine">
-                <option selected disabled>Choisir un domaine...</option>
-                <option value="Achat">Achat</option>
-                <option value="RH">RH</option>
-                <option value="commerce">Commerce</option>
-	  			<option value="ecommerce">E-commerce</option>
-	  			<option value="finance">Finance</option>
-	  			<option value="industrie">Industrie</option>
-	  			<option value="marketing">Marketing</option>
-	  			<option value="masterdata">Maitre de données</option>
-	  			<option value="production">Production</option>
-	  			<option value="ressourcesnumeriques">Ressources Numeriques</option>
-	  			<option value="supply">Approvissenement</option>
-                <!-- Ajoute les autres options ici -->
-            </select>
-        </div>
-    </div>
-    <!-- ... -->
-</form>
-		<div th:each="user : ${usersWithRoleId}" class="col-md-4 mb-4">
-            <div class="bg-primary text-white p-3 rounded text-center">
-                <i class="fas fa-user mb-3 d-block text-center fs-1"></i>
-                <p class="m-0" th:text="${user.nom}"></p>
-                <p class="m-0" th:text="${user.id_poste}"></p>
-                <p class="m-0" th:text="${user.email}"></p>
+   
+    <row>
+		<div th:each="user : ${usersWithRoleId}" class="col-md-3 mb-4">
+            <div class="custom-card">
+                <i class="fas fa-user mb-3 fs-1"></i>
+                <p class="m-0"> <span>Nom: </span><span th:text="${user.nom}"></span></p>
+                <p class="m-0"> <span>Mail: </span><span th:text="${user.email}"></span></p>
             </div>
         </div>
+     </row>
  
     <!-- ... -->
 </div>

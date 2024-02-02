@@ -16,6 +16,17 @@
 		    flex-direction: column;
 	}
 	
+	.custom-card {
+    background-color: #006680; /* Couleur de fond */
+    display: flex;
+    height: 250px;
+    align-items: center; /* Centrage vertical */
+    padding: 20px; /* Espacement interne */
+    border-radius: 10px; /* Coins arrondis */
+    color: white; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+}
+	
 
 .container {
   flex: 1;

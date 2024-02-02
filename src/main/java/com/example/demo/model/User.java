@@ -25,8 +25,7 @@ public class User {
     
     @Column(name = "id_poste")
     private int id_poste;
-
-
+ 
     public int getId_poste() {
 		return id_poste;
 	}
@@ -108,7 +107,7 @@ public class User {
         this.id_user = idUser;
         this.email = email;
         this.nom = nom;
-        this. id_poste =  id_poste; // Utilisation de l'objet Poste
+        this.id_poste =  id_poste; // Utilisation de l'objet Poste
         this.id_role = idRole;
         this.password = password;
         this.prenom = prenom;

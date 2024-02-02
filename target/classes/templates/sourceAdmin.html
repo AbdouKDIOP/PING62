@@ -54,14 +54,18 @@
                     </div>
                     <div class="modal-body">
                         <!-- Formulaire pour ajouter une source -->
-                        <form id="ajouterSourceForm">
-                            <div class="mb-3">
-                                <label for="logoInput" class="form-label">Logo (PNG uniquement)</label>
-                                <input type="file" class="form-control" id="logoInput" accept=".png">
-                            </div>
+                        <form th:action="@{/add_source}" method="post">
                             <div class="mb-3">
                                 <label for="SourceInput" class="form-label">Nom</label>
-                                <input type="text" class="form-control" id="SourceInput">
+                                <input type="text" name = "nomSource" class="form-control" id="SourceInput">
+                            </div>
+                            <div class="mb-3">
+                                <label for="SourceInput" class="form-label">Lien vers le logo</label>
+                                <input type="text" name = "logo" class="form-control" id="SourceInput">
+                            </div>
+                            <div class="mb-3">
+                                <label for="SourceInput" class="form-label">Lien vers la source</label>
+                                <input type="text" name = "linkSource" class="form-control" id="SourceInput">
                             </div>
                             <button type="submit" class="btn btn-primary">Ajouter</button>
                         </form>
@@ -75,16 +79,29 @@
                 <tr>
                     <th scope="col">Source</th>
                     <th scope="col">Logo</th>
+                    <th scope="col">Lien</th>
                     <th scope="col">Status</th>
                 </tr>
             </thead>
            <tbody>
     <tr th:each="source : ${sources}">
         <td th:text="${source.nomSource}">Nom de la source</td>
-        <td><img th:src="@{/static/images/{logo}(logo=${source.logo})}" alt="Logo" class="img-thumbnail"></td>
+		<td th:if="${source.logo}">
+    		<a th:href="@{${source.logo}}">Lien vers le logo</a>
+		</td>
+		<td th:unless="${source.logo}">-</td>
+		<td>
+    		<span th:if="${source.linkSource}">
+        		<a th:href="@{${source.linkSource}}">Lien vers la source</a>
+    		</span>
+    		<span th:unless="${source.linkSource}">-</span>
+		</td>
         <td th:data-source-id="${source.idSource}">
             <button type="button" class="btn btn-primary btn-modify" th:id="'modify-' + ${source.idSource}">Modifier</button>
-            <button type="button" class="btn btn-primary btn-toggle-activation" th:id="'toggle-activation-' + ${source.idSource}" th:data-activated="${source.isActivated}">Activer</button>
+            <button type="button" class="btn btn-primary btn-toggle-activation" th:id="'toggle-activation-' + ${source.idSource}" th:data-activated="${source.isActivated}">
+    			<span th:if="${source.isActivated}">Désactiver</span>
+    			<span th:unless="${source.isActivated}">Activer</span>
+			</button>
         </td>
     </tr>
 </tbody>
@@ -111,7 +128,7 @@
             // Inverser l'état d'activation
             toggleSourceActivation(sourceId, !isActivated);
             // Mettre à jour le texte du bouton et l'attribut 'data-activated'
-            this.textContent = isActivated ? 'Activer' : 'Desactiver';
+            this.textContent = isActivated ? 'Désactiver' : 'Activer';
             this.setAttribute('data-activated', !isActivated);
         });
     });

@@ -10,9 +10,10 @@ import java.util.List;
 
 @Service
 public class SourceService {
+	@Autowired
     private final SourceRepository sourceRepository;
 
-    @Autowired
+    
     public SourceService(SourceRepository sourceRepository) {
         this.sourceRepository = sourceRepository;
     }

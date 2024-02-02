@@ -345,27 +345,6 @@ public class Controlleur {
 	       }
 	   }
 
-@PostMapping("/ajouterSource")
-public ResponseEntity<?> ajouterSource(@RequestParam("nomSource") String nomSource,
-                                       @RequestParam("logo") MultipartFile logo) {
-    try {
-        // Exemple de traitement du fichier (sauvegarde sur le disque)
-     
-        // Création et sauvegarde de la source
-        Source source = new Source();
-        source.setNomSource(nomSource);
-        source.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-
-         // Utilisez le chemin ou le nom du fichier logo sauvegardé
-        sourceRepository.save(source);
-        
-        return ResponseEntity.ok().body("Source ajoutée");
-    } catch (Exception e) {
-        e.printStackTrace(); // Pour le débogage
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de la source");
-    }
-}
-
 	   @PostMapping("/toggleSourceActivation")
 	   public ResponseEntity<?> toggleSourceActivation(@RequestParam Long sourceId, @RequestParam int activate) {
    Optional<Source> sourceOptional = sourceRepository.findById(sourceId);
@@ -485,32 +464,27 @@ public ResponseEntity<?> ajouterSource(@RequestParam("nomSource") String nomSour
 	   */
 	   @PostMapping("/add_source")
 	   public String addSource(HttpSession session,
-			   					@RequestParam("logo") String logo,
-	                            @RequestParam("name") String nomSource) throws java.text.ParseException {
+	                            @RequestParam("nomSource") String nomSource,
+	                            @RequestParam("logo") String logo,
+	                            @RequestParam("linkSource") String linkSource) throws java.text.ParseException {
 	       // Créer une nouvelle instance d'Incident
 	       Source source = new Source();
 	    // Récupérer les informations de l'utilisateur depuis la session
-	        User loggedInUser = (User) session.getAttribute("loggedInUser");
-	     // Vérifier si l'utilisateur est connecté
-	      /*  if (loggedInUser != null) {
+	        //User loggedInUser = (User) session.getAttribute("loggedInUser");
+	     // Vérifier si l'utilisateur est connecté  if (loggedInUser != null) {
 	            // Utiliser les informations de l'utilisateur
-	            Long userId = loggedInUser.getId_user();
+	            //Long userId = loggedInUser.getId_user();
  
 	            source.setNomSource(nomSource);
-	            source.setIdSource(datasetId);
-	            product.setDataChampion(dataChampion);
-	            product.setIdWorkspace(workspaceId);
-	            product.setSummary(summary);
-	            product.setLink(link);
-	            product.setPerimeter(perimeter);
-	            product.setFeatureDetails(featureDetails);
+	            source.setLogo(logo);
+	            source.setLinkSource(linkSource);
+	            source.setIsActivated(1);
 	            LocalDateTime localDateTime = LocalDateTime.now();
 	            Timestamp timestamp = Timestamp.valueOf(localDateTime);
-	            product.setCreatedAt(timestamp);
-	            product.setIdUser(userId);
+	            source.setCreatedAt(timestamp);
+	            //source.setIdUser(userId);
 	       // Enregistrement de l'incident dans la base de données
 	       sourceRepository.save(source);
-			*/
 	       // Rediriger vers la page d'administration des incidents
 	       return "redirect:/sourceAdmin";
 	   }

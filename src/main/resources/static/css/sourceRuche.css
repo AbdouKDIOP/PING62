@@ -23,6 +23,11 @@
         color: #006680 !important;
         background-color: white !important;
     }
+    
+    td span {
+			  
+			  color: black;
+		  }
     .container {
   flex: 1;
   height: 100%;

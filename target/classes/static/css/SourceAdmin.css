@@ -31,10 +31,20 @@
 		    padding: 8px; /* Espacement à l'intérieur des cellules */
 		    border-bottom: 1px solid #ddd; /* Ligne de séparation des rangées */
 		  }
+		  
+		  td span{
+		    text-align: center;
+		    color: white; 
+		  }
 		
 		  th {
 		    background-color: #006680; /* Couleur d'arrière-plan pour les en-têtes */
 		    color: white;
+		  }
+		  
+		  		  td span {
+			  
+			  color: black;
 		  }
     .container {
   flex: 1;

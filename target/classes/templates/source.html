@@ -46,12 +46,24 @@
                 <tr>
                     <th scope="col">Source</th>
                     <th scope="col">Logo</th>
+                    <th scope="col">Lien</th>
                 </tr>
             </thead>
  			<tbody>
                 <tr th:each="source : ${sources}">
-        			<td th:text="${source.nomSource}">Nom de la source</td>
-        			<td><img th:src="@{/static/images/{logo}(logo=${source.logo})}" alt="Logo" class="img-thumbnail"></td>
+					<td th:text="${source.nomSource}">Nom de la source</td>
+					<td>
+    					<span th:if="${source.logo}">
+        					<a th:href="@{${source.logo}}">Lien vers le logo</a>
+    					</span>
+    					<span th:unless="${source.logo}">-</span>
+					</td>
+					<td>
+    					<span th:if="${source.linkSource}">
+        					<a th:href="@{${source.linkSource}}">Lien vers la source</a>
+    					</span>
+    					<span th:unless="${source.linkSource}">-</span>
+					</td>
    				</tr>
             </tbody>
         </table>

@@ -36,6 +36,11 @@
 		    background-color: #006680; /* Couleur d'arrière-plan pour les en-têtes */
 		    color: white;
 		  }
+		  
+		  td span {
+			  
+			  color: black;
+		  }
     .container {
   flex: 1;
   height: 100%;

@@ -16,6 +16,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.Client;
+import com.example.demo.model.Domaine;
+import com.example.demo.model.Incident;
+import com.example.demo.model.Poste;
+import com.example.demo.model.TypeIncident;
+import com.example.demo.model.User;
+
+
+
+
+
+
+import com.example.demo.repositoryDAO.ClientRepository;
+import com.example.demo.repositoryDAO.IncidentRepository;
+import com.example.demo.repositoryDAO.PosteRepository;
+import com.example.demo.repositoryDAO.TypeIncidentRepository;
+import com.example.demo.repositoryDAO.UserRepository;
+
+import com.example.demo.services.ClientService;
+import com.example.demo.services.IncidentService;
+import com.example.demo.services.PosteService;
+import com.example.demo.services.TypeIncidentService;
+
+
+
+
+
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController

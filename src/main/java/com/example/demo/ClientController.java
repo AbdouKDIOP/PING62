@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.model.Client;
+import com.example.demo.services.ClientService;
+import com.example.demo.repositoryDAO.ClientRepository;
 @Controller
 public class ClientController {
 

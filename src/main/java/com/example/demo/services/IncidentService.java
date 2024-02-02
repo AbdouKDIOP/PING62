@@ -1,10 +1,13 @@
-package com.example.demo;
+package com.example.demo.services;
 
 //IncidentService.java
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.demo.model.Incident;
+import com.example.demo.repositoryDAO.IncidentRepository;
 
 import java.util.List;
 

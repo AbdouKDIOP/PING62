@@ -6,6 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.demo.model.Poste;
+import com.example.demo.services.PosteService;
+import com.example.demo.repositoryDAO.PosteRepository;
+
 @Controller
 public class PosteController {
 

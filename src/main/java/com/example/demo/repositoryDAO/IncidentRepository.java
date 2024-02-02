@@ -1,8 +1,9 @@
-package com.example.demo;
+package com.example.demo.repositoryDAO;
 
 //IncidentRepository.java
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.demo.Incident;
+
+import com.example.demo.model.Incident;
 public interface IncidentRepository extends JpaRepository<Incident, Long> {
  // Vous pouvez ajouter des méthodes personnalisées si nécessaire
 }

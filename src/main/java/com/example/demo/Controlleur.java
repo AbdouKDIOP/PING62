@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
- 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.demo.model.Client;
 import com.example.demo.model.Dataset;
 import com.example.demo.model.Poste;
@@ -140,19 +141,20 @@ public class Controlleur {
 		   }
  
 		   @GetMapping("/contact2")
-		   public String contact2(@RequestParam(name = "roleId", required = false) Long roleId, Model model, HttpSession session) {
+		   public String contact2(@RequestParam(name = "id_poste", required = false) Long id_poste, Model model, HttpSession session) {
 		       // Récupérer les informations de l'utilisateur depuis la session
 		       User loggedInUser = (User) session.getAttribute("loggedInUser");
- 
+		       System.out.println("Nombre d'utilisateurs trouvés : " + id_poste);
 		       // Ajouter les informations sur l'utilisateur dans le modèle
 		       model.addAttribute("loggedInUser", loggedInUser);
  
 		       // Vérifier si le paramètre "roleId" est présent
-		       if (roleId != null) {
-		    	   List<User> usersWithRoleId = userService.findUsersByRoleId(roleId);
- 
+		       if (id_poste != null) {
+		    	   List<User> usersWithRoleId = userService.findUsersByPosteId(id_poste);
+		    	   System.out.println("Nombre d'utilisateurs trouvés : " + usersWithRoleId.size());
+		    	   
 		           // Faire quelque chose avec roleId
-		           model.addAttribute("roleId", roleId);
+		           model.addAttribute("id_poste", id_poste);
  
 		           // Ajouter la liste d'utilisateurs au modèle
 		           model.addAttribute("usersWithRoleId", usersWithRoleId);
@@ -343,14 +345,35 @@ public class Controlleur {
 	       }
 	   }
 
+@PostMapping("/ajouterSource")
+public ResponseEntity<?> ajouterSource(@RequestParam("nomSource") String nomSource,
+                                       @RequestParam("logo") MultipartFile logo) {
+    try {
+        // Exemple de traitement du fichier (sauvegarde sur le disque)
+     
+        // Création et sauvegarde de la source
+        Source source = new Source();
+        source.setNomSource(nomSource);
+        source.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+
+         // Utilisez le chemin ou le nom du fichier logo sauvegardé
+        sourceRepository.save(source);
+        
+        return ResponseEntity.ok().body("Source ajoutée");
+    } catch (Exception e) {
+        e.printStackTrace(); // Pour le débogage
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de la source");
+    }
+}
+
 	   @PostMapping("/toggleSourceActivation")
 	   public ResponseEntity<?> toggleSourceActivation(@RequestParam Long sourceId, @RequestParam int activate) {
    Optional<Source> sourceOptional = sourceRepository.findById(sourceId);
 	       if (sourceOptional.isPresent()) {
 	           Source source = sourceOptional.get();
 	           source.setIsActivated(activate); // Ici, setIsActivated doit accepter un int
-	           System.out.printf("active",source);
-	           System.out.printf("id",activate);
+	           System.out.println("Activé : " + activate + ", ID : " + sourceId);
+
 	           sourceRepository.save(source);
 	           return ResponseEntity.ok().build();
 	       } else {

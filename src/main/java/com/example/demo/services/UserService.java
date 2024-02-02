@@ -15,7 +15,7 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-    public List<User> findUsersByRoleId(Long roleId) {
-        return userRepository.findUsersByRoleId(roleId);
+    public List<User> findUsersByPosteId(Long id_poste) {
+        return userRepository.findUsersByPosteId(id_poste);
     }
 }

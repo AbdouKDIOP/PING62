@@ -23,12 +23,19 @@ public class User {
     @Column(name = "nom")
     private String nom;
     
-    @ManyToOne
-    @JoinColumn(name = "idPoste")
-    private Poste poste;
+    @Column(name = "id_poste")
+    private int id_poste;
 
 
-    @Column(name = "id_role")
+    public int getId_poste() {
+		return id_poste;
+	}
+
+	public void setId_poste(int id_poste) {
+		this.id_poste = id_poste;
+	}
+
+	@Column(name = "id_role")
     private int id_role;
 
     @Column(name = "password")
@@ -58,13 +65,7 @@ public class User {
 		this.id_user = id_user;
 	}
 
-	public Poste getPoste() {
-	    return poste;
-	}
-
-	public void setPoste(Poste poste) {
-	    this.poste = poste;
-	}
+	
 
 	public int getId_role() {
 		return id_role;
@@ -102,12 +103,12 @@ public class User {
         // constructeur par défaut
     }
     
-    public User(Long idUser, String email, String nom, Poste poste, int idRole, String password, String prenom, int idDomaine, int statusUser) {
+    public User(Long idUser, String email, String nom, int id_poste, int idRole, String password, String prenom, int idDomaine, int statusUser) {
         super();
         this.id_user = idUser;
         this.email = email;
         this.nom = nom;
-        this.poste = poste; // Utilisation de l'objet Poste
+        this. id_poste =  id_poste; // Utilisation de l'objet Poste
         this.id_role = idRole;
         this.password = password;
         this.prenom = prenom;

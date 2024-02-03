@@ -1,52 +1,62 @@
 package com.example.demo.model;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "product")
 public class Produit {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idProduct")
     private Long id;
 
-    @Column(name = "idUser", nullable = false)
+    @Column(name = "idUser", nullable = true)
     private Long idUser;
 
-    @Column(name = "nameProduct", nullable = false, unique = true)
+    @Column(name = "nameProduct", nullable = true, unique = true)
     private String nameProduct;
 
-    @Column(name = "dataChampion", nullable = false)
+    @Column(name = "dataChampion", nullable = true)
     private String dataChampion;
 
-    @Column(name = "idDataset", nullable = false)
-    private Long idDataset;
+    @ManyToOne
+    @JoinColumn(name = "id_dataset")
+    private Dataset dataset;
 
-    @Column(name = "idWorkspace", nullable = false)
-    private Long idWorkspace;
+    @ManyToOne
+    @JoinColumn(name = "id_workspace")
+    private Workspace workspace;
 
     @Column(name = "createdAt", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Timestamp createdAt;
 
-    @Column(name = "summary", nullable = false, columnDefinition = "LONGTEXT")
+    @PrePersist
+    protected void onCreate() {
+        createdAt = Timestamp.from(Instant.now());
+    }
+
+    @Column(name = "summary", nullable = true, columnDefinition = "LONGTEXT")
     private String summary;
 
-    @Column(name = "link", nullable = false)
+    @Column(name = "link", nullable = true)
     private String link;
 
-    @Column(name = "perimeter", nullable = false, columnDefinition = "LONGTEXT")
+    @Column(name = "perimeter", nullable = true, columnDefinition = "LONGTEXT")
     private String perimeter;
 
-    
-    @Column(name = "featureDetails", nullable = false, columnDefinition = "LONGTEXT")
+    @Column(name = "featureDetails", nullable = true, columnDefinition = "LONGTEXT")
     private String featureDetails;
 
     // Les getters et setters
@@ -81,22 +91,6 @@ public class Produit {
 
     public void setDataChampion(String dataChampion) {
         this.dataChampion = dataChampion;
-    }
-
-    public Long getIdDataset() {
-        return idDataset;
-    }
-
-    public void setIdDataset(Long idDataset) {
-        this.idDataset = idDataset;
-    }
-
-    public Long getIdWorkspace() {
-        return idWorkspace;
-    }
-
-    public void setIdWorkspace(Long idWorkspace) {
-        this.idWorkspace = idWorkspace;
     }
 
     public Timestamp getCreatedAt() {
@@ -138,4 +132,21 @@ public class Produit {
     public void setFeatureDetails(String featureDetails) {
         this.featureDetails = featureDetails;
     }
+
+    public Dataset getDataset() {
+        return dataset;
+    }
+
+    public void setDataset(Dataset dataset) {
+        this.dataset = dataset;
+    }
+
+    public Workspace getWorkspace() {
+        return workspace;
+    }
+
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }
+
 }

@@ -11,19 +11,19 @@ import com.example.demo.repositoryDAO.ProduitRepository;
 @Service
 public class ProduitService {
 
- // Injectez le Repository approprié pour accéder à la BDD
- private final ProduitRepository produitRepository;
+    // Injectez le Repository approprié pour accéder à la BDD
+    private final ProduitRepository produitRepository;
 
- public ProduitService(ProduitRepository produitRepository) {
-     this.produitRepository = produitRepository;
- }
+    public ProduitService(ProduitRepository produitRepository) {
+        this.produitRepository = produitRepository;
+    }
 
- // Méthode pour récupérer tous les produits depuis la BDD
- public List<Produit> getAllProduits() {
-     return produitRepository.findAll();
- }
- 
- public List<Produit> getProduitsByIdUser(Long userId) {
-	    return produitRepository.findByIdUser(userId);
-	}
+    // Méthode pour récupérer tous les produits depuis la BDD
+    public List<Produit> getAllProduits() {
+        return produitRepository.findAll();
+    }
+
+    public List<Produit> getProduitsByIdUser(Long userId) {
+        return produitRepository.findByIdUser(userId);
+    }
 }

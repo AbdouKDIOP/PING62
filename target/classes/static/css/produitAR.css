@@ -11,52 +11,64 @@ body {
 #filter-bar {
     margin-bottom: 15px;
 }
+
 table {
-    width: 100%; /* Réglez la largeur du tableau à 100% */
-    border-collapse: collapse; /* Ajoutez cette ligne pour une meilleure apparence des bordures */
+    width: 100%;
+    /* Réglez la largeur du tableau à 100% */
+    border-collapse: collapse;
+    /* Ajoutez cette ligne pour une meilleure apparence des bordures */
 }
 
 .selected-row {
-        background-color: rgb(64, 128, 128); /* Couleur de surbrillance */
-    }
+    background-color: rgb(64, 128, 128);
+    /* Couleur de surbrillance */
+}
 
 .table-container {
-    height: 60vh; /* Ajustez la hauteur selon vos besoins */
+    height: 60vh;
+    /* Ajustez la hauteur selon vos besoins */
     width: 100%;
     overflow-x: auto;
-    overflow-y: auto; /* Ajoutez une barre de défilement vertical si nécessaire */
+    overflow-y: auto;
+    /* Ajoutez une barre de défilement vertical si nécessaire */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.bouttonOption{
-	width: 18%; /* Ajustez selon vos besoins */
+.bouttonOption {
+    width: 18%;
+    /* Ajustez selon vos besoins */
     display: flex;
     flex-direction: column;
-    justify-content: space-around; 
+    justify-content: space-around;
 }
 
-button{
-	width: 100%;
-	margin: 15px;
-	color: #fff;
-	border-radius: 15px;
-	background-color: #006680;
+button {
+    width: 100%;
+    margin: 15px;
+    color: #fff;
+    border-radius: 15px;
+    background-color: #006680;
 }
+
 .bigBox {
     display: flex;
-    flex-direction: row; /* Aligne les éléments horizontalement */
-    justify-content: space-between; /* Espace équitablement les éléments enfants */
+    flex-direction: row;
+    /* Aligne les éléments horizontalement */
+    justify-content: space-between;
+    /* Espace équitablement les éléments enfants */
     align-items: center;
 }
-tr{
-	max-width: 100%;
+
+tr {
+    max-width: 100%;
 }
+
 tr:hover {
     background-color: #f5f5f5;
 }
 
-th{
-	background-color: #006680;
+th {
+    background-color: #006680;
     color: #fff;
     padding: 10px;
 }
@@ -65,16 +77,28 @@ th{
 .custom-table td {
     text-align: left;
     padding: 15px;
-    border-bottom: 1px solid #ddd;/* Empêche le texte de passer à la ligne dans les cellules */
+    border-bottom: 1px solid #ddd;
+    /* Empêche le texte de passer à la ligne dans les cellules */
 }
 
 .custom-table td {
-    font-size: 0.8em; /* Ajuste automatiquement la taille de la police en cas de dépassement */
-    overflow: hidden; /* Cache le texte débordant */
-    text-overflow: ellipsis; /* Ajoute des points de suspension (...) pour indiquer du texte caché */
+    font-size: 0.8em;
+    /* Ajuste automatiquement la taille de la police en cas de dépassement */
+    overflow: hidden;
+    /* Cache le texte débordant */
+    text-overflow: ellipsis;
+    /* Ajoute des points de suspension (...) pour indiquer du texte caché */
 }
-   
-.container{ /* Le container occupe tout l'espace disponible */
-	flex:1;
-	padding: 20px; 	   
+
+.container {
+    /* Le container occupe tout l'espace disponible */
+    flex: 1;
+    padding: 20px;
+}
+
+.selected-row {
+    background-color: #f0f0f0;
+    /* Couleur de fond pour la ligne sélectionnée */
+    color: #000;
+    /* Couleur du texte pour la ligne sélectionnée */
 }

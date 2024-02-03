@@ -18,10 +18,12 @@ table {
 }
 
 .table-container {
-    height: 60vh; /* Ajustez la hauteur selon vos besoins */
+    height: 60vh;
+    /* Ajustez la hauteur selon vos besoins */
     width: 100%;
     overflow-x: auto;
-    overflow-y: auto; /* Ajoutez une barre de défilement vertical si nécessaire */
+    overflow-y: auto;
+    /* Ajoutez une barre de défilement vertical si nécessaire */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -51,6 +53,23 @@ th {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.Mascotte {
+    position: fixed;
+    bottom: 8%;
+    /* Ajoute un espace au fond */
+    right: 3%;
+    /* Ajoute un espace à droite */
+    max-width: 100px;
+    /* Taille réduite */
+    max-height: auto;
+    /* Garde le ratio aspect de l'image */
+    z-index: 100;
+    /* Assurez-vous que la mascotte est au-dessus des autres éléments si nécessaire */
+    cursor: pointer;
+    /* Change le curseur en main lorsque vous survolez la mascotte */
+}
+
 
 .container {
     background-color: #fff;

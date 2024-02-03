@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONTACT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link th:href="@{/static/css/contact2.css}" rel="stylesheet">
+</head>
+
+<body>
+		  <!-- Header pour role 1 -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 1}">
+    <div th:replace="headerRuche.html"></div>
+</div>
+
+<!-- Header pour role 2 -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+    <div th:replace="headerConnect.html"></div>
+</div>
+
+<!-- Header pour session non connectée -->
+<div th:unless="${loggedInUser != null}">
+    <div th:replace="headerNonConnect.html"></div>
+</div>
+		  <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
+        style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
+
+    <div class="container">
+        <div class="row align-items-center"> <!-- Utilisation de la classe 'row' de Bootstrap -->
+           
+
+            <!-- Titre -->
+            <div class="col"> <!-- Utilisation de la classe 'col' pour occuper l'espace restant -->
+                <h1 class="mt-3 mb-4">CONTACT</h1>
+            </div>
+        </div>
+    <div class="mb-3 row">
+        <label for="roleSelect" class="col-sm-2 col-form-label">ROLE :</label>
+        <div class="col-sm-4">
+            <select class="form-select" id="roleSelect" name="role">
+                <option selected disabled>Choisir un rôle...</option>
+                <option value="Ingénieur de données">Ingénieur de données</option>
+                <option value="Analyste de données">Analyste de données</option>
+                <option value="architecte">Architecte de données</option>
+				<option value="responsable">Responsable de données et de IA</option>
+				<option value="scientifique">Scientifique de données</option>
+				<option value="propriete">Propriété de produit</option>
+				<option value="respodata">Responsable de données</option>
+				<option value="referent">Referent de données</option>
+				<option value="resporefdatamaster">Responsable du referentiel des données maîtres</option>
+				<option value="champion">Champion du domaine des données</option>
+				<option value="protection">Responsable de protection de données</option>
+                <!-- Ajoute les autres options ici -->
+            </select>
+        </div>
+        <label for="domaineSelect" class="col-sm-2 col-form-label">DOMAINE :</label>
+        <div class="col-sm-4">
+            <select class="form-select" id="domaineSelect" name="domaine">
+                <option selected disabled>Choisir un domaine...</option>
+                <option value="Achat">Achat</option>
+                <option value="RH">RH</option>
+                <option value="commerce">Commerce</option>
+	  			<option value="ecommerce">E-commerce</option>
+	  			<option value="finance">Finance</option>
+	  			<option value="industrie">Industrie</option>
+	  			<option value="marketing">Marketing</option>
+	  			<option value="masterdata">Maitre de données</option>
+	  			<option value="production">Production</option>
+	  			<option value="ressourcesnumeriques">Ressources Numeriques</option>
+	  			<option value="supply">Approvissenement</option>
+                <!-- Ajoute les autres options ici -->
+            </select>
+        </div>
+    </div>
+    <!-- ... -->
+</form>
+<div class="container">
+    <!-- ... -->
+    <div class="row">
+            <div class="bg-primary text-white p-3 rounded text-center">
+				<i class="fas fa-user mb-3 d-block text-center fs-1"></i>
+                <p class="m-0">John DOE</p>
+                <p class="m-0">Role</p>
+                <p class="m-0">email@gmail.com</p>
+            </div>
+    </div>
+</div>
+
+    <!-- ... -->
+</div>
+    <script>
+		
+        // Utilisation de fetch pour charger le contenu de l'en-tête depuis headeruserFSP.html
+        fetch('headeruserFSP')
+            
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('headerContainer').innerHTML = data;
+                // Charger les scripts JavaScript après avoir inséré le contenu de l'en-tête
+                loadHeaderScripts();
+            })
+            .catch(error => console.error(error));
+
+        function loadHeaderScripts() {
+            // Charger les scripts JavaScript nécessaires après avoir inséré l'en-tête
+            const script1 = document.createElement('script');
+            script1.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+            document.body.appendChild(script1);
+
+            const script2 = document.createElement('script');
+            script2.textContent = `
+                function toggleMenu() {
+                    var menu = document.getElementById("menuOptions");
+                    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+                }
+            `;
+            document.body.appendChild(script2);
+        }
+    </script>
+</body>
+</html>

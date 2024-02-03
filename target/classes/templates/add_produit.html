@@ -1,107 +1,127 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-		<link th:href="@{/static/css/add_produitAR.css}" rel="stylesheet">
-		<title>Ajouter produit</title>
+    <link th:href="@{/static/css/add_produitAR.css}" rel="stylesheet">
+    <title>Ajouter produit</title>
 </head>
 
 <body>
-	
-<!-- Header pour role Ruche -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
-    <div th:replace="headerRuche.html"></div>
-</div>
 
-<!-- Header pour role Admin -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
-    <div th:replace="headerConnect.html"></div>
-</div>
+    <!-- Header pour role Ruche -->
+    <div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+        <div th:replace="headerRuche.html"></div>
+    </div>
 
-<!-- Header pour session non connectée -->
-<div th:unless="${loggedInUser != null}">
-    <div th:replace="headerNonConnect.html"></div>
-</div>
+    <!-- Header pour role Admin -->
+    <div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
+        <div th:replace="headerConnect.html"></div>
+    </div>
 
-	
+    <!-- Header pour session non connectée -->
+    <div th:unless="${loggedInUser != null}">
+        <div th:replace="headerNonConnect.html"></div>
+    </div>
 
 
-		  <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
+
+
+    <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
         style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
 
-	  
-	  <div class="container">
-		  <p> Entrez les informations du nouveau produit a ajouter.
- 		  </p>
- 		  
-    <form th:action="@{/add_produit}" method="post">    
-	<div class="bigBox">
-        <div class="table-container">
-            <table id="myTable" class="custom-table">
-		        <thead>
-		            <tr>
-		                <th>Nom du produit</th>
-		                <th>Dataset</th>
-		                <th>Data champion</th>
-		                <th>Workspace</th>
-		                <th>Resumé des fonctionnalités</th>
-		                <th>Lien</th>
-		                <th>Perimetre</th>
-		                <th>Détail des fonctionnalités</th>
-		                
-		            </tr>
-		        </thead>
-		        
-		        <tbody>
-                    <tr>
-                        <td><input type="text" name="nameProduct" /></td>
-                        <td><input type="text" name="idDataset" /></td>
-                        <td><input type="text" name="dataChampion" /></td>
-                        <td><input type="text" name="idWorkspace" /></td>
-                        <td><input type="text" name="summary" /></td>
-                        <td><input type="text" name="link" /></td>
-                        <td><input type="text" name="perimeter" /></td>
-                        <td><input type="text" name="featureDetails" /></td>
-                        <!-- Ajoutez d'autres colonnes selon vos besoins -->
-                    </tr>
-                    <!-- Ajoutez d'autres lignes si nécessaire -->
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="bouttonOption">
-             <button type="submit" class="action-button">Ajouter Produit</button>
-             <a th:href="@{produitAdmin}"><button type="button" class="action-button">Annuler</button></a>
-	    
-        </div>
-    </div>
-</form>
+
+    <div class="container">
+        <p> Entrez les informations du nouveau produit a ajouter.
+        </p>
+
+        <form th:action="@{/add_produit}" method="post">
+            <div class="bigBox">
+                <div class="table-container">
+                    <table id="myTable" class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Nom du produit</th>
+                                <th>Dataset</th>
+                                <th>Data champion</th>
+                                <th>Workspace</th>
+                                <th>Resumé des fonctionnalités</th>
+                                <th>Lien</th>
+                                <th>Perimetre</th>
+                                <th>Détail des fonctionnalités</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td><input type="text" name="nameProduct" /></td>
+
+                                <!-- Liste déroulante pour les datasets -->
+                                <td>
+                                    <select name="idDataset" id="idDataset">
+                                        <option th:each="dataset : ${datasets}" th:value="${dataset.id_dataset}"
+                                            th:text="${dataset.name_dataset}">
+                                        </option>
+                                    </select>
+                                </td>
+
+                                <td><input type="text" name="dataChampion" /></td>
+
+                                <!-- Liste déroulante pour les workspaces -->
+                                <td>
+                                    <select name="idWorkspace" id="idWorkspace">
+                                        <option th:each="workspace : ${workspaces}" th:value="${workspace.id_workspace}"
+                                            th:text="${workspace.name_workspace}">
+                                        </option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="summary" /></td>
+                                <td><input type="text" name="link" /></td>
+                                <td><input type="text" name="perimeter" /></td>
+                                <td><input type="text" name="featureDetails" /></td>
+
+                                <!-- ... autres champs du formulaire ... -->
+                            </tr>
+                            <!-- ... autres lignes si nécessaire ... -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bouttonOption">
+                    <button type="submit" class="action-button">Ajouter Produit</button>
+                    <a th:href="@{produitAdmin}"><button type="button" class="action-button">Annuler</button></a>
+
+                </div>
+            </div>
+        </form>
     </div>
 
     <script>
         function filterTable() {
-		            var input, filter, table, tr, td, i, txtValue;
-		            input = document.getElementById("filter");
-		            filter = input.value.toUpperCase();
-		            table = document.getElementById("myTable");
-		            tr = table.getElementsByTagName("tr");
-		
-		            for (i = 0; i < tr.length; i++) {
-		                td = tr[i].getElementsByTagName("td")[0]; // Changez l'index selon la colonne que vous souhaitez filtrer
-		                if (td) {
-		                    txtValue = td.textContent || td.innerText;
-		                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-		                        tr[i].style.display = "";
-		                    } else {
-		                        tr[i].style.display = "none";
-		                    }
-		                }
-		            }
-		        }
-		    </script>
-	 
-	  
-	</body>
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("filter");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0]; // Changez l'index selon la colonne que vous souhaitez filtrer
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+
+</body>
+
 </html>

@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <title>contactez nous Page</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link th:href="@{/static/css/contactezNous.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>contactez nous Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/static/css/contactezNous.css}" rel="stylesheet">
 </head>
 
 <body>
-	
-<!-- Header pour role Ruche -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
-    <div th:replace="headerRuche.html"></div>
-</div>
 
-<!-- Header pour role Admin -->
-<div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
-    <div th:replace="headerConnect.html"></div>
-</div>
+    <!-- Header pour role Ruche -->
+    <div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+        <div th:replace="headerRuche.html"></div>
+    </div>
 
-<!-- Header pour session non connectée -->
-<div th:unless="${loggedInUser != null}">
-    <div th:replace="headerNonConnect.html"></div>
-</div>
+    <!-- Header pour role Admin -->
+    <div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
+        <div th:replace="headerConnect.html"></div>
+    </div>
 
-	
+    <!-- Header pour session non connectée -->
+    <div th:unless="${loggedInUser != null}">
+        <div th:replace="headerNonConnect.html"></div>
+    </div>
 
-    
+
+
+
     <div class="container">
         <div class="row align-items-center">
-            
+
             <!-- Titre -->
             <div class="col">
                 <h1 class="mt-3 mb-4">SOURCE</h1>
-                <h2>Vous souhaitez mieux connaître le rôle des différents membres de la ruche ? Retournez les cartes pour chaque profil !</p>
+                <h2>Vous souhaitez mieux connaître le rôle des différents membres de la ruche ? Retournez les cartes
+                    pour chaque profil !</p>
             </div>
         </div>
 
@@ -53,7 +55,8 @@
                             <div class="flip-card-back">
                                 <div class="card-text">
                                     <h3>Definition</h3>
-                                    <p>Un ingénieur de données est responsable de la conception, du développement et de la maintenance des solutions de gestion des données.</p>
+                                    <p>Un ingénieur de données est responsable de la conception, du développement et de
+                                        la maintenance des solutions de gestion des données.</p>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +74,8 @@
                             <div class="flip-card-back">
                                 <div class="card-text">
                                     <h3>Definition</h3>
-                                    <p>Un analyste de données analyse les données pour fournir des informations exploitables aux entreprises.</p>
+                                    <p>Un analyste de données analyse les données pour fournir des informations
+                                        exploitables aux entreprises.</p>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +93,8 @@
                             <div class="flip-card-back">
                                 <div class="card-text">
                                     <h3>Definition</h3>
-                                    <p>Un architecte de données conçoit et gère l'architecture des systèmes de gestion de données pour répondre aux besoins organisationnels.</p>
+                                    <p>Un architecte de données conçoit et gère l'architecture des systèmes de gestion
+                                        de données pour répondre aux besoins organisationnels.</p>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +112,8 @@
                             <div class="flip-card-back">
                                 <div class="card-text">
                                     <h3>Definition</h3>
-                                    <p>Ce rôle combine la responsabilité des données avec l'intelligence artificielle pour tirer des informations significatives des données.</p>
+                                    <p>Ce rôle combine la responsabilité des données avec l'intelligence artificielle
+                                        pour tirer des informations significatives des données.</p>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +131,8 @@
                             <div class="flip-card-back">
                                 <div class="card-text">
                                     <h3>Definition</h3>
-                                    <p>Un scientifique de données utilise des techniques scientifiques pour analyser et interpréter des ensembles de données complexes.</p>
+                                    <p>Un scientifique de données utilise des techniques scientifiques pour analyser et
+                                        interpréter des ensembles de données complexes.</p>
                                 </div>
                             </div>
                         </div>
@@ -133,21 +140,22 @@
                 </div>
             </div>
         </div>
-<div class="row mt-4">
-     <div class="flip-card mr-3 col">
-        <div class="flip-card-inner">
-            <!-- Face avant de la carte -->
-            <div class="flip-card-front">
-                <div class="d-flex flex-column align-items-center justify-content-center">
-                    <i class="fas fa-user fa-3x mr-2"></i> 
-                    <h6>Product Owner</h6>
+        <div class="row mt-4">
+            <div class="flip-card mr-3 col">
+                <div class="flip-card-inner">
+                    <!-- Face avant de la carte -->
+                    <div class="flip-card-front">
+                        <div class="d-flex flex-column align-items-center justify-content-center">
+                            <i class="fas fa-user fa-3x mr-2"></i>
+                            <h6>Product Owner</h6>
                         </div>
                     </div>
                     <!-- Face arrière de la carte -->
                     <div class="flip-card-back">
                         <div class="card-text">
                             <h3>Definition</h3>
-                            <p>Ce rôle se concentre sur la gestion et le développement des produits basés sur les données.</p>
+                            <p>Ce rôle se concentre sur la gestion et le développement des produits basés sur les
+                                données.</p>
                         </div>
                     </div>
                 </div>
@@ -201,7 +209,8 @@
                     <div class="flip-card-back">
                         <div class="card-text">
                             <h3>Definition</h3>
-                            <p>En charge de garantir que l'utilisation des données respecte les réglementations et les normes de confidentialité.</p>
+                            <p>En charge de garantir que l'utilisation des données respecte les réglementations et les
+                                normes de confidentialité.</p>
                         </div>
                     </div>
                 </div>
@@ -219,24 +228,23 @@
                     <div class="flip-card-back">
                         <div class="card-text">
                             <h3>Definition</h3>
-                            <p>En charge de la gestion et de l'organisation des données de référence dans une entreprise.</p>
+                            <p>En charge de la gestion et de l'organisation des données de référence dans une
+                                entreprise.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div> <!-- Ajout de la balise div manquante -->
-</div>
-<img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
-        style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
+    </div>
 
 
     <script>
-    function flipCard(card) {
-    card.querySelector('.card').style.transform = card.querySelector('.card').style.transform === 'rotateY(180deg)' ? 'rotateY(0)' : 'rotateY(180deg)';
-  }
-  fetch('headeruserFSP')
-            
+        function flipCard(card) {
+            card.querySelector('.card').style.transform = card.querySelector('.card').style.transform === 'rotateY(180deg)' ? 'rotateY(0)' : 'rotateY(180deg)';
+        }
+        fetch('headeruserFSP')
+
             .then(response => response.text())
             .then(data => {
                 document.getElementById('headerContainer').innerHTML = data;
@@ -260,6 +268,7 @@
             `;
             document.body.appendChild(script2);
         }
-</script>
+    </script>
 </body>
+
 </html>

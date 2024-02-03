@@ -27,12 +27,12 @@
                 <th>Source</th>
             </tr>
             <tr th:each="dataset : ${datasets}">
-				<td th:text="${dataset.name_dataset}">Dataset Name</td>
-                <td th:text="${dataset.data_champion}">Data Champion</td>
-                <td th:text="${dataset.domain != null ? dataset.domain.name_domain : 'N/A'}">Domain Name</td>
-                <td th:text="${dataset.tool != null ? dataset.tool.name_tool : 'N/A'}">Tool Name</td>
-                <td th:text="${dataset.feature_details}">Feature Details</td>
-                <td th:text="${dataset.source.nom_source}">Name Source </td>
+				<td th:text="${dataset.nameDataset}">Dataset Name</td>
+                <td th:text="${dataset.dataChampion}">Data Champion</td>
+                <td th:text="${dataset.domain != null ? dataset.domain.nameDomain : 'N/A'}">Domain Name</td>
+                <td th:text="${dataset.tool != null ? dataset.tool.nameTool : 'N/A'}">Tool Name</td>
+                <td th:text="${dataset.featureDetails}">Feature Details</td>
+                <td th:text="${dataset.source.nomSource}">Name Source </td>
             </tr>
         </table>
     </div>

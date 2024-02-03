@@ -58,8 +58,8 @@
                         <td>
                             <select name="idDataset" id="idDataset">
                                 <option th:each="dataset : ${datasets}" 
-                                        th:value="${dataset.id_dataset}" 
-                                        th:text="${dataset.name_dataset}">
+                                        th:value="${dataset.idDataset}" 
+                                        th:text="${dataset.nameDataset}">
                                 </option>
                             </select>
                         </td>
@@ -70,8 +70,8 @@
                         <td>
                             <select name="idWorkspace" id="idWorkspace">
                                 <option th:each="workspace : ${workspaces}" 
-                                        th:value="${workspace.id_workspace}" 
-                                        th:text="${workspace.name_workspace}">
+                                        th:value="${workspace.idWorkspace}" 
+                                        th:text="${workspace.nameWorkspace}">
                                 </option>
                             </select>
                         </td>

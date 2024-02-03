@@ -14,52 +14,48 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Tool {
-    @Override
-	public String toString() {
-		return "Tool [id_tool=" + id_tool + ", name_tool=" + name_tool + ", logo_tool=" + logo_tool + ", is_activated="
-				+ is_activated + ", created_at=" + created_at + "]";
-	}
+
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_tool;
+    private Long idTool;
 
-    private String name_tool;
-    private String logo_tool;
-    private int is_activated;
-    private Timestamp created_at;
-
-	public String getName_tool() {
-		return name_tool;
+    private String nameTool;
+    private String logoTool;
+    private int isActivated;
+    private Timestamp createdAt;
+	public Long getIdTool() {
+		return idTool;
+	}
+	public void setIdTool(Long idTool) {
+		this.idTool = idTool;
+	}
+	public String getNameTool() {
+		return nameTool;
+	}
+	public void setNameTool(String nameTool) {
+		this.nameTool = nameTool;
+	}
+	public String getLogoTool() {
+		return logoTool;
+	}
+	public void setLogoTool(String logoTool) {
+		this.logoTool = logoTool;
+	}
+	public int getIsActivated() {
+		return isActivated;
+	}
+	public void setIsActivated(int isActivated) {
+		this.isActivated = isActivated;
+	}
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public void setName_tool(String name_tool) {
-		this.name_tool = name_tool;
-	}
 
-	public String getLogo_tool() {
-		return logo_tool;
-	}
-
-	public void setLogo_tool(String logo_tool) {
-		this.logo_tool = logo_tool;
-	}
-
-	public int getIs_activated() {
-		return is_activated;
-	}
-
-	public void setIs_activated(int is_activated) {
-		this.is_activated = is_activated;
-	}
-
-	public Timestamp getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(Timestamp created_at) {
-		this.created_at = created_at;
-	}
 
     
 }

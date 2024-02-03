@@ -24,8 +24,7 @@
 <div th:unless="${loggedInUser != null}">
     <div th:replace="headerNonConnect.html"></div>
 </div>
-		  <img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
-        style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
+
     
     <div class="container">
         <div class="row align-items-center"> <!-- Utilisation de la classe 'row' de Bootstrap -->
@@ -41,49 +40,28 @@
         </div>
 
         <!-- Tableau de colonnes : Logo, Nom et Description -->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Source</th>
-                    <th scope="col">Logo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Ici, vous ajouterez les données dynamiquement à partir de votre base de données -->
-                <!-- Pour l'instant, je laisse le corps du tableau vide -->
-                <!-- Vous pouvez ajouter des lignes avec des données client dans cette partie -->
-            </tbody>
-        </table>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Source</th>
+            <th scope="col">Logo</th>
+            <th scope="col">Lien</th>
+             <th scope="col">État d'activation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="source : ${sources}">
+            <td th:text="${source.nomSource}"></td>
+            <td><img th:src="@{${source.logo}}" alt="Logo" th:if="${source.logo}"/></td>
+            <td><a th:href="@{${source.linkSource}}" th:text="${source.linkSource}" th:if="${source.linkSource}"></a></td>
+            <td th:text="${source.isActivated == 1 ? 'Oui' : 'Non'}">État d'activation</td>
+        </tr>
+    </tbody>
+</table>
+
         <!-- Fin du tableau de colonnes -->
     </div>
 
-    <script>
-        // Utilisation de fetch pour charger le contenu de l'en-tête depuis headeruserFSP.html
-        fetch('headeruserFSP')
-            
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('headerContainer').innerHTML = data;
-                // Charger les scripts JavaScript après avoir inséré le contenu de l'en-tête
-                loadHeaderScripts();
-            })
-            .catch(error => console.error(error));
 
-        function loadHeaderScripts() {
-            // Charger les scripts JavaScript nécessaires après avoir inséré l'en-tête
-            const script1 = document.createElement('script');
-            script1.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
-            document.body.appendChild(script1);
-
-            const script2 = document.createElement('script');
-            script2.textContent = `
-                function toggleMenu() {
-                    var menu = document.getElementById("menuOptions");
-                    menu.style.display = (menu.style.display === "block") ? "none" : "block";
-                }
-            `;
-            document.body.appendChild(script2);
-        }
-    </script>
 </body>
 </html>

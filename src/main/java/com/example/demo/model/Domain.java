@@ -18,35 +18,38 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Domain {
-    @Override
-	public String toString() {
-		return "Domain [id_domain=" + id_domain + ", name_domain=" + name_domain + ", is_activated=" + is_activated
-				+ ", created_at=" + created_at + "]";
-	}
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_domain;
+    private Long idDomain;
 
-	public String name_domain;
-    private int is_activated;
-    private Timestamp created_at;
-	public String getName_domain() {
-		return name_domain;
+	public String nameDomain;
+    private int isActivated;
+    private Timestamp createdAt;
+	public Long getIdDomain() {
+		return idDomain;
 	}
-	public void setName_domain(String name_domain) {
-		this.name_domain = name_domain;
+	public void setIdDomain(Long idDomain) {
+		this.idDomain = idDomain;
 	}
-	public int getIs_activated() {
-		return is_activated;
+	public String getNameDomain() {
+		return nameDomain;
 	}
-	public void setIs_activated(int is_activated) {
-		this.is_activated = is_activated;
+	public void setNameDomain(String nameDomain) {
+		this.nameDomain = nameDomain;
 	}
-	public Timestamp getCreated_at() {
-		return created_at;
+
+	public int getIsActivated() {
+		return isActivated;
 	}
-	public void setCreated_at(Timestamp created_at) {
-		this.created_at = created_at;
+	public void setIsActivated(int isActivated) {
+		this.isActivated = isActivated;
 	}
-   
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+
 }

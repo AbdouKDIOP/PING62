@@ -53,9 +53,9 @@
 		<tbody>
 				<tr th:each="produit : ${produits}" th:data-product-id="${produit.id}" onclick="selectRow(this)" class="editable-row">
 			    <td th:text="${produit.nameProduct}"></td>
-			    <td th:text="${produit.dataset != null ? produit.dataset.name_dataset : 'Non défini'}"></td>
+			    <td th:text="${produit.dataset != null ? produit.dataset.nameDataset : ''}"></td>
 			    <td th:text="${produit.dataChampion}"></td>
-			    <td th:text="${produit.workspace != null ? produit.workspace.name_workspace : 'Non défini'}"></td>
+			    <td th:text="${produit.workspace != null ? produit.workspace.nameWorkspace : ''}"></td>
 			    <td th:text="${produit.summary}"></td>
 			    <td th:text="${produit.link}"></td>
 			    <td th:text="${produit.perimeter}"></td>
@@ -314,9 +314,9 @@ function createDropdown(data, selectedValue) {
     data.forEach(function(item) {
         var option = document.createElement('option');
         // Utilisez les attributs corrects ici
-        option.value = item.id_dataset || item.id_workspace; // Ajustez selon la structure de vos données
-        option.text = item.name_dataset || item.name_workspace; // Ajustez selon la structure de vos données
-        option.selected = (item.name_dataset === selectedValue) || (item.name_workspace === selectedValue);
+        option.value = item.idDataset || item.idWorkspace; // Ajustez selon la structure de vos données
+        option.text = item.nameDataset || item.nameWorkspace; // Ajustez selon la structure de vos données
+        option.selected = (item.nameDataset === selectedValue) || (item.nameWorkspace === selectedValue);
         select.appendChild(option);
     });
 

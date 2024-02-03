@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link th:href="@{/static/css/add_produitAR.css}" rel="stylesheet">
+		<title>Ajouter produit</title>
+</head>
+
+<body>
+	
+<!-- Header pour role Ruche -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 2}">
+    <div th:replace="headerRuche.html"></div>
+</div>
+
+<!-- Header pour role Admin -->
+<div th:if="${loggedInUser != null and loggedInUser.idRole == 3}">
+    <div th:replace="headerConnect.html"></div>
+</div>
+
+<!-- Header pour session non connectée -->
+<div th:unless="${loggedInUser != null}">
+    <div th:replace="headerNonConnect.html"></div>
+</div>
+	<img src="/static/images/Mascotte_HautParleur.png" alt="Mascotte" class="img-fluid Mascotte"
+        style="position: fixed; bottom: 10%; right: 10%; max-width: 8%;">
+
+	  
+	  <div class="container">
+		  <p> Entrez les informations du nouveau produit a ajouter.
+ 		  </p>
+ 		  
+    <form th:action="@{/add_dataset}" method="post">    
+	<div class="bigBox">
+        <div class="table-container">
+            <table id="myTable" class="custom-table">
+		        <thead>
+		            <tr>
+		                <th>DATASET</th>
+		                <th>DATA CHAMPION</th>
+		                <th>DOMAINE</th>
+		                <th>OUTIL</th>
+		                <th>RESUME</th>
+		                <th>SOURCE</th>
+		                <th>WORKSPACE</th>
+		            </tr>
+		        </thead>
+		        
+		        <tbody>
+                    <tr>
+                        <td><input type="text" name="nameDataset" /></td>
+                        <td><input type="text" name="dataChampion" /></td>
+                        <td>
+				            <select name="domainId">
+							    <option th:each="domain : ${domains}" th:value="${domain.idDomain}" th:text="${domain.nameDomain}"></option>
+							</select>
+				        </td>
+                        <td>
+				            <select name="toolId">
+							    <option th:each="tool : ${tool}" th:value="${tool.idTool}" th:text="${tool.nameTool}"></option>
+							</select>
+				        </td>
+                        <td><input type="text" name="featureDetails" /></td>
+                        <td>
+				            <select name="sourceId">
+							    <option th:each="source : ${source}" th:value="${source.idSource}" th:text="${source.nomSource}"></option>
+							</select>
+				        </td>
+				        <td>
+				            <select name="workspaceId">
+							    <option th:each="workspace : ${workspace}" th:value="${workspace.idWorkspace}" th:text="${workspace.nameWorkspace}"></option>
+							</select>
+				        </td>
+                    </tr>
+                    <!-- Ajoutez d'autres lignes si nécessaire -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="bouttonOption">
+             <button type="submit" class="action-button">Ajouter Produit</button>
+             <a th:href="@{datasetAdmin}"><button type="button" class="action-button">Annuler</button></a>
+	    
+        </div>
+    </div>
+</form>
+    </div>
+
+    <script>
+        function filterTable() {
+		            var input, filter, table, tr, td, i, txtValue;
+		            input = document.getElementById("filter");
+		            filter = input.value.toUpperCase();
+		            table = document.getElementById("myTable");
+		            tr = table.getElementsByTagName("tr");
+		
+		            for (i = 0; i < tr.length; i++) {
+		                td = tr[i].getElementsByTagName("td")[0]; // Changez l'index selon la colonne que vous souhaitez filtrer
+		                if (td) {
+		                    txtValue = td.textContent || td.innerText;
+		                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+		                        tr[i].style.display = "";
+		                    } else {
+		                        tr[i].style.display = "none";
+		                    }
+		                }
+		            }
+		        }
+		        
+		 
+	</script>
+	 
+	  
+	</body>
+</html>

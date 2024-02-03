@@ -21,23 +21,20 @@ public class Workspace {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_workspace")
-    private Long id_workspace;
+    private Long idWorkspace;
     @Column(name = "name_workspace")
-    private String name_workspace;
-	public String getName_workspace() {
-		return name_workspace;
+    private String nameWorkspace;
+	public Long getIdWorkspace() {
+		return idWorkspace;
 	}
-	public void setName_workspace(String name_workspace) {
-		this.name_workspace = name_workspace;
+	public void setIdWorkspace(Long idWorkspace) {
+		this.idWorkspace = idWorkspace;
 	}
-	@Override
-	public String toString() {
-		return "Workspace [id_workspace=" + id_workspace + ", name_workspace=" + name_workspace + "]";
+	public String getNameWorkspace() {
+		return nameWorkspace;
 	}
-	public Long getId_workspace() {
-		return id_workspace;
+	public void setNameWorkspace(String nameWorkspace) {
+		this.nameWorkspace = nameWorkspace;
 	}
-	public void setId_workspace(Long id_workspace) {
-		this.id_workspace = id_workspace;
-	}
+
 }

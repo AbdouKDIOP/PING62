@@ -19,14 +19,21 @@ import jakarta.persistence.Table;
 public class Poste {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id_poste;
-	private String name_poste;
+	private Long idPoste;
+	private String namePoste;
     private String description;
-	public String getName_poste() {
-		return name_poste;
+
+	public Long getIdPoste() {
+		return idPoste;
 	}
-	public void setName_poste(String name_poste) {
-		this.name_poste = name_poste;
+	public void setIdPoste(Long idPoste) {
+		this.idPoste = idPoste;
+	}
+	public String getNamePoste() {
+		return namePoste;
+	}
+	public void setNamePoste(String namePoste) {
+		this.namePoste = namePoste;
 	}
 	public String getDescription() {
 		return description;

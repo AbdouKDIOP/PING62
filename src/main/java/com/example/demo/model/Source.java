@@ -19,18 +19,13 @@ import java.sql.Timestamp;
 public class Source {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_source;
+    private Long idSource;
 
-    private String nom_source;
+    private String nomSource;
     private String logo;
-    private String link_source;
-    private int is_activated;
-    @Override
-	public String toString() {
-		return "Source [id_source=" + id_source + ", nom_source=" + nom_source + ", logo=" + logo + ", link_source="
-				+ link_source + ", is_activated=" + is_activated + ", created_at=" + created_at + ", user=" + user
-				+ "]";
-	}
+    private String linkSource;
+    private int isActivated;
+ 
 
 	private Timestamp created_at;
     
@@ -38,13 +33,20 @@ public class Source {
     @JoinColumn(name = "id_user")
     private User user;
 
-
-	public String getNom_source() {
-		return nom_source;
+	public Long getIdSource() {
+		return idSource;
 	}
 
-	public void setNom_source(String nom_source) {
-		this.nom_source = nom_source;
+	public void setIdSource(Long idSource) {
+		this.idSource = idSource;
+	}
+
+	public String getNomSource() {
+		return nomSource;
+	}
+
+	public void setNomSource(String nomSource) {
+		this.nomSource = nomSource;
 	}
 
 	public String getLogo() {
@@ -55,20 +57,20 @@ public class Source {
 		this.logo = logo;
 	}
 
-	public String getLink_source() {
-		return link_source;
+	public String getLinkSource() {
+		return linkSource;
 	}
 
-	public void setLink_source(String link_source) {
-		this.link_source = link_source;
+	public void setLinkSource(String linkSource) {
+		this.linkSource = linkSource;
 	}
 
-	public int getIs_activated() {
-		return is_activated;
+	public int getIsActivated() {
+		return isActivated;
 	}
 
-	public void setIs_activated(int is_activated) {
-		this.is_activated = is_activated;
+	public void setIsActivated(int isActivated) {
+		this.isActivated = isActivated;
 	}
 
 	public Timestamp getCreated_at() {
@@ -78,6 +80,15 @@ public class Source {
 	public void setCreated_at(Timestamp created_at) {
 		this.created_at = created_at;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 
     
 }

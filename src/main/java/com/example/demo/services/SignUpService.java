@@ -23,7 +23,7 @@ public class SignUpService {
         user.setStatusUser(0);
 
         // Ajouter les lignes suivantes pour enregistrer les valeurs de service et de poste
-        user.setId_domaine(user.getId_domaine());
+        //user.setId_domaine(user.getId_domaine());
         user.setIdPoste(user.getIdPoste());
 
         userRepository.save(user);

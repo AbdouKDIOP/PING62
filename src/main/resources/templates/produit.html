@@ -57,9 +57,9 @@
             <tr>
 				<tr th:each="produit : ${produits}">
 			        <td th:text="${produit.nameProduct}"></td>
-					<td th:text="${produit.dataset != null ? produit.dataset.name_dataset : ''}"></td>
+					<td th:text="${produit.dataset != null ? produit.dataset.nameDataset : ''}"></td>
 			        <td th:text="${produit.dataChampion}"></td>
-			        <td th:text="${produit.workspace.name_workspace}"></td>
+			        <td th:text="${produit.workspace.nameWorkspace}"></td>
 			        <td th:text="${produit.summary}"></td>
 			        <td th:text="${produit.link}"></td>
 			        <td th:text="${produit.perimeter}"></td>

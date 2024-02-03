@@ -13,7 +13,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
-    private Long id_user;
+    private Long idUser;
 
     @Column(name = "email")
     private String email;
@@ -22,10 +22,10 @@ public class User {
     private String nom;
     
 	@Column(name = "id_poste")
-    private int id_poste;
+    private int idPoste;
 
     @Column(name = "id_role")
-    private int id_role;
+    private int idRole;
 
     @Column(name = "password")
     private String password;
@@ -34,10 +34,10 @@ public class User {
     private String prenom;
 
     @Column(name = "id_domaine")
-    private int id_domaine;
+    private int idDomaine;
 
     @Column(name = "status_user")
-    private int status_user = 0;
+    private int statusUser = 0;
     // Constructeurs, getters, setters...
 
 
@@ -46,37 +46,7 @@ public class User {
         return email;
     }
 
-    public Long getId_user() {
-		return id_user;
-	}
 
-	public void setId_user(Long id_user) {
-		this.id_user = id_user;
-	}
-
-	public int getId_poste() {
-		return id_poste;
-	}
-
-	public void setId_poste(int id_poste) {
-		this.id_poste = id_poste;
-	}
-
-	public int getId_role() {
-		return id_role;
-	}
-
-	public void setId_role(int id_role) {
-		this.id_role = id_role;
-	}
-
-	public int getStatus_user() {
-		return status_user;
-	}
-
-	public void setStatus_user(int status_user) {
-		this.status_user = status_user;
-	}
 
 	public void setEmail(String email) {
         this.email = email;
@@ -101,22 +71,81 @@ public class User {
 	public User(Long idUser, String email, String nom, int idPoste, int idRole, String password, String prenom,
 			int service, int statusUser) {
 		super();
-		this.id_user = idUser;
+		this.idUser = idUser;
 		this.email = email;
 		this.nom = nom;
-		this.id_poste = idPoste;
-		this.id_role = idRole;
+		this.idPoste = idPoste;
+		this.idRole = idRole;
 		this.password = password;
 		this.prenom = prenom;
-		this.id_domaine = service;
-		this.status_user = statusUser;
+		this.statusUser = statusUser;
 	}
 
 	public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getPrenom() {
+    public Long getIdUser() {
+		return idUser;
+	}
+
+
+
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
+	}
+
+
+
+	public int getIdPoste() {
+		return idPoste;
+	}
+
+
+
+	public void setIdPoste(int idPoste) {
+		this.idPoste = idPoste;
+	}
+
+
+
+	public int getIdRole() {
+		return idRole;
+	}
+
+
+
+	public void setIdRole(int idRole) {
+		this.idRole = idRole;
+	}
+
+
+
+	public int getIdDomaine() {
+		return idDomaine;
+	}
+
+
+
+	public void setIdDomaine(int idDomaine) {
+		this.idDomaine = idDomaine;
+	}
+
+
+
+	public int getStatusUser() {
+		return statusUser;
+	}
+
+
+
+	public void setStatusUser(int statusUser) {
+		this.statusUser = statusUser;
+	}
+
+
+
+	public String getPrenom() {
         return prenom;
     }
 
@@ -126,37 +155,6 @@ public class User {
 
 
 
-    public int getId_domaine() {
-		return id_domaine;
-	}
-
-	public void setId_domaine(int id_domaine) {
-		this.id_domaine = id_domaine;
-	}
-
-	public int getStatusUser() {
-        return status_user;
-    }
-
-    public void setStatusUser(int statusUser) {
-        this.status_user = statusUser;
-    }
-
-	public int getIdPoste() {
-		return id_poste;
-	}
-
-	public void setIdPoste(int idPoste) {
-		this.id_poste = idPoste;
-	}
-
-	public int getIdRole() {
-		return id_role;
-	}
-
-	public void setIdRole(int idRole) {
-		this.id_role = idRole;
-	}
 
     
 }

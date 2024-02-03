@@ -20,12 +20,19 @@ import jakarta.persistence.Table;
 public class Role {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id_role;
-	private String name_role;
-	public String getName_role() {
-		return name_role;
+	private Long idRole;
+	private String nameRole;
+	public Long getIdRole() {
+		return idRole;
 	}
-	public void setName_role(String name_role) {
-		this.name_role = name_role;
+	public void setIdRole(Long idRole) {
+		this.idRole = idRole;
 	}
+	public String getNameRole() {
+		return nameRole;
+	}
+	public void setNameRole(String nameRole) {
+		this.nameRole = nameRole;
+	}
+
 }

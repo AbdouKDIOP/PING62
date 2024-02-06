@@ -1,0 +1,54 @@
+body{
+			  background-color:#C9A888;
+			  margin: 0;
+    		  padding: 0;
+    		  width: 100%;
+    		  min-height: 100vh;
+		    display: flex;
+		    flex-direction: column;
+			  }
+		  
+     	 .header-container {
+		    text-align: center;
+  			height: 20%;
+		}
+		
+		.header-container img {
+		    max-width: 15%; /* S'assure que l'image ne dépasse pas la largeur de son conteneur */
+		    height: auto; /* Maintient l'aspect ratio de l'image */
+		}
+		
+		.header-container h2 {
+			color:#006680;
+			text-align: center;
+		}
+		  .table-container {
+			  height: 60vh; /* Ajustez la hauteur selon vos besoins */
+		    width: 100%;
+		    overflow-x: auto;
+		    overflow-y: auto; /* Ajoutez une barre de défilement vertical si nécessaire */
+		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+		
+		  table {
+		
+		    width: 100%;
+		    border-collapse: collapse; /* Élimine les espaces entre les bordures des cellules */
+		  }
+		
+		  th, td {
+		    text-align: left;
+		    padding: 8px; /* Espacement à l'intérieur des cellules */
+		    border-bottom: 1px solid #ddd; /* Ligne de séparation des rangées */
+		  }
+		
+		  th {
+		    background-color: #006680; /* Couleur d'arrière-plan pour les en-têtes */
+		    color: white;
+		  }
+		
+		 
+		
+		  tr:hover {
+		    background-color: #fff; /* Couleur d'arrière-plan au survol d'une rangée */
+		  }

@@ -1,0 +1,71 @@
+.logo{
+		width: 100px;
+		height: auto;
+	}
+	h1{
+		text-align: center;
+		color: #006680 !important;
+	}
+	body {
+            background-color:#C9A888;
+			  margin: 0;
+    		  padding: 0;
+    		  width: 100%;
+    		  min-height: 100vh;
+		    display: flex;
+		    flex-direction: column;
+		    }
+	.table-container {
+    height: 60vh; /* Ajustez la hauteur selon vos besoins */
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+tr {
+    max-width: 100%;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+th {
+    background-color: #006680;
+    color: #fff;
+    padding: 10px;
+}
+
+.custom-table th,
+.custom-table td {
+    text-align: left;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.custom-table td {
+    font-size: 0.9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    .container {
+  flex: 1;
+  height: 100%;
+}
+    .btn-transparent {
+		
+		    white-space: nowrap; /* Empêche le texte de se retourner à la ligne */
+    		overflow: hidden; /* Cache le texte qui dépasse */
+    		text-overflow: ellipsis;
+        background-color: transparent !important;
+        border: none !important;
+        color: #006680 !important; /* Couleur du texte */
+    }
+    
+    button{
+	width: 100%;
+	margin: 15px;
+	color: #fff;
+	border-radius: 15px;
+	background-color: #006680;
+}

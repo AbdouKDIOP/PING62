@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Dataset</title>
+  <link th:href="@{/static/css/dataset.css}" rel="stylesheet">
+</head>
+
+<body>
+<!-- Header pour role Ruche -->
+<div th:if="${loggedInUser != null and loggedInUser.getRole().getId_role() == 2}">
+    <div th:replace="headerRuche.html"></div>
+</div>
+
+<!-- Header pour role Admin -->
+<div th:if="${loggedInUser != null and loggedInUser.getRole().getId_role() == 3}">
+    <div th:replace="headerConnect.html"></div>
+</div>
+
+
+<!-- Header pour session non connectée -->
+<div th:unless="${loggedInUser != null}">
+    <div th:replace="headerNonConnect.html"></div>
+</div>
+
+
+
+
+	<div class="header-container">
+	    <h2>DATASET</h2>
+	</div>
+	
+	<div id="filter-bar">
+            <label for="filter">Filtrer par :</label>
+            <input type="text" id="filter" onkeyup="filterTable()" placeholder="Entrez votre filtre">
+        </div>
+ 
+	  
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>DATASET</th>
+                <th>DATA CHAMPION</th>
+                <th>DOMAINE</th>
+                <th>OUTIL</th>
+                <th>RESUME</th>
+                <th>SOURCE</th>
+                <th>WORKSPACE</th>
+            </tr>
+            <tr th:each="dataset : ${datasets}" th:data-id="${dataset.idDataset}" onclick="selectRow(this)" class="editable-row">
+				<td th:text="${dataset.nameDataset}">Dataset Name</td>
+                <td th:text="${dataset.dataChampion}">Data Champion</td>
+                <td th:text="${dataset.domain != null ? dataset.domain.nameDomain : 'N/A'}">Domain Name</td>
+                <td th:text="${dataset.tool != null ? dataset.tool.nameTool : 'N/A'}">Tool Name</td>
+                <td th:text="${dataset.featureDetails}">Feature Details</td>
+                <td th:text="${dataset.source.nomSource}">Name Source </td>
+      			<td th:text="${dataset.workspace != null ? dataset.workspace.nameWorkspace : 'N/A'}">Name workspace </td>
+            </tr>
+        </table>
+            </tr>
+        </table>
+    </div>
+    
+    <script>
+		function filterTable() {
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("filter");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        var displayRow = false;
+        td = tr[i].getElementsByTagName("td");
+
+        // Exclude header rows from filtering
+        if (i === 0 || td.length === 0) {
+            tr[i].style.display = "";
+            continue;
+        }
+
+        for (j = 0; j < td.length; j++) {
+            txtValue = td[j].textContent || td[j].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                displayRow = true;
+                break; // No need to check other columns if a match is found in one column
+            }
+        }
+
+        tr[i].style.display = displayRow ? "" : "none";
+    }
+}
+</script>
+</body>
+</html>
